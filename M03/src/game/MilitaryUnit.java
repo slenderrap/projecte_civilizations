@@ -16,6 +16,6 @@ public interface MilitaryUnit {
 	
 	abstract void resetArmor(); //restablece armor al valor initialArmor
 	abstract void setExperience(int n); //establece experiencia a nuevo valor n
-	abstract void getExperience(); //devuelve experiencia actual
+	abstract int getExperience(); //devuelve experiencia actual
 	
 }
