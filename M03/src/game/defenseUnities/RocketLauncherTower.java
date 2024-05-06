@@ -8,6 +8,7 @@ public class RocketLauncherTower extends DefenseUnit{
 		setBaseDAmage(BASE_DAMAGE_ROCKETLAUNCHERTOWER+(getTechnologyAttack()*PLUS_ATTACK_ROCKETLAUNCHERTOWER_BY_TECHNOLOGY)*1000/100);
 		setInitialArmor(getArmor());
 	}
+
 	
 	//METODOS -----------
 

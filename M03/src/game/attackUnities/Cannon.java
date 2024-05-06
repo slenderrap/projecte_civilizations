@@ -5,7 +5,9 @@ public class Cannon extends AttackUnity{
 	//CONSTRUCTOR 1  por hacer
 	public Cannon(int armor, int baseDamage) {
 		setArmor(ARMOR_CANNON+(getTechnologyDefense()*PLUS_ARMOR_CANNON_BY_TECHNOLOGY)*1000/100);
+
 		setBaseDamage(BASE_DAMAGE_CANNON+(getTechnologyAttack()*PLUS_ATTACK_CANNON_BY_TECHNOLOGY)*1000/100);
+
 		setInitialArmor(getArmor());
 	}
 		
@@ -15,6 +17,7 @@ public class Cannon extends AttackUnity{
 		setBaseDamage(BASE_DAMAGE_CANNON); //damage por defecto
 		
 	}
+
 
 	//METODOS -----------
 	
@@ -58,4 +61,5 @@ public class Cannon extends AttackUnity{
 	public void resetArmor() {
 		setArmor(getInitialArmor());
 	}
+
 }

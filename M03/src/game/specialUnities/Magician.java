@@ -6,6 +6,7 @@ public class Magician extends SpecialUnit{
 	public Magician(int armor, int baseDamage) {
 		
 	}
+
 	
 	
 	//METODOS -----------
@@ -50,4 +51,5 @@ public class Magician extends SpecialUnit{
 	public void resetArmor() {
 		setArmor(getInitialArmor());
 	}
+
 }
