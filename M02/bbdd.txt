@@ -1,0 +1,15 @@
+CREATE TABLE Civilization_stats(
+id_civilization number ,
+name varchar2(100),
+wood_amount number, 
+iron_amount number,
+food_amount number,
+mana_amount number,
+magicTower_counter number,
+church_counter number,
+farm_counter number,
+smithy_counter number,
+carpentry_counter number,
+technology_defense_level number,
+technology_attack_level number,
+battles_counter number);
