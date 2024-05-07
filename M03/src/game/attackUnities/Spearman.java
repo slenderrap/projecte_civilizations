@@ -2,14 +2,13 @@ package game.attackUnities;
 
 public class Spearman extends AttackUnity{
 
-	//CONSTRUCTOR 1  por hacer
+	//CONSTRUCTOR 1
 	public Spearman(int armor, int baseDamage) {
-		setArmor(ARMOR_SPEARMAN+(getTechnologyDefense()*PLUS_ARMOR_SPEARMAN_BY_TECHNOLOGY)*1000/100);
 
-		setBaseDamage(BASE_DAMAGE_SPEARMAN+(getTechnologyAttack()*PLUS_ATTACK_SPEARMAN_BY_TECHNOLOGY)*1000/100);
-
-		setInitialArmor(getArmor());
-	}
+		setArmor(armor);
+		setBaseDamage(baseDamage);
+		setInitialArmor(armor);
+}
 		
 	//CONSTRUCTOR 2
 	public Spearman() {
