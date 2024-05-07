@@ -4,9 +4,11 @@ public class ArrowTower extends DefenseUnit{
 	
 	//CONSTRUCTOR 
 	public ArrowTower(int armor, int baseDamage) {
+
 		setArmor(armor);
 		setBaseDamage(baseDamage);
 		setInitialArmor(armor);
+
 	}
 	
 	

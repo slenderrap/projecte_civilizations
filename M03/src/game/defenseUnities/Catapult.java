@@ -9,6 +9,7 @@ public class Catapult extends DefenseUnit{
 		setInitialArmor(armor);
 	}
 	
+
 	//METODOS -----------
 
 	public int attack() {
@@ -51,5 +52,6 @@ public class Catapult extends DefenseUnit{
 	public void resetArmor() {
 		setArmor(getInitialArmor());
 	}
+
 
 }

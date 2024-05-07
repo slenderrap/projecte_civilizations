@@ -4,10 +4,11 @@ public class Spearman extends AttackUnity{
 
 	//CONSTRUCTOR 1
 	public Spearman(int armor, int baseDamage) {
+
 		setArmor(armor);
 		setBaseDamage(baseDamage);
 		setInitialArmor(armor);
-	}
+}
 		
 	//CONSTRUCTOR 2
 	public Spearman() {
@@ -15,7 +16,7 @@ public class Spearman extends AttackUnity{
 		setBaseDamage(BASE_DAMAGE_SPEARMAN); //damage por defecto
 		
 	}
-	
+
 	//METODOS -----------
 
 	public int attack() {

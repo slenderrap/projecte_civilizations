@@ -4,9 +4,11 @@ public class Swordsman extends AttackUnity{
 	
 	//CONSTRUCTOR 1
 	public Swordsman(int armor, int baseDamage) {
+
 		setArmor(armor);
 		setBaseDamage(baseDamage);
 		setInitialArmor(armor);
+
 		
 	}
 	
@@ -17,6 +19,7 @@ public class Swordsman extends AttackUnity{
 		
 	}
 	
+
 	
 	//METODOS -----------
 
@@ -61,4 +64,5 @@ public class Swordsman extends AttackUnity{
 		setArmor(getInitialArmor());
 	}
 	
+
 }
