@@ -2,8 +2,11 @@ package game.specialUnities;
 
 public class Magician extends SpecialUnit{
 
-	//CONSTRUCTOR por hacer
+	//CONSTRUCTOR
 	public Magician(int armor, int baseDamage) {
+		setArmor(armor);
+		setBaseDamage(baseDamage);
+		setInitialArmor(armor);
 		
 	}
 	
