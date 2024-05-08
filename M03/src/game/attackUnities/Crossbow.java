@@ -2,19 +2,21 @@ package game.attackUnities;
 
 public class Crossbow extends AttackUnity{
 
-	//CONSTRUCTOR 1 por hacer
+
+	//CONSTRUCTOR 1
 	public Crossbow(int armor, int baseDamage) {
-		setArmor(ARMOR_CROSSBOW+(getTechnologyDefense()*PLUS_ARMOR_CROSSBOW_BY_TECHNOLOGY)*1000/100);
-		setBaseDamage(BASE_DAMAGE_CROSSBOW+(getTechnologyAttack()*PLUS_ATTACK_CROSSBOW_BY_TECHNOLOGY)*1000/100);
-		setInitialArmor(getArmor());
+		setArmor(armor);
+		setBaseDamage(baseDamage);
+		setInitialArmor(armor);
 	}
-		
+
 	//CONSTRUCTOR 2
 	public Crossbow() {
 		setArmor(ARMOR_CROSSBOW); //armor por defecto
 		setBaseDamage(BASE_DAMAGE_CROSSBOW); //damage por defecto
 		
 	}
+
 	
 	
 	
@@ -60,4 +62,5 @@ public class Crossbow extends AttackUnity{
 	public void resetArmor() {
 		setArmor(getInitialArmor());
 	}
+
 }

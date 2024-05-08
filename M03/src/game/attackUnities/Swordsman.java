@@ -2,11 +2,13 @@ package game.attackUnities;
 
 public class Swordsman extends AttackUnity{
 	
-	//CONSTRUCTOR 1 por hacer
+	//CONSTRUCTOR 1
 	public Swordsman(int armor, int baseDamage) {
-		setArmor(ARMOR_SWORDSMAN+(getTechnologyDefense()*PLUS_ARMOR_SWORDSMAN_BY_TECHNOLOGY)*1000/100);
-		setBaseDamage(BASE_DAMAGE_SWORDSMAN+(getTechnologyAttack()*PLUS_ATTACK_SWORDSMAN_BY_TECHNOLOGY)*1000/100);
-		setInitialArmor(getArmor());
+
+		setArmor(armor);
+		setBaseDamage(baseDamage);
+		setInitialArmor(armor);
+
 		
 	}
 	
@@ -17,6 +19,7 @@ public class Swordsman extends AttackUnity{
 		
 	}
 	
+
 	
 	//METODOS -----------
 
@@ -61,4 +64,5 @@ public class Swordsman extends AttackUnity{
 		setArmor(getInitialArmor());
 	}
 	
+
 }

@@ -2,11 +2,14 @@ package game.specialUnities;
 
 public class Priest extends SpecialUnit{
 
-	//CONSTRUCTOR por hacer
+	//CONSTRUCTOR
 	public Priest(int armor, int baseDamage) {
+		setArmor(armor);
+		setBaseDamage(baseDamage);
+		setInitialArmor(armor);
 		
 	}
-	
+
 	
 	//METODOS -----------
 
@@ -50,4 +53,5 @@ public class Priest extends SpecialUnit{
 	public void resetArmor() {
 		setArmor(getInitialArmor());
 	}
+
 }
