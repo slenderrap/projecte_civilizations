@@ -19,7 +19,7 @@ public class VentanaPartida extends JFrame {
 	private ImageIcon lateralImage;
 
 	VentanaPartida() {
-		setSize(800, 600);
+		setSize(1200, 700);
 		setLocationRelativeTo(null);
 		setTitle("Civilizations");
 
@@ -36,7 +36,7 @@ public class VentanaPartida extends JFrame {
 
 		tabbedPane = new JTabbedPane();
 
-		lateralImage = new ImageIcon("C:\\Users\\9luci\\eclipse-workspace\\git\\projecte_civilizations\\M03\\src\\front\\img\\ejemplo.jpg");
+		lateralImage = new ImageIcon("src\\front\\img\\tabla1.jpg");
 
 		lateralImageLabel = new JLabel(lateralImage);
 
