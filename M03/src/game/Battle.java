@@ -1,11 +1,12 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Battle {
-	private ArrayList<MilitaryUnit> civilizationArmy; // Almacenar nuestro ejercito
-	private ArrayList<MilitaryUnit> enemyArmy; // Almacenar ejercito enemigo
-	private ArrayList armies; // Almacena los dos ejercitos
+	private ArrayList<MilitaryUnit>[] civilizationArmy; // Almacenar nuestro ejercito
+	private ArrayList<MilitaryUnit>[] enemyArmy; // Almacenar ejercito enemigo
+	private ArrayListt<MilitaryUnit>[][] armies = new ArrayList[2][9]; // Almacena los dos ejercitos
 	private String battleDevelopment; // Guarda el desarollo de la partida
 	private int[][] initialCostFleet = new int[2][3]; // Guarda el coste de los materiales de tanto nuestro como del enemigo
 	private int initialNumberUnitsCivilization, initialNumberUnitsEnemy; // Guarda la catidad inicial de cada ejercito
@@ -15,29 +16,30 @@ public class Battle {
 	private int[][] initialArmies = new int[2][9]; // Cuantifica cada tipo de unidad de los ejercitos iniciales
 	private int[] actualNumberUnitsCivilization, actualNumberUnitsEnemy = new int[9]; // Cuantifica cada tipo de unidad de los ejercitos
 																						// actuales
+	private boolean primerGolpe;
 
 	// GETTER AND SETTERS-------------
-	public ArrayList<MilitaryUnit> getCivilizationArmy() {
+	public ArrayList<MilitaryUnit>[] getCivilizationArmy() {
 		return civilizationArmy;
 	}
 
-	public void setCivilizationArmy(ArrayList<MilitaryUnit> civilizationArmy) {
+	public void setCivilizationArmy(ArrayList<MilitaryUnit>[] civilizationArmy) {
 		this.civilizationArmy = civilizationArmy;
 	}
 
-	public ArrayList<MilitaryUnit> getEnemyArmy() {
+	public ArrayList<MilitaryUnit>[] getEnemyArmy() {
 		return enemyArmy;
 	}
 
-	public void setEnemyArmy(ArrayList<MilitaryUnit> enemyArmy) {
+	public void setEnemyArmy(ArrayList<MilitaryUnit>[] enemyArmy) {
 		this.enemyArmy = enemyArmy;
 	}
 
-	public ArrayList getArmies() {
+	public ArrayList[][] getArmies() {
 		return armies;
 	}
 
-	public void setArmies(ArrayList armies) {
+	public void setArmies(ArrayList[][] armies) {
 		this.armies = armies;
 	}
 
@@ -129,4 +131,56 @@ public class Battle {
 		this.actualNumberUnitsEnemy = actualNumberUnitsEnemy;
 	}
 
+	public boolean isPrimerGolpe() {
+		boolean randomBoolean = new Random().nextBoolean();
+		setPrimerGolpe(randomBoolean);
+		return primerGolpe;
+	}
+
+	public void setPrimerGolpe(boolean primerGolpe) {
+		this.primerGolpe = primerGolpe;
+	}
+
+	// METODOS BATTALLA4
+	public
+
+	public void initInitialArmies() { // Para inicializar el array initialArmies y poder calcular los reportes.
+
+	}
+
+	public void updateResourcesLooses() { // Para generar el array de pérdidas.
+
+	}
+
+	public int fleetResourceCost(ArrayList<MilitaryUnit> army) { // Para calcular costes de los ejércitos.
+
+	}
+
+	public int initialFleetNumber(ArrayList<MilitaryUnit> army) { // Para calcular el número de unidades iniciales de cada ejército
+
+	}
+
+	public int remainderPercentageFleet(ArrayList<MilitaryUnit> army) { // Para calcular los porcentajes de unidades que quedan respecto los
+																		// ejércitos iniciales.
+
+	}
+
+	public int getGroupDefender(ArrayList<MilitaryUnit> army) { // para que dado un ejército, nos devuelva el grupo defensor, 0-3 en el caso
+																// de la flota enemiga, 0-8 en el caso del ejército de nuestra civilización.
+
+	}
+
+	public int getCivilizationGroupAttacker() { // Que nos servirán para escoger el grupo atacante tanto de nuestra civilización
+												// como del ejército enemigo.
+
+	}
+
+	public int getEnemyGroupAttacker() { // Que nos servirán para escoger el grupo atacante tanto de nuestra civilización
+											// como del ejército enemigo.
+
+	}
+
+	public void resetArmyArmor() { // que restablecerá las armaduras de nuestro ejército.
+
+	}
 }
