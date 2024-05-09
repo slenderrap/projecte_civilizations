@@ -9,7 +9,7 @@ public class Priest extends SpecialUnit{
 		setInitialArmor(armor);
 		
 	}
-	
+
 	
 	//METODOS -----------
 
@@ -53,4 +53,5 @@ public class Priest extends SpecialUnit{
 	public void resetArmor() {
 		setArmor(getInitialArmor());
 	}
+
 }
