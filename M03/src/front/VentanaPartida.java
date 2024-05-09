@@ -2,7 +2,13 @@ package front;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.GridLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -10,21 +16,27 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-public class VentanaPartida extends JFrame {
-	private JPanel principalPanel, lateralPanel, bottomPanel, ciudadPanel, ejercitoPanel, granjaPanel, carpinteriaPanel, herreriaPanel,
-			torreMagicaPanel, iglesiaPanel;
+public class VentanaPartida extends JFrame implements Fuente {
+	private JPanel principalPanel, lateralPanel, recursosPanel, bottomPanel, ciudadPanel, ejercitoPanel, granjaPanel, carpinteriaPanel,
+			herreriaPanel, torreMagicaPanel, iglesiaPanel;
 	private JTabbedPane tabbedPane;
-	private JLabel lateralImageLabel;
+	private JLabel lateralLabel, lateralHierro, lateralMadera;
 	private JButton nuevaPartidaButton, continuarPartidaButton, salirButton;
-	private ImageIcon lateralImage;
+	private ImageIcon fondo;
 
 	VentanaPartida() {
 		setSize(1200, 700);
 		setLocationRelativeTo(null);
 		setTitle("Civilizations");
 
-		principalPanel = new JPanel(new BorderLayout());
-		lateralPanel = new JPanel();
+		principalPanel = new JPanel(new BorderLayout()) {
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(fondo.getImage(), 0, 0, getWidth(), getHeight(), this);
+			}
+		};
+		lateralPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		recursosPanel = new JPanel(new GridLayout(5, 1));
 		bottomPanel = new JPanel();
 		ciudadPanel = new JPanel();
 		ejercitoPanel = new JPanel();
@@ -36,9 +48,11 @@ public class VentanaPartida extends JFrame {
 
 		tabbedPane = new JTabbedPane();
 
-		lateralImage = new ImageIcon("src\\front\\img\\tabla1.jpg");
+		fondo = new ImageIcon("src/front/img/mesa.jpg");
 
-		lateralImageLabel = new JLabel(lateralImage);
+		lateralLabel = new JLabel("-------------------------------------------------------------------");
+		lateralHierro = new JLabel("Hierro                                                    30");
+		lateralMadera = new JLabel("Madera                                                    40");
 
 		nuevaPartidaButton = new JButton("Nueva Partida");
 		continuarPartidaButton = new JButton("Continuar Partida");
@@ -54,8 +68,15 @@ public class VentanaPartida extends JFrame {
 		tabbedPane.addTab("Iglesía", iglesiaPanel);
 
 		principalPanel.add(lateralPanel, BorderLayout.EAST);
-		lateralPanel.add(lateralImageLabel);
-//		lateralPanel.setBackground(Color.ORANGE);
+		lateralPanel.setPreferredSize(new Dimension(402, 50));
+		lateralPanel.setOpaque(false);
+		lateralPanel.add(recursosPanel);
+		recursosPanel.setOpaque(false);
+		recursosPanel.add(lateralLabel);
+		recursosPanel.add(lateralHierro);
+		recursosPanel.add(lateralMadera);
+		lateralPanel.setBorder(BorderFactory.createEmptyBorder(90, 60, 0, 0));
+		lateralHierro.setFont(new Font("Times New Roman", Font.BOLD, 16));
 
 		principalPanel.add(bottomPanel, BorderLayout.SOUTH);
 		bottomPanel.setBackground(Color.BLUE);
@@ -63,6 +84,7 @@ public class VentanaPartida extends JFrame {
 		add(principalPanel);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
 		setVisible(true);
 	}
 }
