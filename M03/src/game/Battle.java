@@ -3,6 +3,10 @@ package game;
 import java.util.ArrayList;
 import java.util.Random;
 
+import game.attackUnities.AttackUnity;
+import game.defenseUnities.DefenseUnit;
+import game.specialUnities.SpecialUnit;
+
 public class Battle implements Variables {
 	private ArrayList<MilitaryUnit>[] civilizationArmy; // Almacenar nuestro ejercito
 	private ArrayList<MilitaryUnit>[] enemyArmy; // Almacenar ejercito enemigo
@@ -267,6 +271,85 @@ public class Battle implements Variables {
 	
 	
 	
+	//santificar todas las unidades que no estan santificadas
+		void sanctify() {
+			if (civilizationArmy[8].size()>0) { //si la cantidad de priest es mayor que 0
+				for (int i=0; i<civilizationArmy.length-1; i++) { //se recorre la lista de army menos el ultimo que es la unidad de priests
+					for (int j=0; j<(int)civilizationArmy[i].size(); j++) { //se recorre cada personaje de la unidad
+						if (civilizationArmy[i].get(j) instanceof AttackUnity) {
+							if (((AttackUnity) civilizationArmy[i].get(j)).isSanctified()==false) {
+								//poner armadura +7%
+								((AttackUnity) civilizationArmy[i].get(j)).setArmor(((AttackUnity) civilizationArmy[i].get(j)).getArmor()+((AttackUnity) civilizationArmy[i].get(j)).getArmor()/100*PLUS_ARMOR_UNIT_SANCTIFIED);
+								//poner damage +7%
+								((AttackUnity) civilizationArmy[i].get(j)).setBaseDamage(((AttackUnity) civilizationArmy[i].get(j)).getBaseDamage()+((AttackUnity) civilizationArmy[i].get(j)).getBaseDamage()/100*PLUS_ATTACK_UNIT_SANCTIFIED);
+								//poner sanctified en true
+								((AttackUnity) civilizationArmy[i].get(j)).setSanctified(true);							
+							}
+						}
+						else if (civilizationArmy[i].get(j) instanceof DefenseUnit) {
+							if (((DefenseUnit) civilizationArmy[i].get(j)).isSanctified()==false) {
+							//poner armadura +7%
+							((DefenseUnit) civilizationArmy[i].get(j)).setArmor(((DefenseUnit) civilizationArmy[i].get(j)).getArmor()+((DefenseUnit) civilizationArmy[i].get(j)).getArmor()/100*PLUS_ARMOR_UNIT_SANCTIFIED);
+							//poner damage +7%
+							((DefenseUnit) civilizationArmy[i].get(j)).setBaseDamage(((DefenseUnit) civilizationArmy[i].get(j)).getBaseDamage()+((DefenseUnit) civilizationArmy[i].get(j)).getBaseDamage()/100*PLUS_ATTACK_UNIT_SANCTIFIED);
+							//poner sanctified en true
+							((DefenseUnit) civilizationArmy[i].get(j)).setSanctified(true);	
+							}
+						}
+						else if (civilizationArmy[i].get(j) instanceof SpecialUnit) {
+							if (((SpecialUnit) civilizationArmy[i].get(j)).isSanctified()==false) {
+							//poner armadura +7%
+							((SpecialUnit) civilizationArmy[i].get(j)).setArmor(((SpecialUnit) civilizationArmy[i].get(j)).getArmor()+((SpecialUnit) civilizationArmy[i].get(j)).getArmor()/100*PLUS_ARMOR_UNIT_SANCTIFIED);
+							//poner damage +7%
+							((SpecialUnit) civilizationArmy[i].get(j)).setBaseDamage(((SpecialUnit) civilizationArmy[i].get(j)).getBaseDamage()+((SpecialUnit) civilizationArmy[i].get(j)).getBaseDamage()/100*PLUS_ATTACK_UNIT_SANCTIFIED);
+							//poner sanctified en true
+							((SpecialUnit) civilizationArmy[i].get(j)).setSanctified(true);	
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		//desantificar todas las unidades santificadas
+		void desanctify() {
+			if (civilizationArmy[8].size()==0) { //si la cantidad de priest es 0
+				for (int i=0; i<civilizationArmy.length-1; i++) { //se recorre la lista de army menos el ultimo que es la unidad de priests
+					for (int j=0; j<(int)civilizationArmy[i].size(); j++) { //se recorre cada personaje de la unidad
+						if (civilizationArmy[i].get(j) instanceof AttackUnity) {
+							if (((AttackUnity) civilizationArmy[i].get(j)).isSanctified()==true) {
+								//poner armadura +7%
+								((AttackUnity) civilizationArmy[i].get(j)).setArmor(((AttackUnity) civilizationArmy[i].get(j)).getArmor()-((AttackUnity) civilizationArmy[i].get(j)).getArmor()/100*PLUS_ARMOR_UNIT_SANCTIFIED);
+								//poner damage +7%
+								((AttackUnity) civilizationArmy[i].get(j)).setBaseDamage(((AttackUnity) civilizationArmy[i].get(j)).getBaseDamage()-((AttackUnity) civilizationArmy[i].get(j)).getBaseDamage()/100*PLUS_ATTACK_UNIT_SANCTIFIED);
+								//poner sanctified en false
+								((AttackUnity) civilizationArmy[i].get(j)).setSanctified(false);							
+							}
+						}
+						else if (civilizationArmy[i].get(j) instanceof DefenseUnit) {
+							if (((DefenseUnit) civilizationArmy[i].get(j)).isSanctified()==true) {
+							//poner armadura +7%
+							((DefenseUnit) civilizationArmy[i].get(j)).setArmor(((DefenseUnit) civilizationArmy[i].get(j)).getArmor()-((DefenseUnit) civilizationArmy[i].get(j)).getArmor()/100*PLUS_ARMOR_UNIT_SANCTIFIED);
+							//poner damage +7%
+							((DefenseUnit) civilizationArmy[i].get(j)).setBaseDamage(((DefenseUnit) civilizationArmy[i].get(j)).getBaseDamage()-((DefenseUnit) civilizationArmy[i].get(j)).getBaseDamage()/100*PLUS_ATTACK_UNIT_SANCTIFIED);
+							//poner sanctified en false
+							((DefenseUnit) civilizationArmy[i].get(j)).setSanctified(false);	
+							}
+						}
+						else if (civilizationArmy[i].get(j) instanceof SpecialUnit) {
+							if (((SpecialUnit) civilizationArmy[i].get(j)).isSanctified()==true) {
+							//poner armadura +7%
+							((SpecialUnit) civilizationArmy[i].get(j)).setArmor(((SpecialUnit) civilizationArmy[i].get(j)).getArmor()-((SpecialUnit) civilizationArmy[i].get(j)).getArmor()/100*PLUS_ARMOR_UNIT_SANCTIFIED);
+							//poner damage +7%
+							((SpecialUnit) civilizationArmy[i].get(j)).setBaseDamage(((SpecialUnit) civilizationArmy[i].get(j)).getBaseDamage()-((SpecialUnit) civilizationArmy[i].get(j)).getBaseDamage()/100*PLUS_ATTACK_UNIT_SANCTIFIED);
+							//poner sanctified en false
+							((SpecialUnit) civilizationArmy[i].get(j)).setSanctified(false);	
+							}
+						}
+					}
+				}
+			}
+		}
 	
 	
 	
