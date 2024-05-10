@@ -3,10 +3,10 @@ package game;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Battle {
+public class Battle implements Variables {
 	private ArrayList<MilitaryUnit>[] civilizationArmy; // Almacenar nuestro ejercito
 	private ArrayList<MilitaryUnit>[] enemyArmy; // Almacenar ejercito enemigo
-	private ArrayListt<MilitaryUnit>[][] armies = new ArrayList[2][9]; // Almacena los dos ejercitos
+	private MilitaryUnit[][] armies = new MilitaryUnit[2][9]; // Almacena los dos ejercitos
 	private String battleDevelopment; // Guarda el desarollo de la partida
 	private int[][] initialCostFleet = new int[2][3]; // Guarda el coste de los materiales de tanto nuestro como del enemigo
 	private int initialNumberUnitsCivilization, initialNumberUnitsEnemy; // Guarda la catidad inicial de cada ejercito
@@ -35,12 +35,12 @@ public class Battle {
 		this.enemyArmy = enemyArmy;
 	}
 
-	public ArrayList[][] getArmies() {
+	public MilitaryUnit[][] getArmies() {
 		return armies;
 	}
 
 	public void setArmies(ArrayList[][] armies) {
-		this.armies = armies;
+		this.armies = (MilitaryUnit[][]) armies;
 	}
 
 	public String getBattleDevelopment() {
@@ -141,8 +141,38 @@ public class Battle {
 		this.primerGolpe = primerGolpe;
 	}
 
-	// METODOS BATTALLA4
-	public
+	// METODOS BATTALLA
+
+	public void listaEjercitoCivilizacion(ArrayList<MilitaryUnit>[] Army) {
+		int numeroEjercito = 0;
+		civilizationArmy = new ArrayList[Army.length];
+		for (int i = 0; i < Army.length; i++) {
+			civilizationArmy[i] = new ArrayList<>(Army[i]);
+			numeroEjercito += 1;
+		}
+		setInitialNumberUnitsCivilization(numeroEjercito);
+	}
+
+	public void listaEjercitoEnemigo(ArrayList<MilitaryUnit>[] Army) {
+		int numeroEjercito = 0;
+		enemyArmy = new ArrayList[Army.length];
+		for (int i = 0; i < Army.length; i++) {
+			enemyArmy[i] = new ArrayList<>(Army[i]);
+		}
+		setInitialNumberUnitsEnemy(numeroEjercito);
+	}
+
+	public void agruparEjercito(ArrayList<MilitaryUnit>[] Army/* , ArrayList<MilitaryUnit>[] enemyArmy */) { // preguntar a la mar si tiene
+																												// en cuenta que alguna
+																												// unidad no este creada
+		for (int i = 0; i < 2; i++) {
+			if (i == 0) {
+				armies[i] = civilizationArmy[i].toArray(new MilitaryUnit[0]);
+			} else {
+				armies[i] = enemyArmy[i].toArray(new MilitaryUnit[0]);
+			}
+		}
+	}
 
 	public void initInitialArmies() { // Para inicializar el array initialArmies y poder calcular los reportes.
 
