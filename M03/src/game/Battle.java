@@ -6,7 +6,7 @@ import java.util.Random;
 public class Battle {
 	private ArrayList<MilitaryUnit>[] civilizationArmy; // Almacenar nuestro ejercito
 	private ArrayList<MilitaryUnit>[] enemyArmy; // Almacenar ejercito enemigo
-	private ArrayListt<MilitaryUnit>[][] armies = new ArrayList[2][9]; // Almacena los dos ejercitos
+	private ArrayList<MilitaryUnit>[][] armies = new ArrayList[2][9]; // Almacena los dos ejercitos
 	private String battleDevelopment; // Guarda el desarollo de la partida
 	private int[][] initialCostFleet = new int[2][3]; // Guarda el coste de los materiales de tanto nuestro como del enemigo
 	private int initialNumberUnitsCivilization, initialNumberUnitsEnemy; // Guarda la catidad inicial de cada ejercito
@@ -141,19 +141,20 @@ public class Battle {
 		this.primerGolpe = primerGolpe;
 	}
 
+	
+	
 	// METODOS BATTALLA4
-	public
 
 	public void initInitialArmies() { // Para inicializar el array initialArmies y poder calcular los reportes.
-
+		
 	}
 
 	public void updateResourcesLooses() { // Para generar el array de pérdidas.
-
+		
 	}
 
 	public int fleetResourceCost(ArrayList<MilitaryUnit> army) { // Para calcular costes de los ejércitos.
-
+		
 	}
 
 	public int initialFleetNumber(ArrayList<MilitaryUnit> army) { // Para calcular el número de unidades iniciales de cada ejército
@@ -165,22 +166,76 @@ public class Battle {
 
 	}
 
-	public int getGroupDefender(ArrayList<MilitaryUnit> army) { // para que dado un ejército, nos devuelva el grupo defensor, 0-3 en el caso
+	public int getGroupDefender(ArrayList<MilitaryUnit>[] army) { // para que dado un ejército, nos devuelva el grupo defensor, 0-3 en el caso
 																// de la flota enemiga, 0-8 en el caso del ejército de nuestra civilización.
-
+		int totalSoldados=0;
+		for (int i=0; i<army.length;i++) {
+			totalSoldados+= army[i].size();
+		}
+		int aleatorio = (int)(Math.random()*totalSoldados);
+		
+		totalSoldados=0;
+		int respuesta= 0;
+		for (int i=0; i<army.length;i++) {
+			totalSoldados+= army[i].size();
+			if (totalSoldados>aleatorio) {
+				respuesta = i;
+				break;
+			}
+		}
+		return respuesta;
+		
 	}
 
-	public int getCivilizationGroupAttacker() { // Que nos servirán para escoger el grupo atacante tanto de nuestra civilización
-												// como del ejército enemigo.
-
+	public int getCivilizationGroupAttacker(ArrayList<MilitaryUnit>[] army) { //para escoger el grupo atacante civilizacion
+		int totalSoldados=0;
+		for (int i=0; i<army.length-1;i++) { //-1 para que no entre priest
+			totalSoldados+= army[i].size();
+		}
+		int aleatorio = (int)(Math.random()*totalSoldados);
+		
+		totalSoldados=0;
+		int respuesta= 0;
+		for (int i=0; i<army.length-1;i++) { //-1 para que no entre priest
+			totalSoldados+= army[i].size();
+			if (totalSoldados>aleatorio) {
+				respuesta = i;
+				break;
+			}
+		}
+		return respuesta;
 	}
 
-	public int getEnemyGroupAttacker() { // Que nos servirán para escoger el grupo atacante tanto de nuestra civilización
-											// como del ejército enemigo.
-
+	public int getEnemyGroupAttacker(ArrayList<MilitaryUnit>[] army) { //para escoger el grupo atacante enemigo
+		int totalSoldados=0;
+		for (int i=0; i<army.length;i++) {
+			totalSoldados+= army[i].size();
+		}
+		int aleatorio = (int)(Math.random()*totalSoldados);
+		
+		totalSoldados=0;
+		int respuesta= 0;
+		for (int i=0; i<army.length;i++) {
+			totalSoldados+= army[i].size();
+			if (totalSoldados>aleatorio) {
+				respuesta = i;
+				break;
+			}
+		}
+		return respuesta;
 	}
 
 	public void resetArmyArmor() { // que restablecerá las armaduras de nuestro ejército.
-
+		for (int i=0; i<civilizationArmy.length;i++) {
+			for (int j=0; j<civilizationArmy[i].size();j++) {
+				civilizationArmy[i].get(j).resetArmor();
+			}
+		}
 	}
+	
+	
+	
+	
+	
+	
 }
