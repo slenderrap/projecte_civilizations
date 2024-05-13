@@ -13,9 +13,8 @@ public class Main implements Variables{
 
 
 	public static void main(String[] args) {
-		VentanaPartida v = new VentanaPartida();
-		
-		
-		
+
+		// hola v = new hola();
+
 	}
 }
