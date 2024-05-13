@@ -17,7 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 public class VentanaPartida extends JFrame implements Fuente {
-	private JPanel principalPanel, lateralPanel, recursosPanel, bottomPanel, ciudadPanel, armyPanel, shopPanel;
+	private JPanel principalPanel, lateralPanel, recursosPanel, bottomPanel, ciudadPanel, ejercitoPanel, granjaPanel, carpinteriaPanel,
+			herreriaPanel, torreMagicaPanel, iglesiaPanel;
 	private JTabbedPane tabbedPane;
 	private JLabel lateralLabel, lateralHierro, lateralMadera;
 	private JButton nuevaPartidaButton, continuarPartidaButton, salirButton;
@@ -26,7 +27,7 @@ public class VentanaPartida extends JFrame implements Fuente {
 	VentanaPartida() {
 		setSize(1200, 700);
 		setLocationRelativeTo(null);
-		setTitle("Civilizations");
+		setTitle("hola");
 
 		principalPanel = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
@@ -38,8 +39,12 @@ public class VentanaPartida extends JFrame implements Fuente {
 		recursosPanel = new JPanel(new GridLayout(5, 1));
 		bottomPanel = new JPanel();
 		ciudadPanel = new JPanel();
-		armyPanel = new JPanel();
-		shopPanel = new JPanel();
+		ejercitoPanel = new JPanel();
+		granjaPanel = new JPanel();
+		carpinteriaPanel = new JPanel();
+		herreriaPanel = new JPanel();
+		torreMagicaPanel = new JPanel();
+		iglesiaPanel = new JPanel();
 
 		tabbedPane = new JTabbedPane();
 
@@ -54,9 +59,9 @@ public class VentanaPartida extends JFrame implements Fuente {
 		salirButton = new JButton("Salir");
 
 		principalPanel.add(tabbedPane, BorderLayout.CENTER);
-		tabbedPane.addTab("Civilization", ciudadPanel);
-		tabbedPane.addTab("Army", armyPanel);
-		tabbedPane.addTab("Shop", shopPanel);
+		tabbedPane.addTab("Inicio", ciudadPanel);
+		tabbedPane.addTab("Ejercito", ejercitoPanel);
+		tabbedPane.addTab("Granja", granjaPanel);
 
 		principalPanel.add(lateralPanel, BorderLayout.EAST);
 		lateralPanel.setPreferredSize(new Dimension(402, 50));
