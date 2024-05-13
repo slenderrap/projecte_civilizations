@@ -143,7 +143,6 @@ public class Battle implements Variables {
 		this.primerGolpe = primerGolpe;
 	}
 
-
 	// METODOS BATTALLA
 
 	public void listaEjercitoCivilizacion(ArrayList<MilitaryUnit>[] Army) {
@@ -151,7 +150,8 @@ public class Battle implements Variables {
 		civilizationArmy = new ArrayList[Army.length];
 		for (int i = 0; i < Army.length; i++) {
 			civilizationArmy[i] = new ArrayList<>(Army[i]);
-			numeroEjercito += 1;
+			numeroEjercito += civilizationArmy[i].size();
+			initialArmies[i] = 
 		}
 		setInitialNumberUnitsCivilization(numeroEjercito);
 	}
@@ -161,13 +161,12 @@ public class Battle implements Variables {
 		enemyArmy = new ArrayList[Army.length];
 		for (int i = 0; i < Army.length; i++) {
 			enemyArmy[i] = new ArrayList<>(Army[i]);
+			numeroEjercito += enemyArmy[i].size();
 		}
 		setInitialNumberUnitsEnemy(numeroEjercito);
 	}
 
-	public void agruparEjercito(ArrayList<MilitaryUnit>[] Army/* , ArrayList<MilitaryUnit>[] enemyArmy */) { // preguntar a la mar si tiene
-																												// en cuenta que alguna
-																												// unidad no este creada
+	public void agruparEjercito(ArrayList<MilitaryUnit>[] Army) {
 		for (int i = 0; i < 2; i++) {
 			if (i == 0) {
 				armies[i] = civilizationArmy[i].toArray(new MilitaryUnit[0]);
@@ -178,18 +177,22 @@ public class Battle implements Variables {
 	}
 
 	public void initInitialArmies() { // Para inicializar el array initialArmies y poder calcular los reportes.
-		
+
 	}
 
 	public void updateResourcesLooses() { // Para generar el array de pérdidas.
-		
+
 	}
 
 	public int fleetResourceCost(ArrayList<MilitaryUnit> army) { // Para calcular costes de los ejércitos.
-		
+
 	}
 
-	public int initialFleetNumber(ArrayList<MilitaryUnit> army) { // Para calcular el número de unidades iniciales de cada ejército
+	public void initialFleetNumber(ArrayList<MilitaryUnit>[] ArmyCivilization, ArrayList<MilitaryUnit>[] enemyArmy) { // Para calcular el
+																														// número de
+																														// unidades
+																														// iniciales de cada
+																														// ejército
 
 	}
 
@@ -198,39 +201,41 @@ public class Battle implements Variables {
 
 	}
 
-	public int getGroupDefender(ArrayList<MilitaryUnit>[] army) { // para que dado un ejército, nos devuelva el grupo defensor, 0-3 en el caso
-																// de la flota enemiga, 0-8 en el caso del ejército de nuestra civilización.
-		int totalSoldados=0;
-		for (int i=0; i<army.length;i++) {
-			totalSoldados+= army[i].size();
+	public int getGroupDefender(ArrayList<MilitaryUnit>[] army) { // para que dado un ejército, nos devuelva el grupo defensor, 0-3 en el
+																	// caso
+																	// de la flota enemiga, 0-8 en el caso del ejército de nuestra
+																	// civilización.
+		int totalSoldados = 0;
+		for (int i = 0; i < army.length; i++) {
+			totalSoldados += army[i].size();
 		}
-		int aleatorio = (int)(Math.random()*totalSoldados);
-		
-		totalSoldados=0;
-		int respuesta= 0;
-		for (int i=0; i<army.length;i++) {
-			totalSoldados+= army[i].size();
-			if (totalSoldados>aleatorio) {
+		int aleatorio = (int) (Math.random() * totalSoldados);
+
+		totalSoldados = 0;
+		int respuesta = 0;
+		for (int i = 0; i < army.length; i++) {
+			totalSoldados += army[i].size();
+			if (totalSoldados > aleatorio) {
 				respuesta = i;
 				break;
 			}
 		}
 		return respuesta;
-		
+
 	}
 
-	public int getCivilizationGroupAttacker(ArrayList<MilitaryUnit>[] army) { //para escoger el grupo atacante civilizacion
-		int totalSoldados=0;
-		for (int i=0; i<army.length-1;i++) { //-1 para que no entre priest
-			totalSoldados+= army[i].size();
+	public int getCivilizationGroupAttacker(ArrayList<MilitaryUnit>[] army) { // para escoger el grupo atacante civilizacion
+		int totalSoldados = 0;
+		for (int i = 0; i < army.length - 1; i++) { // -1 para que no entre priest
+			totalSoldados += army[i].size();
 		}
-		int aleatorio = (int)(Math.random()*totalSoldados);
-		
-		totalSoldados=0;
-		int respuesta= 0;
-		for (int i=0; i<army.length-1;i++) { //-1 para que no entre priest
-			totalSoldados+= army[i].size();
-			if (totalSoldados>aleatorio) {
+		int aleatorio = (int) (Math.random() * totalSoldados);
+
+		totalSoldados = 0;
+		int respuesta = 0;
+		for (int i = 0; i < army.length - 1; i++) { // -1 para que no entre priest
+			totalSoldados += army[i].size();
+			if (totalSoldados > aleatorio) {
 				respuesta = i;
 				break;
 			}
@@ -238,18 +243,18 @@ public class Battle implements Variables {
 		return respuesta;
 	}
 
-	public int getEnemyGroupAttacker(ArrayList<MilitaryUnit>[] army) { //para escoger el grupo atacante enemigo
-		int totalSoldados=0;
-		for (int i=0; i<army.length;i++) {
-			totalSoldados+= army[i].size();
+	public int getEnemyGroupAttacker(ArrayList<MilitaryUnit>[] army) { // para escoger el grupo atacante enemigo
+		int totalSoldados = 0;
+		for (int i = 0; i < army.length; i++) {
+			totalSoldados += army[i].size();
 		}
-		int aleatorio = (int)(Math.random()*totalSoldados);
-		
-		totalSoldados=0;
-		int respuesta= 0;
-		for (int i=0; i<army.length;i++) {
-			totalSoldados+= army[i].size();
-			if (totalSoldados>aleatorio) {
+		int aleatorio = (int) (Math.random() * totalSoldados);
+
+		totalSoldados = 0;
+		int respuesta = 0;
+		for (int i = 0; i < army.length; i++) {
+			totalSoldados += army[i].size();
+			if (totalSoldados > aleatorio) {
 				respuesta = i;
 				break;
 			}
@@ -258,16 +263,11 @@ public class Battle implements Variables {
 	}
 
 	public void resetArmyArmor() { // que restablecerá las armaduras de nuestro ejército.
-		for (int i=0; i<civilizationArmy.length;i++) {
-			for (int j=0; j<civilizationArmy[i].size();j++) {
+		for (int i = 0; i < civilizationArmy.length; i++) {
+			for (int j = 0; j < civilizationArmy[i].size(); j++) {
 				civilizationArmy[i].get(j).resetArmor();
 			}
 		}
 	}
-	
-	
-	
-	
-	
-	
+
 }
