@@ -27,7 +27,7 @@ public class VentanaPartida extends JFrame implements Fuente {
 	VentanaPartida() {
 		setSize(1200, 700);
 		setLocationRelativeTo(null);
-		setTitle("hola");
+		setTitle("CIVILIZATIONS");
 
 		principalPanel = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
