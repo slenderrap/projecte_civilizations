@@ -1,6 +1,9 @@
 package front;
 
+
+
 import java.util.ArrayList;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -16,6 +19,10 @@ import game.attackUnities.Swordsman;
 public class Main implements Variables{
 	static private ArrayList<MilitaryUnit>[] enemyArmy = new ArrayList[4];
 	//private int[] enemyArray = new int[4];
+	
+	
+	
+	
 	static Civilization civilization = new Civilization();
 	
 	
@@ -106,10 +113,12 @@ public class Main implements Variables{
 	}
 
 
-	}
+	
 
 	public static void main(String[] args) {
-
+		
+		VentanaInicio vi = new VentanaInicio();
+		
 		//INSTANCIAS ARMADA ENEMIGA
 		for (int i=0; i<4;i++) {
 			enemyArmy[i] = new ArrayList<MilitaryUnit>();
