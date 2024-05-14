@@ -1,13 +1,14 @@
 package bbdd;
 
-import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.Statement;
 
 public class Datos {
+
 	public static void main(String[] args) throws Exception{
 		//en '@' poner la ip donde se ejecuta sql developer,  
 		String urlDatos="jdbc:oracle:thin:@192.168.56.2:1521/orcl?serverTimezone=UTC&autoReconnect=true&useSSL=false";
@@ -45,6 +46,7 @@ public class Datos {
 					rsmd.getColumnName(13)+": " + rs.getInt(13)+"\n"+rsmd.getColumnName(14)+": " + rs.getInt(14)+"\n"
 					);
 			
+
 		}
 	}
 }

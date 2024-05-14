@@ -106,7 +106,10 @@ public class Main implements Variables{
 	}
 
 
+	}
+
 	public static void main(String[] args) {
+
 		//INSTANCIAS ARMADA ENEMIGA
 		for (int i=0; i<4;i++) {
 			enemyArmy[i] = new ArrayList<MilitaryUnit>();

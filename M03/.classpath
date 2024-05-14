@@ -7,7 +7,9 @@
 		</attributes>
 	</classpathentry>
 
+
 	<classpathentry exported="true" kind="lib" path="./src/ojdbc8-23.4.0.24.05.jar"/>
+
 
 	<classpathentry kind="output" path="bin"/>
 </classpath>
