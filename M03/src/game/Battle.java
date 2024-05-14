@@ -185,6 +185,7 @@ public class Battle implements Variables {
 
 	// Metodo para guardar nuestro ejercito, el numero de soldados y el total
 	public void listArmyCivilization(ArrayList<MilitaryUnit>[] Army) {
+		civilizationArmy.clear();
 		civilizationArmy = new ArrayList[Army.length];
 		actualNumberUnitsCivilization = new int[Army.length];
 		initialArmies = new int[0][Army.length];
@@ -289,8 +290,7 @@ public class Battle implements Variables {
 		return perdido;
 	}
 
-	// Para calcular los porcentajes de unidades que quedan respecto los ejércitos
-	// iniciales.
+	// Para calcular los porcentajes de unidades que quedan respecto los ejércitos enemigos iniciales.
 	public boolean remainderPercentageFleetEnemy() {
 		boolean perdido = false;
 		float numeroPerderEnemy = (float) (initialNumberUnitsEnemy * 0.20);

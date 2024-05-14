@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 public class Datos {
 	public static void main(String[] args) throws Exception {
-		String urlDatos = "jdbc:oracle:thin:@localhost:1521/xe";
+//		String urlDatos = "jdbc:oracle:thin:@localhost:1521/xe";
 		String user = "civil";
 		String password = "civil";
 		Class.forName("oracle.jdbc.driver.OracleDriver");
