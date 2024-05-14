@@ -1,5 +1,15 @@
 package game;
 
+import game.attackUnities.Cannon;
+import game.attackUnities.Crossbow;
+import game.attackUnities.Spearman;
+import game.attackUnities.Swordsman;
+import game.defenseUnities.ArrowTower;
+import game.defenseUnities.Catapult;
+import game.defenseUnities.RocketLauncherTower;
+import game.specialUnities.Magician;
+import game.specialUnities.Priest;
+
 public interface MilitaryUnit {
 
 	abstract int attack(); //devuelve el poder de ataque de la unidad
@@ -17,5 +27,4 @@ public interface MilitaryUnit {
 	abstract void resetArmor(); //restablece armor al valor initialArmor
 	abstract void setExperience(int n); //establece experiencia a nuevo valor n
 	abstract int getExperience(); //devuelve experiencia actual
-	
 }
