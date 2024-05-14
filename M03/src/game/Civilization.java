@@ -34,9 +34,32 @@ public class Civilization implements Variables{
 	private int carpentry;
 	
 	private int battles;
-	private ArrayList<MilitaryUnit>[] army = new ArrayList[9]; 
+	private ArrayList<MilitaryUnit>[] army = new ArrayList[9];
 	
 	
+	
+	
+	public Civilization() {
+		super();
+		this.technologyDefense = 1;
+		this.technologyAttack = 1;
+		this.wood = 0;
+		this.iron = 0;
+		this.food = 0;
+		this.mana = 0;
+		this.magicTower = 0;
+		this.church = 0;
+		this.farm = 0;
+		this.smithy = 0;
+		this.carpentry = 0;
+		this.battles = 0;
+		this.army = army;
+		
+		for (int i=0; i<9;i++) {
+			getArmy()[i] = new ArrayList<MilitaryUnit>();
+			//System.out.println("hecho el ciudad" +i);
+		}
+	}
 	//GETTERS SETTERS
 	public int getTechnologyDefense() {
 		return technologyDefense;
@@ -121,7 +144,7 @@ public class Civilization implements Variables{
 	//METODOS CREAR -------------------------------------------
 	
 	//nueva CHURCH
-	void newChurch() throws ResourceException {
+	public void newChurch() throws ResourceException {
 		if (food>FOOD_COST_CHURCH && wood>WOOD_COST_CHURCH && iron>IRON_COST_CHURCH) {
 			church+=1;
 			food-=FOOD_COST_CHURCH;
@@ -142,7 +165,7 @@ public class Civilization implements Variables{
 	}
 	
 	//nueva MAGIC TOWER
-	void newMagictower() throws ResourceException{
+	public void newMagictower() throws ResourceException{
 		if (food>FOOD_COST_MAGICTOWER && wood>WOOD_COST_MAGICTOWER && iron>IRON_COST_MAGICTOWER) {
 			magicTower+=1;
 			food-=FOOD_COST_MAGICTOWER;
@@ -163,7 +186,7 @@ public class Civilization implements Variables{
 	}
 	
 	//nueva FARM
-	void newFarm() throws ResourceException {
+	public void newFarm() throws ResourceException {
 		if (food>FOOD_COST_FARM && wood>WOOD_COST_FARM && iron>IRON_COST_FARM) {
 			farm+=1;
 			food-=FOOD_COST_FARM;
@@ -184,7 +207,7 @@ public class Civilization implements Variables{
 	}
 	
 	//nueva CARPENTRY
-	void newCarpentry() throws ResourceException {
+	public void newCarpentry() throws ResourceException {
 		if (food>FOOD_COST_CARPENTRY && wood>WOOD_COST_CARPENTRY && iron>IRON_COST_CARPENTRY) {
 			carpentry+=1;
 			food-=FOOD_COST_CARPENTRY;
@@ -205,7 +228,7 @@ public class Civilization implements Variables{
 	}
 
 	//nuevo SMITHY
-	void newSmithy() throws ResourceException {
+	public void newSmithy() throws ResourceException {
 		if (food>FOOD_COST_SMITHY && wood>WOOD_COST_SMITHY && iron>IRON_COST_SMITHY) {
 			smithy+=1;
 			food-=FOOD_COST_SMITHY;
@@ -228,7 +251,7 @@ public class Civilization implements Variables{
 	
 	// UPGRADE TECNOLOGIAS --------------------------
 	//upgrade DEFENSA
-	void upgradeTechnologyDefense() throws ResourceException {
+	public void upgradeTechnologyDefense() throws ResourceException {
 		int foodCost = UPGRADE_BASE_DEFENSE_TECHNOLOGY_FOOD_COST;
 		int woodCost = UPGRADE_BASE_DEFENSE_TECHNOLOGY_WOOD_COST;
 		int ironCost = UPGRADE_BASE_DEFENSE_TECHNOLOGY_IRON_COST;
@@ -260,7 +283,7 @@ public class Civilization implements Variables{
 	}
 	
 	//upgrade ATTACK
-	void upgradeTechnologyAttack() throws ResourceException {
+	public void upgradeTechnologyAttack() throws ResourceException {
 		int foodCost = UPGRADE_BASE_ATTACK_TECHNOLOGY_FOOD_COST;
 		int woodCost = UPGRADE_BASE_ATTACK_TECHNOLOGY_WOOD_COST;
 		int ironCost = UPGRADE_BASE_ATTACK_TECHNOLOGY_IRON_COST;
@@ -296,7 +319,7 @@ public class Civilization implements Variables{
 	//CREAR TROPAS ------------------------------
 	
 	//TROPAS ATTACK
-	void newSwordsman(int n) throws ResourceException {
+	public void newSwordsman(int n) throws ResourceException {
 		int armor =(ARMOR_SWORDSMAN+(getTechnologyDefense()*PLUS_ARMOR_SWORDSMAN_BY_TECHNOLOGY)*1000/100);
 		int baseDamage = (BASE_DAMAGE_SWORDSMAN+(getTechnologyAttack()*PLUS_ATTACK_SWORDSMAN_BY_TECHNOLOGY)*1000/100);
 		for (int i=0;i<n;i++) {
@@ -320,7 +343,7 @@ public class Civilization implements Variables{
 		}
 	}
 	
-	void newSpearman(int n) throws ResourceException {
+	public void newSpearman(int n) throws ResourceException {
 		int armor = (ARMOR_SPEARMAN+(getTechnologyDefense()*PLUS_ARMOR_SPEARMAN_BY_TECHNOLOGY)*1000/100);
 		int baseDamage = (BASE_DAMAGE_SPEARMAN+(getTechnologyAttack()*PLUS_ATTACK_SPEARMAN_BY_TECHNOLOGY)*1000/100);
 		for (int i=0;i<n;i++) {
@@ -344,7 +367,7 @@ public class Civilization implements Variables{
 		}
 	}
 	
-	void newCrossbow(int n) throws ResourceException {
+	public void newCrossbow(int n) throws ResourceException {
 		int armor=(ARMOR_CROSSBOW+(getTechnologyDefense()*PLUS_ARMOR_CROSSBOW_BY_TECHNOLOGY)*1000/100);
 		int baseDamage=(BASE_DAMAGE_CROSSBOW+(getTechnologyAttack()*PLUS_ATTACK_CROSSBOW_BY_TECHNOLOGY)*1000/100);
 		for (int i=0;i<n;i++) {
@@ -368,7 +391,7 @@ public class Civilization implements Variables{
 		}
 	}
 	
-	void newCannon(int n) throws ResourceException {
+	public void newCannon(int n) throws ResourceException {
 		int armor = (ARMOR_CANNON+(getTechnologyDefense()*PLUS_ARMOR_CANNON_BY_TECHNOLOGY)*1000/100);
 		int baseDamage = (BASE_DAMAGE_CANNON+(getTechnologyAttack()*PLUS_ATTACK_CANNON_BY_TECHNOLOGY)*1000/100);
 		for (int i=0;i<n;i++) {
@@ -393,7 +416,7 @@ public class Civilization implements Variables{
 	}
 	
 	//TROPAS DEFENSE
-	void newArrowTower(int n) throws ResourceException {
+	public void newArrowTower(int n) throws ResourceException {
 		int armor=(ARMOR_ARROWTOWER+(getTechnologyDefense()*PLUS_ARMOR_ARROWTOWER_BY_TECHNOLOGY)*1000/100);
 		int baseDamage=(BASE_DAMAGE_ARROWTOWER+(getTechnologyAttack()*PLUS_ATTACK_ARROWTOWER_BY_TECHNOLOGY)*1000/100);
 		for (int i=0;i<n;i++) {
@@ -417,7 +440,7 @@ public class Civilization implements Variables{
 		}
 	}
 	
-	void newCatapult(int n) throws ResourceException {
+	public void newCatapult(int n) throws ResourceException {
 		int armor =(ARMOR_CATAPULT+(getTechnologyDefense()*PLUS_ARMOR_CATAPULT_BY_TECHNOLOGY)*1000/100);
 		int baseDamage=(BASE_DAMAGE_CATAPULT+(getTechnologyAttack()*PLUS_ATTACK_CATAPULT_BY_TECHNOLOGY)*1000/100);
 		for (int i=0;i<n;i++) {
@@ -441,7 +464,7 @@ public class Civilization implements Variables{
 		}
 	}
 	
-	void newRocketLauncherTower(int n) throws ResourceException {
+	public void newRocketLauncherTower(int n) throws ResourceException {
 		int armor=(ARMOR_ROCKETLAUNCHERTOWER+(getTechnologyDefense()*PLUS_ARMOR_ROCKETLAUNCHERTOWER_BY_TECHNOLOGY)*1000/100);
 		int baseDamage=(BASE_DAMAGE_ROCKETLAUNCHERTOWER+(getTechnologyAttack()*PLUS_ATTACK_ROCKETLAUNCHERTOWER_BY_TECHNOLOGY)*1000/100);
 		for (int i=0;i<n;i++) {
@@ -467,7 +490,7 @@ public class Civilization implements Variables{
 	
 	
 	//TROPAS SPECIAL
-	void newMagician(int n) throws ResourceException, BuildingException {
+	public void newMagician(int n) throws ResourceException, BuildingException {
 		int armor=0;
 		int baseDamage=(BASE_DAMAGE_MAGICIAN+(getTechnologyAttack()*PLUS_ATTACK_MAGICIAN_BY_TECHNOLOGY)*1000/100);
 		for (int i=0;i<n;i++) {
@@ -495,7 +518,7 @@ public class Civilization implements Variables{
 		}
 	}
 	
-	void newPriest(int n) throws ResourceException, BuildingException {
+	public void newPriest(int n) throws ResourceException, BuildingException {
 		int armor=0;
 		int baseDamage=0;
 		for (int i=0;i<n;i++) {
@@ -525,13 +548,13 @@ public class Civilization implements Variables{
 	
 	
 	//OTROS METODOS
-	void printStats() {
+	public void printStats() {
 		
 	}
 	
 	
 	//santificar todas las unidades que no estan santificadas
-	void sanctify() {
+	public void sanctify() {
 		if (army[8].size()>0) { //si la cantidad de priest es mayor que 0
 			for (int i=0; i<army.length-1; i++) { //se recorre la lista de army menos el ultimo que es la unidad de priests
 				for (int j=0; j<(int)army[i].size(); j++) { //se recorre cada personaje de la unidad
@@ -571,7 +594,7 @@ public class Civilization implements Variables{
 	}
 	
 	//desantificar todas las unidades santificadas
-	void desanctify() {
+	public void desanctify() {
 		if (army[8].size()==0) { //si la cantidad de priest es 0
 			for (int i=0; i<army.length-1; i++) { //se recorre la lista de army menos el ultimo que es la unidad de priests
 				for (int j=0; j<(int)army[i].size(); j++) { //se recorre cada personaje de la unidad

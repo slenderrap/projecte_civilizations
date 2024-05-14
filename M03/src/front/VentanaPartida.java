@@ -16,7 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-public class VentanaPartida extends JFrame implements Fuente {
+public class VentanaPartida extends JFrame {
 	private JPanel principalPanel, lateralPanel, recursosPanel, bottomPanel, ciudadPanel, ejercitoPanel, granjaPanel, carpinteriaPanel,
 			herreriaPanel, torreMagicaPanel, iglesiaPanel;
 	private JTabbedPane tabbedPane;
@@ -27,7 +27,7 @@ public class VentanaPartida extends JFrame implements Fuente {
 	VentanaPartida() {
 		setSize(1200, 700);
 		setLocationRelativeTo(null);
-		setTitle("hola");
+		setTitle("CIVILIZATIONS");
 
 		principalPanel = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
