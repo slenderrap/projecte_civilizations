@@ -9,18 +9,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 
-public class VentanaInicio extends JFrame {
+
+public class VentanaInicio extends JFrame implements ActionListener{
 	private JPanel pInicio, pNuevaPartida, pContinuarPartida, pCreditos, pSalir, pVacio;
 	private JButton bNuevaPartida, bContinuarPartida, bCreditos, bSalir;
 	private ImageIcon fondo, iNuevaPartida, iContinuarPartida, iCreditos, iSalir;
+
 
 	VentanaInicio() {
 		setSize(500, 500);
@@ -39,6 +47,8 @@ public class VentanaInicio extends JFrame {
 		bContinuarPartida = new JButton();
 		bCreditos = new JButton();
 		bSalir = new JButton();
+		bNuevaPartida.addActionListener(this);
+		bContinuarPartida.addActionListener(this);
 
 		//ponemos fondo en inicio
 		fondo = new ImageIcon("src/front/img/Tabla.png");
@@ -149,5 +159,16 @@ public class VentanaInicio extends JFrame {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		
+		if (e.getSource()==nuevaPartida) {
+			new VentanaNuevaPartida();
+			this.dispose();
+		}else if (e.getSource()==continuarPartida) {
+			new VentanaPartida();
+			this.dispose();
+		}
 	}
 }
