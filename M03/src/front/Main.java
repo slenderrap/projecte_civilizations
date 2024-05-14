@@ -1,6 +1,7 @@
 package front;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -107,12 +108,14 @@ public class Main implements Variables{
 
 
 	public static void main(String[] args) {
-		//INSTANCIAS ARMADA ENEMIGA
+		//INSTANCIAR ARMADA ENEMIGA por primera vez
 		for (int i=0; i<4;i++) {
 			enemyArmy[i] = new ArrayList<MilitaryUnit>();
 			System.out.println("hecho el enemy" +i);
 		}
-		createEnemyArmy();
+		
+		
+		
 		
 		//TASK GENERACION DE RECURSOS
 		TimerTask taskRecursos = new TimerTask() { //creamos task
@@ -161,16 +164,31 @@ public class Main implements Variables{
 			}
 		};
 		
-		//TIMER 
-		Timer timer = new Timer(); //creamos timer
-		//timer.schedule(taskRecursos, 10000, 60000); //repetir cada 60seg, a partir del primer 10seg
-		timer.schedule(taskRecursos, 5000, 5000); //repetir cada 5seg, a partir del primer 10seg
 		
+		//TASK GENERACION DE BATALLAS
+		TimerTask taskBatallas = new TimerTask() { //creamos task
+			public void run() {
+				createEnemyArmy();
+				Scanner sc = new Scanner(System.in);
+				while (sc.nextInt()!=2) {
+					System.out.println("Inserta otro");
+				}
+			}
+		};
+		
+		
+		//TIMERS
+		Timer timer = new Timer(); //creamos timer
+//		timer.schedule(taskRecursos, 10000, 60000); //a partir del primer 10seg, repetir cada 60seg
+//		timer.schedule(taskBatallas, 60000, 180000); //a partir del primer minuto, repetir cada 3 minutos
+		
+		//timers test
+//		timer.schedule(taskRecursos, 5000, 5000); // a partir del primer 5seg, repetir cada 5seg
+//		timer.schedule(taskBatallas, 5000, 10000); //a partir del primer 5seg, repetir cada 10seg
 		
 
 		//VentanaPartida v = new VentanaPartida();
-		
-		System.out.println("eloooo");
+		new VentanaInicio();
 		
 		
 	}
