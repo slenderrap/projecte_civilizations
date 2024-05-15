@@ -129,7 +129,7 @@ public class VentanaInicio extends JFrame implements ActionListener{
 			new VentanaNuevaPartida();
 			this.dispose();
 		}else if (e.getSource()==bContinuarPartida) {
-			new VentanaPartida();
+			new VentanaContinue();
 			this.dispose();
 		}else if (e.getSource()==bCreditos) {
 			dispose();
