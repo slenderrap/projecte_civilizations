@@ -1,5 +1,13 @@
 package front;
 
+import java.awt.BorderLayout;
+import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
+
 import bbdd.Datos;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,39 +18,70 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.text.AbstractDocument.BranchElement;
+
 
 public class VentanaNuevaPartida extends JFrame implements ActionListener{
-	private JPanel pPrincipal;
+	private JPanel pPrincipal, pBack,pCentral;
+	private JButton bBack, bCrearPartida;
+	private ImageIcon fondo;
 	private JLabel texto;
 	private JTextField nameTexto;
-	private JButton crearPartida;
 	private Datos datos;
+	
 	VentanaNuevaPartida() {
 		datos = new Datos();
 		
 		setSize(500, 500);
 		setLocationRelativeTo(null); // Para que se salga centrada la ventana
-		setTitle("Nueva partida");
+		setTitle("New Game");
 		pPrincipal = new JPanel();
+		pBack = new JPanel();
+		pCentral = new JPanel();
 		
+
+		//para poner el fondo
+		pPrincipal = new JPanel(new BorderLayout()) {
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(fondo.getImage(), 0, 0, getWidth(), getHeight(), this);
+			}
+		};
+
+		fondo = new ImageIcon("src/front/img/Tabla.png");
+		
+		//boton back
+		bBack = new JButton("Back");
+		pBack.add(bBack);
+		pPrincipal.add(pBack, BorderLayout.NORTH);
+		pBack.setOpaque(false);
+		
+		//instanciar
 		texto= new JLabel("Introduzca un nombre de partida");
 		nameTexto = new JTextField(20);
-		crearPartida = new JButton("Crear partida");
-		nameTexto.addActionListener(this);
-		crearPartida.addActionListener(this);
+		bCrearPartida = new JButton("Crear partida");
 		
-		pPrincipal.add(texto);
-		pPrincipal.add(nameTexto);
-		pPrincipal.add(crearPartida);
-		add(pPrincipal);
+		//listeners
+		nameTexto.addActionListener(this);
+		bCrearPartida.addActionListener(this);
+		bBack.addActionListener(this);
+		
+		//añadir al pPrincipal
+		pPrincipal.add(pCentral,BorderLayout.CENTER);
+		pCentral.add(texto);
+		pCentral.add(nameTexto);
+		pCentral.add(bCrearPartida);
+		pCentral.setOpaque(false);
+		
+		this.add(pPrincipal);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
-		datos.maxID();
-	}
+		}
+	
 	public void actionPerformed(ActionEvent e) {
 		
-		if (e.getSource()==crearPartida) {
+		if (e.getSource()==bCrearPartida) {
 			//datos = new Datos();
 			try {
 				
@@ -57,13 +96,16 @@ public class VentanaNuevaPartida extends JFrame implements ActionListener{
 			} catch (TextoEnBlanco e2) {
 				System.out.println("El texto está vacio");
 			}
-			
 		}
-		
+		else if (e.getSource()==bBack) {
+				dispose();
+				new VentanaInicio();
+			}
+		}
 	}
-}
+		
+
 class TextoEnBlanco extends Exception{
 	public TextoEnBlanco() {
-		
 	}
 }
