@@ -19,7 +19,7 @@ import game.specialUnities.SpecialUnit;
 public class Battle implements Variables {
 	private ArrayList<MilitaryUnit>[] civilizationArmy; // Almacenar nuestro ejercito
 	private ArrayList<MilitaryUnit>[] enemyArmy; // Almacenar ejercito enemigo
-	private ArrayList[][] armies = new ArrayList[2][9]; // Almacena los dos ejercitos // --no entiendo para que
+	private MilitaryUnit[][] armies; // Almacena los dos ejercitos // --no entiendo para que
 	private String battleDevelopment; // Guarda el desarollo de la partida
 	private int[][] initialCostFleet = new int[2][3]; // Guarda el coste de los materiales de tanto nuestro como del enemigo // --Creo
 														// que no me es util
@@ -30,7 +30,7 @@ public class Battle implements Variables {
 	private int[][] initialArmies; // Cuantifica cada tipo de unidad de los ejercitos iniciales
 	private int[] actualNumberUnitsCivilization, actualNumberUnitsEnemy; // Cuantifica cada tipo de unidad de los ejercitos
 																			// actuales
-	private int primerGolpe;
+	private boolean primerGolpe;
 
 	// GETTER AND SETTERS-------------
 	public ArrayList<MilitaryUnit>[] getCivilizationArmy() {
@@ -49,12 +49,12 @@ public class Battle implements Variables {
 		this.enemyArmy = enemyArmy;
 	}
 
-	public ArrayList[][] getArmies() {
+	public MilitaryUnit[][] getArmies() {
 		return armies;
 	}
 
 	public void setArmies(ArrayList[][] armies) {
-		this.armies = (ArrayList[][]) armies;
+		this.armies = (MilitaryUnit[][]) armies;
 	}
 
 	public String getBattleDevelopment() {
@@ -145,13 +145,13 @@ public class Battle implements Variables {
 		this.actualNumberUnitsEnemy = actualNumberUnitsEnemy;
 	}
 
-	public int isPrimerGolpe() {
-		int randomBoolean = new Random(2).nextInt();
+	public boolean isPrimerGolpe() {
+		boolean randomBoolean = new Random().nextBoolean();
 		setPrimerGolpe(randomBoolean);
 		return primerGolpe;
 	}
 
-	public void setPrimerGolpe(int primerGolpe) {
+	public void setPrimerGolpe(boolean primerGolpe) {
 		this.primerGolpe = primerGolpe;
 	}
 
@@ -185,12 +185,8 @@ public class Battle implements Variables {
 
 	// Metodo para guardar nuestro ejercito, el numero de soldados y el total
 	public void listArmyCivilization(ArrayList<MilitaryUnit>[] Army) {
+		civilizationArmy.clear();
 		civilizationArmy = new ArrayList[Army.length];
-
-		for (int i = 0; i < Army.length; i++) { // limpia el ArrayList
-			civilizationArmy[i].clear();
-		}
-
 		actualNumberUnitsCivilization = new int[Army.length];
 		initialArmies = new int[0][Army.length];
 		int numeroEjercito = 0;
@@ -211,11 +207,6 @@ public class Battle implements Variables {
 	// Metodo para guardar el ejercito enemigo, el numero de soldados y el total
 	public void listArmyEnemy(ArrayList<MilitaryUnit>[] Army) {
 		enemyArmy = new ArrayList[Army.length];
-
-		for (int i = 0; i < Army.length; i++) { // limpia el ArrayList
-			enemyArmy[i].clear();
-		}
-
 		actualNumberUnitsEnemy = new int[Army.length];
 		int numeroEjercito = 0;
 		initialArmies = new int[1][Army.length];
@@ -235,8 +226,13 @@ public class Battle implements Variables {
 
 	// Metodo para guardar tanto nuestro ejercito como el enemigo
 	public void groupArmy() {
-		armies[0] = civilizationArmy;
-		armies[1] = enemyArmy;
+		for (int i = 0; i < 2; i++) {
+			if (i == 0) {
+				armies[i] = civilizationArmy[i].toArray(new MilitaryUnit[0]);
+			} else {
+				armies[i] = enemyArmy[i].toArray(new MilitaryUnit[0]);
+			}
+		}
 	}
 
 	// metodo para saber las perdidas de recursos
@@ -294,8 +290,7 @@ public class Battle implements Variables {
 		return perdido;
 	}
 
-	// Para calcular los porcentajes de unidades que quedan respecto los ejércitos
-	// enemigos iniciales.
+	// Para calcular los porcentajes de unidades que quedan respecto los ejércitos enemigos iniciales.
 	public boolean remainderPercentageFleetEnemy() {
 		boolean perdido = false;
 		float numeroPerderEnemy = (float) (initialNumberUnitsEnemy * 0.20);
@@ -476,72 +471,4 @@ public class Battle implements Variables {
 		}
 	}
 
-	// crea la pelea entre el atacante y el defensor
-	public void battleSoldiers() {
-
-	}
-
-	// genera la batalla
-	public boolean battle() {
-		boolean battleWin = false;
-		int turno = isPrimerGolpe();
-		while (battleWin != false) {
-			if (turno % 2 == 0) {
-				((MilitaryUnit) armies[turno % 2][getCivilizationGroupAttacker(civilizationArmy)].get(0)).attack();
-				// batalla armies[turno][pobabilidad de personaje][1]
-			}
-
-		}
-
-		return battleWin;
-	}
-
 }
-
-/*
- * 
- * (X) Comienzo de combate aleatorio
- * 
- * (X) Almazenar nuestro ejercito
- * 
- * (X) Almazenar ejercito enemigo
- * 
- * (X) Almazenar juntos
- * 
- * ( ) Coste de la civilizacion nuestra y enemiga // no sirve par nada creo
- * 
- * (X) Cuantificar nuestro ejercito
- * 
- * (X) Cuantificar ejercito enemigo
- * 
- * (X) Cuantificar nuestro ejercito por tipo de soldado
- * 
- * (X) Cuantificar ejercito enemigo por tipo de soldado
- * 
- * (X) Probabilidad de que unidad ataca Aliado
- * 
- * (X) Probabilidad de que unidad defiender Aliado
- * 
- * (X) Probabilidad de que unidad ataca/defiender Enemigo
- * 
- * (X) Resetear armadura
- * 
- * ( ) La battalla
- * 
- * ( ) Generar residuos de los soldados caidos
- * 
- * ( ) Comprobar si puede atacar de nuevo
- * 
- * (X) calcular el 20% de los ejercitos
- * 
- * (X) Calcular cantidad de recursos perdidos
- * 
- * (X) Santificar unidades
- * 
- * (X) Desantificar unidades
- * 
- * ( ) Batalla paso a paso
- * 
- * ( ) Resumen de la batalla
- * 
- */
