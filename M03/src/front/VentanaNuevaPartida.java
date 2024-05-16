@@ -8,6 +8,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.ExceptionListener;
 import bbdd.Datos;
 
 import javax.swing.JButton;
@@ -25,9 +28,10 @@ public class VentanaNuevaPartida extends JFrame implements ActionListener{
 	private JTextField nameTexto;
 	private Datos datos;
 	private int id;
+
 	
 	VentanaNuevaPartida() {
-		datos = new Datos();
+		//datos = new Datos();
 		
 		setSize(500, 500);
 		setLocationRelativeTo(null); // Para que se salga centrada la ventana
@@ -87,11 +91,13 @@ public class VentanaNuevaPartida extends JFrame implements ActionListener{
 					
 				}else {
 					System.out.println("Creando nueva partida");
+
 					int id =datos.crearNuevaPartida(name);
 					System.out.println("El ID de la nueva partida es: "+id);
 					setId(id);
 					dispose();
 					new VentanaPartida();
+
 				}
 			} catch (TextoEnBlanco e2) {
 				System.out.println("El texto está vacio");

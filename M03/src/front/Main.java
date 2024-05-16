@@ -180,7 +180,7 @@ public class Main implements Variables{
 		
 		
 
-		//VentanaPartida v = new VentanaPartida();
+		new VentanaPartida();
 		
 		System.out.println("eloooo");
 		
