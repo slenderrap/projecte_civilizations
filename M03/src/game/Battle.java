@@ -18,8 +18,9 @@ import src.game.specialUnities.SpecialUnit;
 
 public class Battle implements Variables {
 	private ArrayList<MilitaryUnit>[] civilizationArmy = new ArrayList[9]; // Almacenar nuestro ejercito
-	private ArrayList<MilitaryUnit>[] enemyArmy = new ArrayList[9]; // Almacenar ejercito enemigo
+	private ArrayList<MilitaryUnit>[] enemyArmy = new ArrayList[4]; // Almacenar ejercito enemigo
 	private ArrayList[][] armies = new ArrayList[2][9]; // Almacena los dos ejercitos // --no entiendo para que
+
 	private String battleDevelopment; // Guarda el desarollo de la partida
 	private int[][] initialCostFleet = new int[2][3]; // Guarda el coste de los materiales de tanto nuestro como del enemigo // --Creo
 														// que no me es util
@@ -30,7 +31,7 @@ public class Battle implements Variables {
 	private int[][] initialArmies = new int[2][9]; // Cuantifica cada tipo de unidad de los ejercitos iniciales
 	private int[] actualNumberUnitsCivilization, actualNumberUnitsEnemy; // Cuantifica cada tipo de unidad de los ejercitos
 																			// actuales
-	private int primerGolpe;
+	private boolean primerGolpe;
 
 	private Random random = new Random();
 	private Civilization civilization = new Civilization();
@@ -52,12 +53,12 @@ public class Battle implements Variables {
 		this.enemyArmy = enemyArmy;
 	}
 
-	public ArrayList[][] getArmies() {
+	public MilitaryUnit[][] getArmies() {
 		return armies;
 	}
 
 	public void setArmies(ArrayList[][] armies) {
-		this.armies = (ArrayList[][]) armies;
+		this.armies = (MilitaryUnit[][]) armies;
 	}
 
 	public String getBattleDevelopment() {
@@ -160,7 +161,7 @@ public class Battle implements Variables {
 		return primerGolpe;
 	}
 
-	public void setPrimerGolpe(int primerGolpe) {
+	public void setPrimerGolpe(boolean primerGolpe) {
 		this.primerGolpe = primerGolpe;
 	}
 
@@ -287,6 +288,7 @@ public class Battle implements Variables {
 
 //		System.out.println(armies[0]); // borrar
 //		System.out.println(armies[1]); // borrar
+
 	}
 
 	// metodo para saber las perdidas de recursos
@@ -347,8 +349,7 @@ public class Battle implements Variables {
 		return perdido;
 	}
 
-	// Para calcular los porcentajes de unidades que quedan respecto los ejércitos
-	// enemigos iniciales.
+	// Para calcular los porcentajes de unidades que quedan respecto los ejércitos enemigos iniciales.
 	public boolean remainderPercentageFleetEnemy() {
 		boolean perdido = false;
 		float numeroPerderEnemy = (float) (initialNumberUnitsEnemy * 0.20);
