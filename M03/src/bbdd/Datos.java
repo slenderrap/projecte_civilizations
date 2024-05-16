@@ -68,12 +68,10 @@ public class Datos {
 				fila[0]= String.valueOf(rs.getInt(1));
 				fila[1]= rs.getString(2);
 				fila[2]= String.valueOf(rs.getInt(3));
-				System.out.println(fila.toString());
 				resultados.add(fila);
-				System.out.println("fila numero"+resultados.size()+": "+fila[0]+fila[1]+fila[2]);
+				System.out.println("fila numero"+resultados.size()+": {id: "+fila[0]+", nombre: "+fila[1]+", batallas realizadas: "+fila[2]+"}");
 			}
 			
-			System.out.println(resultados.toString());
 			return resultados;
 		} catch (Exception e) {
 			System.out.println("error!!!!");
@@ -107,4 +105,20 @@ public class Datos {
 		
 	}
 	
+	public void borrarPartida(int id) {
+		try {
+			String delete = "delete from civilization_stats where id_civilization = ?";
+			PreparedStatement ps = conn.prepareStatement(delete);
+			
+			ps.setInt(1, id);
+			ps.executeUpdate();
+			System.out.println("Partida eliminada");
+			
+		} catch (Exception e) {
+			System.out.println("*******\nError!\nEl ID "+id+" no existe!\n*******");
+			
+		}
+		
+	}
 	
+}
