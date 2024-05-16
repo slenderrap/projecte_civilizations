@@ -18,11 +18,12 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 public class VentanaPartida extends JFrame {
-	private JPanel principalPanel, lateralPanel, recursosPanel, bottomPanel, civilizationPanel, armyPanel, shopPanel, battlegroundPanel;
+	private JPanel principalPanel, lateralPanel, recursosPanel, civilizationPanel, armyPanel, shopPanel, battlegroundPanel;
 	private JTabbedPane tabbedPane;
 	private JLabel lFood, lWood, lIron, lMana, lAttack, lDefense, lBattles;
+	private JLabel lFarm, lSmithy, lCarpentry, lChurch, lMagicTower;
 	private JButton nuevaPartidaButton, continuarPartidaButton, salirButton;
-	private ImageIcon fondo;
+	private ImageIcon fondo, fondoPanel;
 
 	VentanaPartida() {
 		setSize(1200, 700);
@@ -49,21 +50,43 @@ public class VentanaPartida extends JFrame {
 		//RECURSOS PANEL
 		recursosPanel = new JPanel();
 		recursosPanel.setLayout(null); //null para poder poner los labels en la coordenada que queramos libremente
-		recursosPanel.setPreferredSize(new Dimension(270,500));
+		recursosPanel.setPreferredSize(new Dimension(270,500));	
 		
-		//BOTTOM PANEL (para que tenga aire abajo la interfaz)
-		bottomPanel = new JPanel();
-		principalPanel.add(bottomPanel, BorderLayout.SOUTH);
-		bottomPanel.setBackground(Color.BLUE);
+		//LATERAL PANEL
+		lateralPanel.setOpaque(false);
+		lateralPanel.add(recursosPanel);
+		recursosPanel.setOpaque(false);
+		lateralPanel.setBorder(BorderFactory.createEmptyBorder(90, 60, 0, 0));
+				
 		
 		//PANELES PARA EL TABBED PANE
-		civilizationPanel = new JPanel();
+		//civilizationPanel = new JPanel();
+		fondoPanel = new ImageIcon("src/front/img/prueba.png"); //añadimos imagen de fondo
+		
+		civilizationPanel = new JPanel(new BorderLayout()) {
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(fondoPanel.getImage(), 0, 0, getWidth(), getHeight(), this);
+			}
+		};		
 		armyPanel = new JPanel();
 		shopPanel = new JPanel();
 		battlegroundPanel = new JPanel();	
 		
+		
+		//TABBED PANEL
+		tabbedPane = new JTabbedPane();
+		principalPanel.add(tabbedPane, BorderLayout.CENTER);
+		tabbedPane.addTab("Civilization", civilizationPanel);
+		tabbedPane.addTab("Army", armyPanel);
+		tabbedPane.addTab("Shop", shopPanel);
+		tabbedPane.addTab("Battleground", battlegroundPanel);
+		
+		
+		
+		//COSAS DEL PANEL RECURSOS -------------------------------------------
 		//LABELS PANEL LATERAL RECURSOS
-		lFood = new JLabel("10000");
+		lFood = new JLabel("1.000.000.000");
 		lWood = new JLabel("20000");
 		lIron = new JLabel("30000");
 		lMana = new JLabel("40000");
@@ -112,42 +135,74 @@ public class VentanaPartida extends JFrame {
 		size = lBattles.getPreferredSize();
 		lBattles.setBounds(45 + insets.left, 450 + insets.top,
 		             size.width, size.height);
-
+		//------------------------------------------------------------------------
 		
-		//TABBED PANEL
-		tabbedPane = new JTabbedPane();
-		principalPanel.add(tabbedPane, BorderLayout.CENTER);
-		tabbedPane.addTab("Civilization", civilizationPanel);
-		tabbedPane.addTab("Army", armyPanel);
-		tabbedPane.addTab("Shop", shopPanel);
-		tabbedPane.addTab("Battleground", battlegroundPanel);
 		
-		//LATERAL PANEL
-		lateralPanel.setOpaque(false);
-		lateralPanel.add(recursosPanel);
-		recursosPanel.setOpaque(false);
-		lateralPanel.setBorder(BorderFactory.createEmptyBorder(90, 60, 0, 0));
+		
+		//COSAS DEL PANEL CIVILIZATION -------------------------------------------
+		//LABELS CIVILIZATION
+		lFarm = new JLabel("1");
+		lSmithy = new JLabel("2");
+		lCarpentry = new JLabel("3");
+		lChurch = new JLabel("4");
+		lMagicTower = new JLabel("5");
+		
+		//cambiar fuente
+		lFarm.setFont(new Font("Times New Roman", Font.BOLD, 16));
+		lSmithy.setFont(new Font("Times New Roman", Font.BOLD, 16));
+		lCarpentry.setFont(new Font("Times New Roman", Font.BOLD, 16));
+		lChurch.setFont(new Font("Times New Roman", Font.BOLD, 16));
+		lMagicTower.setFont(new Font("Times New Roman", Font.BOLD, 16));
+		
+		//añadir al panel Civilization
+		civilizationPanel.add(lFarm);
+		civilizationPanel.add(lSmithy);
+		civilizationPanel.add(lCarpentry);
+		civilizationPanel.add(lChurch);
+		civilizationPanel.add(lMagicTower);
+		
+		//mover labels a su sitio en coordenadas
+		civilizationPanel.setLayout(null);
+		
+		insets = civilizationPanel.getInsets();
+		size = lFarm.getPreferredSize();
+		lFarm.setBounds(403 + insets.left, 380 + insets.top,
+		             size.width, size.height);
+		size = lSmithy.getPreferredSize();
+		lSmithy.setBounds(618 + insets.left, 285 + insets.top,
+		             size.width, size.height);
+		size = lCarpentry.getPreferredSize();
+		lCarpentry.setBounds(233 + insets.left, 317 + insets.top,
+		             size.width, size.height);
+		size = lChurch.getPreferredSize();
+		lChurch.setBounds(402 + insets.left, 170 + insets.top,
+		             size.width, size.height);
+		size = lMagicTower.getPreferredSize();
+		lMagicTower.setBounds(185 + insets.left, 118 + insets.top,
+		             size.width, size.height);
+		//------------------------------------------------------------------------
+		
+		
+		
+		
 		
 		
 		//todo en opaco falso porque no sé qué está fallando, por qué no se ve el fondo en tabbed panel
-		tabbedPane.setOpaque(false);
-		civilizationPanel.setOpaque(false);
-		armyPanel.setOpaque(false);
-		shopPanel.setOpaque(false);
-		battlegroundPanel.setOpaque(false);	
-		
-		lateralPanel.setOpaque(false);
-		bottomPanel.setOpaque(false);
-		principalPanel.setOpaque(false);
-
+//		tabbedPane.setOpaque(false);
+//		civilizationPanel.setOpaque(false);
+//		armyPanel.setOpaque(false);
+//		shopPanel.setOpaque(false);
+//		battlegroundPanel.setOpaque(false);	
+//		
+//		lateralPanel.setOpaque(false);
+//		principalPanel.setOpaque(false);
 		
 		//si lo pongo en invisible sí se ve el fondo:
-		
-		tabbedPane.setVisible(false);
-		civilizationPanel.setVisible(false);
-		armyPanel.setVisible(false);
-		shopPanel.setVisible(false);
-		battlegroundPanel.setVisible(false);	
+//		tabbedPane.setVisible(false);
+//		civilizationPanel.setVisible(false);
+//		armyPanel.setVisible(false);
+//		shopPanel.setVisible(false);
+//		battlegroundPanel.setVisible(false);	
 		
 		
 
