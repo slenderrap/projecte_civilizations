@@ -8,17 +8,16 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 
-//import bbdd.Datos;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.ExceptionListener;
+import bbdd.Datos;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.text.AbstractDocument.BranchElement;
 
 
 public class VentanaNuevaPartida extends JFrame implements ActionListener{
@@ -27,7 +26,9 @@ public class VentanaNuevaPartida extends JFrame implements ActionListener{
 	private ImageIcon fondo;
 	private JLabel texto;
 	private JTextField nameTexto;
-	//private Datos datos;
+	private Datos datos;
+	private int id;
+
 	
 	VentanaNuevaPartida() {
 		//datos = new Datos();
@@ -82,7 +83,6 @@ public class VentanaNuevaPartida extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		
 		if (e.getSource()==bCrearPartida) {
-			//datos = new Datos();
 			try {
 				
 				String name = nameTexto.getText();
@@ -91,7 +91,13 @@ public class VentanaNuevaPartida extends JFrame implements ActionListener{
 					
 				}else {
 					System.out.println("Creando nueva partida");
-					//datos.crearNuevaPartida(name);
+
+					int id =datos.crearNuevaPartida(name);
+					System.out.println("El ID de la nueva partida es: "+id);
+					setId(id);
+					dispose();
+					new VentanaPartida();
+
 				}
 			} catch (TextoEnBlanco e2) {
 				System.out.println("El texto está vacio");
@@ -102,6 +108,13 @@ public class VentanaNuevaPartida extends JFrame implements ActionListener{
 				new VentanaInicio();
 			}
 		}
+	
+	public int getId() {
+		return id;
+	}
+	private void setId(int id) {
+		this.id=id;
+	}
 	}
 		
 
