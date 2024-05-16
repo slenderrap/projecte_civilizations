@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 
-import bbdd.Datos;
+//import bbdd.Datos;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.ExceptionListener;
@@ -27,10 +27,10 @@ public class VentanaNuevaPartida extends JFrame implements ActionListener{
 	private ImageIcon fondo;
 	private JLabel texto;
 	private JTextField nameTexto;
-	private Datos datos;
+	//private Datos datos;
 	
 	VentanaNuevaPartida() {
-		datos = new Datos();
+		//datos = new Datos();
 		
 		setSize(500, 500);
 		setLocationRelativeTo(null); // Para que se salga centrada la ventana
@@ -91,7 +91,7 @@ public class VentanaNuevaPartida extends JFrame implements ActionListener{
 					
 				}else {
 					System.out.println("Creando nueva partida");
-					datos.crearNuevaPartida(name);
+					//datos.crearNuevaPartida(name);
 				}
 			} catch (TextoEnBlanco e2) {
 				System.out.println("El texto está vacio");
