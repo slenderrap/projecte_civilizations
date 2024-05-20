@@ -20,10 +20,11 @@ import javax.swing.JTabbedPane;
 public class VentanaPartida extends JFrame {
 	private JPanel principalPanel, lateralPanel, recursosPanel, civilizationPanel, armyPanel, shopPanel, battlegroundPanel;
 	private JTabbedPane tabbedPane;
-	private JLabel lFood, lWood, lIron, lMana, lAttack, lDefense, lBattles;
-	private JLabel lFarm, lSmithy, lCarpentry, lChurch, lMagicTower;
+	private JLabel lFood, lWood, lIron, lMana, lAttack, lDefense, lBattles; //labels para resources
+	private JLabel lFarm, lSmithy, lCarpentry, lChurch, lMagicTower; //labels para buildings
+	private JLabel lSwordsman, lSpearman, lCrossbow, lCannon, lArrowTower, lCatapult, lRocketLauncherTower, lMagician, lPriest; //labels para army
 	private JButton nuevaPartidaButton, continuarPartidaButton, salirButton;
-	private ImageIcon fondo, fondoPanel;
+	private ImageIcon fondo, fondoCivilizationPanel, fondoArmyPanel;
 
 	VentanaPartida() {
 		setSize(1200, 700);
@@ -32,7 +33,8 @@ public class VentanaPartida extends JFrame {
 		
 
 		//PANEL PRINCIPAL
-		fondo = new ImageIcon("src/front/img/MapaMesa.png"); //añadimos imagen de fondo
+		fondo = new ImageIcon("src/front/img/BackgroundTablaPergamino.png"); //añadimos imagen de fondo
+		//fondo = new ImageIcon("src/front/img/MapaMesa.png"); // IGNORAR este es para hacer cosas de photoshop
 		
 		principalPanel = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
@@ -57,19 +59,90 @@ public class VentanaPartida extends JFrame {
 		lateralPanel.add(recursosPanel);
 		recursosPanel.setOpaque(false);
 		lateralPanel.setBorder(BorderFactory.createEmptyBorder(90, 60, 0, 0));
+		
+		
+		//COSAS DEL PANEL RECURSOS -------------------------------------------
+		//LABELS PANEL LATERAL RECURSOS
+		lFood = new JLabel("1.000.000.000");
+		lWood = new JLabel("20000");
+		lIron = new JLabel("30000");
+		lMana = new JLabel("40000");
+		lAttack = new JLabel("50000");
+		lDefense = new JLabel("60000");
+		lBattles = new JLabel("70000");
+		
+		//cambiar fuente y color
+		lFood.setFont(new Font("Times New Roman", Font.BOLD, 16));
+		lWood.setFont(new Font("Times New Roman", Font.BOLD, 16));
+		lIron.setFont(new Font("Times New Roman", Font.BOLD, 16));
+		lMana.setFont(new Font("Times New Roman", Font.BOLD, 16));
+		lAttack.setFont(new Font("Times New Roman", Font.BOLD, 16));
+		lDefense.setFont(new Font("Times New Roman", Font.BOLD, 16));
+		lBattles.setFont(new Font("Times New Roman", Font.BOLD, 16));
+		lFood.setForeground(new Color(076,051,026));
+		lWood.setForeground(new Color(076,051,026));
+		lIron.setForeground(new Color(076,051,026));
+		lMana.setForeground(new Color(076,051,026));
+		lAttack.setForeground(new Color(076,051,026));
+		lDefense.setForeground(new Color(076,051,026));
+		lBattles.setForeground(new Color(076,051,026));
+		
+		//añadir labels al panel recursos
+		recursosPanel.add(lFood);
+		recursosPanel.add(lWood);
+		recursosPanel.add(lIron);
+		recursosPanel.add(lMana);
+		recursosPanel.add(lAttack);
+		recursosPanel.add(lDefense);
+		recursosPanel.add(lBattles);
+		
+		//mover labels a su sitio en coordenadas
+		Insets insets = recursosPanel.getInsets();
+		Dimension size = lFood.getPreferredSize();
+		lFood.setBounds(50 + insets.left, 80 + insets.top,
+		             size.width, size.height);
+		size = lWood.getPreferredSize();
+		lWood.setBounds(50 + insets.left, 115 + insets.top,
+		             size.width, size.height);
+		size = lIron.getPreferredSize();
+		lIron.setBounds(50 + insets.left, 150 + insets.top,
+		             size.width, size.height);
+		size = lMana.getPreferredSize();
+		lMana.setBounds(50 + insets.left, 185 + insets.top,
+		             size.width, size.height);
+		size = lAttack.getPreferredSize();
+		lAttack.setBounds(50 + insets.left, 300 + insets.top,
+		             size.width, size.height);
+		size = lDefense.getPreferredSize();
+		lDefense.setBounds(50 + insets.left, 335 + insets.top,
+		             size.width, size.height);
+		size = lBattles.getPreferredSize();
+		lBattles.setBounds(50 + insets.left, 450 + insets.top,
+		             size.width, size.height);
+		// fin de panel recursos ------------------------------------------------------------------------
 				
+		
 		
 		//PANELES PARA EL TABBED PANE
 		//civilizationPanel = new JPanel();
-		fondoPanel = new ImageIcon("src/front/img/prueba.png"); //añadimos imagen de fondo
+		fondoCivilizationPanel = new ImageIcon("src/front/img/BackgroundCivilization.png"); //añadimos imagen de fondo
 		
 		civilizationPanel = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(fondoPanel.getImage(), 0, 0, getWidth(), getHeight(), this);
+				g.drawImage(fondoCivilizationPanel.getImage(), 0, 0, getWidth(), getHeight(), this);
 			}
 		};		
-		armyPanel = new JPanel();
+		
+		fondoArmyPanel = new ImageIcon("src/front/img/BackgroundArmy.png"); //añadimos imagen de fondo
+		
+		armyPanel = new JPanel(new BorderLayout()) {
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(fondoArmyPanel.getImage(), 0, 0, getWidth(), getHeight(), this);
+			}
+		};
+		//armyPanel = new JPanel();
 		shopPanel = new JPanel();
 		battlegroundPanel = new JPanel();	
 		
@@ -84,60 +157,6 @@ public class VentanaPartida extends JFrame {
 		
 		
 		
-		//COSAS DEL PANEL RECURSOS -------------------------------------------
-		//LABELS PANEL LATERAL RECURSOS
-		lFood = new JLabel("1.000.000.000");
-		lWood = new JLabel("20000");
-		lIron = new JLabel("30000");
-		lMana = new JLabel("40000");
-		lAttack = new JLabel("50000");
-		lDefense = new JLabel("60000");
-		lBattles = new JLabel("70000");
-		
-		//cambiar fuente
-		lFood.setFont(new Font("Times New Roman", Font.BOLD, 16));
-		lWood.setFont(new Font("Times New Roman", Font.BOLD, 16));
-		lIron.setFont(new Font("Times New Roman", Font.BOLD, 16));
-		lMana.setFont(new Font("Times New Roman", Font.BOLD, 16));
-		lAttack.setFont(new Font("Times New Roman", Font.BOLD, 16));
-		lDefense.setFont(new Font("Times New Roman", Font.BOLD, 16));
-		lBattles.setFont(new Font("Times New Roman", Font.BOLD, 16));
-		
-		//añadir labels al panel recursos
-		recursosPanel.add(lFood);
-		recursosPanel.add(lWood);
-		recursosPanel.add(lIron);
-		recursosPanel.add(lMana);
-		recursosPanel.add(lAttack);
-		recursosPanel.add(lDefense);
-		recursosPanel.add(lBattles);
-		
-		//mover labels a su sitio en coordenadas
-		Insets insets = recursosPanel.getInsets();
-		Dimension size = lFood.getPreferredSize();
-		lFood.setBounds(45 + insets.left, 80 + insets.top,
-		             size.width, size.height);
-		size = lWood.getPreferredSize();
-		lWood.setBounds(45 + insets.left, 115 + insets.top,
-		             size.width, size.height);
-		size = lIron.getPreferredSize();
-		lIron.setBounds(45 + insets.left, 150 + insets.top,
-		             size.width, size.height);
-		size = lMana.getPreferredSize();
-		lMana.setBounds(45 + insets.left, 185 + insets.top,
-		             size.width, size.height);
-		size = lAttack.getPreferredSize();
-		lAttack.setBounds(45 + insets.left, 310 + insets.top,
-		             size.width, size.height);
-		size = lDefense.getPreferredSize();
-		lDefense.setBounds(45 + insets.left, 345 + insets.top,
-		             size.width, size.height);
-		size = lBattles.getPreferredSize();
-		lBattles.setBounds(45 + insets.left, 450 + insets.top,
-		             size.width, size.height);
-		//------------------------------------------------------------------------
-		
-		
 		
 		//COSAS DEL PANEL CIVILIZATION -------------------------------------------
 		//LABELS CIVILIZATION
@@ -147,12 +166,17 @@ public class VentanaPartida extends JFrame {
 		lChurch = new JLabel("4");
 		lMagicTower = new JLabel("5");
 		
-		//cambiar fuente
+		//cambiar fuente y color
 		lFarm.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		lSmithy.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		lCarpentry.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		lChurch.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		lMagicTower.setFont(new Font("Times New Roman", Font.BOLD, 16));
+		lFarm.setForeground(new Color(076,051,026));
+		lSmithy.setForeground(new Color(076,051,026));
+		lCarpentry.setForeground(new Color(076,051,026));
+		lChurch.setForeground(new Color(076,051,026));
+		lMagicTower.setForeground(new Color(076,051,026));
 		
 		//añadir al panel Civilization
 		civilizationPanel.add(lFarm);
@@ -166,22 +190,101 @@ public class VentanaPartida extends JFrame {
 		
 		insets = civilizationPanel.getInsets();
 		size = lFarm.getPreferredSize();
-		lFarm.setBounds(403 + insets.left, 380 + insets.top,
+		lFarm.setBounds(403 + insets.left, 370 + insets.top,
 		             size.width, size.height);
 		size = lSmithy.getPreferredSize();
-		lSmithy.setBounds(618 + insets.left, 285 + insets.top,
+		lSmithy.setBounds(613 + insets.left, 275 + insets.top,
 		             size.width, size.height);
 		size = lCarpentry.getPreferredSize();
-		lCarpentry.setBounds(233 + insets.left, 317 + insets.top,
+		lCarpentry.setBounds(235 + insets.left, 309 + insets.top,
 		             size.width, size.height);
 		size = lChurch.getPreferredSize();
-		lChurch.setBounds(402 + insets.left, 170 + insets.top,
+		lChurch.setBounds(400 + insets.left, 161 + insets.top,
 		             size.width, size.height);
 		size = lMagicTower.getPreferredSize();
-		lMagicTower.setBounds(185 + insets.left, 118 + insets.top,
+		lMagicTower.setBounds(187 + insets.left, 111 + insets.top,
 		             size.width, size.height);
-		//------------------------------------------------------------------------
+		//fin de CIVILIZATION------------------------------------------------------------------------
 		
+		
+		
+		// COSAS DEL PANEL ARMY -------------------------------------------------------
+		
+		//LABELS ARMY
+		lSwordsman = new JLabel("1");
+		lSpearman = new JLabel("2");
+		lCrossbow = new JLabel("3");
+		lCannon = new JLabel("4");
+		lArrowTower = new JLabel("5");
+		lCatapult = new JLabel("6");
+		lRocketLauncherTower = new JLabel("7");
+		lMagician = new JLabel("8");
+		lPriest = new JLabel("9");
+		
+		//cambiar fuente y color
+		lSwordsman.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		lSpearman.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		lCrossbow.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		lCannon.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		lArrowTower.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		lCatapult.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		lRocketLauncherTower.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		lMagician.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		lPriest.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		
+		lSwordsman.setForeground(new Color(076,051,026));
+		lSpearman.setForeground(new Color(076,051,026));
+		lCrossbow.setForeground(new Color(076,051,026));
+		lCannon.setForeground(new Color(076,051,026));
+		lArrowTower.setForeground(new Color(076,051,026));
+		lCatapult.setForeground(new Color(076,051,026));
+		lRocketLauncherTower.setForeground(new Color(076,051,026));
+		lMagician.setForeground(new Color(076,051,026));
+		lPriest.setForeground(new Color(076,051,026));
+		
+		//añadir al panel Civilization
+		armyPanel.add(lSwordsman);
+		armyPanel.add(lSpearman);
+		armyPanel.add(lCrossbow);
+		armyPanel.add(lCannon);
+		armyPanel.add(lArrowTower);
+		armyPanel.add(lCatapult);
+		armyPanel.add(lRocketLauncherTower);
+		armyPanel.add(lMagician);
+		armyPanel.add(lPriest);
+		
+		//mover labels a su sitio en coordenadas
+		armyPanel.setLayout(null);
+		
+		insets = armyPanel.getInsets();
+		size = lSwordsman.getPreferredSize();
+		lSwordsman.setBounds(200 + insets.left, 115 + insets.top,
+		             size.width, size.height);
+		size = lSpearman.getPreferredSize();
+		lSpearman.setBounds(200 + insets.left, 247 + insets.top,
+		             size.width, size.height);
+		size = lCrossbow.getPreferredSize();
+		lCrossbow.setBounds(200 + insets.left, 383 + insets.top,
+		             size.width, size.height);
+		size = lCannon.getPreferredSize();
+		lCannon.setBounds(200 + insets.left, 512 + insets.top,
+		             size.width, size.height);
+		size = lArrowTower.getPreferredSize();
+		lArrowTower.setBounds(442 + insets.left, 115 + insets.top,
+		             size.width, size.height);
+		size = lCatapult.getPreferredSize();
+		lCatapult.setBounds(442 + insets.left, 247 + insets.top,
+		             size.width, size.height);
+		size = lRocketLauncherTower.getPreferredSize();
+		lRocketLauncherTower.setBounds(442 + insets.left, 383 + insets.top,
+		             size.width, size.height);
+		size = lMagician.getPreferredSize();
+		lMagician.setBounds(683 + insets.left, 115 + insets.top,
+		             size.width, size.height);
+		size = lPriest.getPreferredSize();
+		lPriest.setBounds(683 + insets.left, 247 + insets.top,
+		             size.width, size.height);
+		// fin de ARMY------------------------------------------------------------------------
 		
 		
 		
