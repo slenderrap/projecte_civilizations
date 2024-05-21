@@ -26,7 +26,6 @@ public class Datos {
 	
 	public int crearNuevaPartida(String name) {
 		try {
-			System.out.println(name);
 			String insert = "Insert into Civilization_stats(\"name\") values(?)";
 			
 			PreparedStatement ps = conn.prepareStatement(insert,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
@@ -99,7 +98,6 @@ public class Datos {
 
 				}
 			}
-			System.out.println(partida.size());
 
 			return partida;
 		} catch (Exception e) {

@@ -60,7 +60,7 @@ public class Civilization implements Variables{
 		this.carpentry = Integer.parseInt(infoPartida.get(10));
 		this.technologyDefense = Integer.parseInt(infoPartida.get(11));
 		this.technologyAttack = Integer.parseInt(infoPartida.get(12));
-		this.technologyAttack = Integer.parseInt(infoPartida.get(12));
+		this.battles= Integer.parseInt(infoPartida.get(13));
 		System.out.println("aqui si");
 		this.army = army;
 		

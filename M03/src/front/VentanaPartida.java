@@ -41,7 +41,7 @@ public class VentanaPartida extends JFrame {
 		
 		
 	
-		datosDominio = new ControladorDominio();
+		datosDominio = new ControladorDominio(id);
 		datosDominio.iniciarPartida();
 		
 		
