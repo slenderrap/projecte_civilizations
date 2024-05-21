@@ -46,8 +46,6 @@ public class VentanaPartida extends JFrame {
 		
 		civilization = new Civilization(id);
 		
-		
-		
 	
 		datosDominio = new ControladorDominio(id);
 		datosDominio.iniciarPartida();
