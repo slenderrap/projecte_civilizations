@@ -8,6 +8,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -17,20 +19,32 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import game.Civilization;
+import game.ControladorDominio;
+
 public class VentanaPartida extends JFrame {
 	private JPanel principalPanel, lateralPanel, recursosPanel, civilizationPanel, armyPanel, shopPanel, battlegroundPanel;
 	private JTabbedPane tabbedPane;
 	private JLabel lFood, lWood, lIron, lMana, lAttack, lDefense, lBattles;
 	private JLabel lFarm, lSmithy, lCarpentry, lChurch, lMagicTower;
-	private JButton nuevaPartidaButton, continuarPartidaButton, salirButton;
 	private ImageIcon fondo, fondoPanel;
-
-	VentanaPartida() {
+	private int id;
+	private Civilization civilization;
+	private ControladorDominio datosDominio;
+	public VentanaPartida(int id) {
 		setSize(1200, 700);
 		setLocationRelativeTo(null);
 		setTitle("CIVILIZATIONS");
 		
-
+		civilization = new Civilization(id);
+		
+		
+		
+	
+		datosDominio = new ControladorDominio();
+		datosDominio.iniciarPartida();
+		
+		
 		//PANEL PRINCIPAL
 		fondo = new ImageIcon("src/front/img/MapaMesa.png"); //añadimos imagen de fondo
 		
@@ -211,5 +225,8 @@ public class VentanaPartida extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setVisible(true);
+		
 	}
+	
+	
 }
