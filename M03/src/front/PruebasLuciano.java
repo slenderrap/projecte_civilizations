@@ -19,10 +19,12 @@ public class PruebasLuciano implements Variables {
 		Civilization civilization = new Civilization();
 		Battle Battle = new Battle();
 
-		civilization.setWood(999);
-		civilization.setIron(999);
-		civilization.setFood(999);
-		civilization.setMana(999);
+		civilization.setWood(99);
+		civilization.setIron(99);
+		civilization.setFood(99);
+		civilization.setMana(99);
+
+		System.out.println(civilization.getIron());
 
 		civilization.getArmy()[0].add(new Swordsman());
 		civilization.getArmy()[0].add(new Swordsman());
