@@ -11,7 +11,10 @@ import javax.swing.ImageIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.ExceptionListener;
-import bbdd.Datos;
+import java.util.Timer;
+
+import game.ControladorDominio;
+import game.TimerPersonalizado;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -26,13 +29,13 @@ public class VentanaNuevaPartida extends JFrame implements ActionListener{
 	private ImageIcon fondo;
 	private JLabel texto;
 	private JTextField nameTexto;
-	private Datos datos;
+	private ControladorDominio datosDominio;
 	private int id;
 
 	
-	VentanaNuevaPartida() {
+	public VentanaNuevaPartida() {
 		//datos = new Datos();
-		
+		datosDominio = new ControladorDominio();
 		setSize(500, 500);
 		setLocationRelativeTo(null); // Para que se salga centrada la ventana
 		setTitle("New Game");
@@ -92,11 +95,12 @@ public class VentanaNuevaPartida extends JFrame implements ActionListener{
 				}else {
 					System.out.println("Creando nueva partida");
 
-					int id =datos.crearNuevaPartida(name);
+					int id =datosDominio.crearPartida(name);
 					System.out.println("El ID de la nueva partida es: "+id);
 					setId(id);
 					dispose();
-					new VentanaPartida();
+					
+					new VentanaPartida(id);
 
 				}
 			} catch (TextoEnBlanco e2) {

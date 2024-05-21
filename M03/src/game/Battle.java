@@ -30,8 +30,6 @@ public class Battle implements Variables {
 	private int[][] initialArmies = new int[2][9]; // Cuantifica cada tipo de unidad de los ejercitos iniciales
 	private int[] actualNumberUnitsCivilization = new int[9], actualNumberUnitsEnemy = new int[9]; // Cuantifica cada tipo de unidad de los
 																									// ejercitos actuales // son 4
-	private int primerGolpe;
-
 	private Random random = new Random();
 	private Civilization civilization = new Civilization();
 
@@ -218,8 +216,6 @@ public class Battle implements Variables {
 	public int getPrimerGolpe() {
 		return primerGolpe;
 	}
-
-	public void setPrimerGolpe(int primerGolpe) {
 		this.primerGolpe = primerGolpe;
 	}
 

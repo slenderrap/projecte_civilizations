@@ -8,7 +8,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
-
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -23,6 +24,8 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 
+import game.TimerPersonalizado;
+
 
 public class VentanaInicio extends JFrame implements ActionListener{
 	private JPanel pInicio, pNuevaPartida, pContinuarPartida, pCreditos, pSalir, pVacio;
@@ -30,7 +33,9 @@ public class VentanaInicio extends JFrame implements ActionListener{
 	private ImageIcon fondo, iNuevaPartida, iContinuarPartida, iCreditos, iSalir;
 
 
-	VentanaInicio() {
+	public VentanaInicio() {
+		
+		
 		setSize(500, 500);
 		setLocationRelativeTo(null); // Para que se salga centrada la ventana
 		setTitle("Civilizations");
@@ -85,7 +90,7 @@ public class VentanaInicio extends JFrame implements ActionListener{
 		
 		//Inicializamos las imagenes para botones
 		iNuevaPartida = new ImageIcon("src/front/img/NewGame.png");
-		iContinuarPartida = new ImageIcon("src/front/img/Cotinue.png");
+		iContinuarPartida = new ImageIcon("src/front/img/Continue.png");
 		iCreditos = new ImageIcon("src/front/img/Credits.png");
 		iSalir = new ImageIcon("src/front/img/Exit.png");
 		
@@ -126,7 +131,8 @@ public class VentanaInicio extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		
 		if (e.getSource()==bNuevaPartida) {
-			new VentanaNuevaPartida();
+			VentanaNuevaPartida vnp= new VentanaNuevaPartida();
+			
 			this.dispose();
 		}else if (e.getSource()==bContinuarPartida) {
 			new VentanaContinue();

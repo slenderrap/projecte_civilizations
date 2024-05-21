@@ -16,6 +16,7 @@ import game.defenseUnities.RocketLauncherTower;
 import game.specialUnities.Magician;
 import game.specialUnities.Priest;
 import game.specialUnities.SpecialUnit;
+import game.ControladorDominio;
 
 public class Civilization implements Variables{
 
@@ -32,27 +33,35 @@ public class Civilization implements Variables{
 	private int farm;
 	private int smithy;
 	private int carpentry;
-	
+	private ControladorDominio datosDominio;
+	private int id;
 	private int battles;
 	private ArrayList<MilitaryUnit>[] army = new ArrayList[9];
 	
 	
 	
 	
-	public Civilization() {
+	public Civilization(int id) {
+		
+		
 		super();
-		this.technologyDefense = 1;
-		this.technologyAttack = 1;
-		this.wood = 0;
-		this.iron = 0;
-		this.food = 0;
-		this.mana = 0;
-		this.magicTower = 0;
-		this.church = 0;
-		this.farm = 0;
-		this.smithy = 0;
-		this.carpentry = 0;
-		this.battles = 0;
+		
+		this.id = id;
+		datosDominio = new ControladorDominio(id);
+		ArrayList<String> infoPartida = datosDominio.cargarPartida(id);
+		this.wood = Integer.parseInt(infoPartida.get(2));
+		this.iron = Integer.parseInt(infoPartida.get(3));
+		this.food = Integer.parseInt(infoPartida.get(4));
+		this.mana = Integer.parseInt(infoPartida.get(5));
+		this.magicTower = Integer.parseInt(infoPartida.get(6));
+		this.church = Integer.parseInt(infoPartida.get(7));
+		this.farm = Integer.parseInt(infoPartida.get(8));
+		this.smithy = Integer.parseInt(infoPartida.get(9));
+		this.carpentry = Integer.parseInt(infoPartida.get(10));
+		this.technologyDefense = Integer.parseInt(infoPartida.get(11));
+		this.technologyAttack = Integer.parseInt(infoPartida.get(12));
+		this.battles= Integer.parseInt(infoPartida.get(13));
+		System.out.println("aqui si");
 		this.army = army;
 		
 		for (int i=0; i<9;i++) {
@@ -142,6 +151,11 @@ public class Civilization implements Variables{
 	
 	
 	//METODOS CREAR -------------------------------------------
+	
+	
+	//empieza la partida
+	
+	
 	
 	//nueva CHURCH
 	public void newChurch() throws ResourceException {

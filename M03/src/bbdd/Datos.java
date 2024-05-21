@@ -26,7 +26,6 @@ public class Datos {
 	
 	public int crearNuevaPartida(String name) {
 		try {
-			System.out.println(name);
 			String insert = "Insert into Civilization_stats(\"name\") values(?)";
 			
 			PreparedStatement ps = conn.prepareStatement(insert,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
@@ -60,7 +59,7 @@ public class Datos {
 		ArrayList<String[]> resultados = new ArrayList<>();  
 		
 		try {
-			String search = "select id_civilization,\"name\",battles_counter from civilization_stats where lower(\"name\") like lower('%"+name+"%')";
+			String search = "select id_civilization,\"name\",battles_counter from civilization_stats where lower(\"name\") like lower('%"+name+"%')order by \"name\"";
 			Statement st = conn.createStatement();
 			String[] fila = new String[3];  
 			ResultSet rs  = st.executeQuery(search);
@@ -68,12 +67,10 @@ public class Datos {
 				fila[0]= String.valueOf(rs.getInt(1));
 				fila[1]= rs.getString(2);
 				fila[2]= String.valueOf(rs.getInt(3));
-				System.out.println(fila.toString());
 				resultados.add(fila);
-				System.out.println("fila numero"+resultados.size()+": "+fila[0]+fila[1]+fila[2]);
+				System.out.println("fila numero"+resultados.size()+": {id: "+fila[0]+", nombre: "+fila[1]+", batallas realizadas: "+fila[2]+"}");
 			}
 			
-			System.out.println(resultados.toString());
 			return resultados;
 		} catch (Exception e) {
 			System.out.println("error!!!!");
@@ -82,18 +79,22 @@ public class Datos {
 
 	}
 	
-	public ArrayList<String> seleccionarPartida(int id) {
+	public ArrayList<String> cargarPartida(int id) {
 		ArrayList<String> partida = new ArrayList<String>();
 		try {
 			String search = "select * from civilization_stats where id_civilization = "+id;
 			Statement st = conn.createStatement();
 			ResultSet rs  = st.executeQuery(search);
+			
 			rs.next();
-			for (int i=1;i<10;i++) {
+			for (int i=1;i<15;i++) {
 				if (partida.size()!=1) {
 					partida.add(String.valueOf(rs.getInt(i)));
+					System.out.println(rs.getInt(i));
+					
 				}else {
 					partida.add(rs.getString(i));
+					System.out.println(rs.getString(i));
 
 				}
 			}
@@ -107,4 +108,20 @@ public class Datos {
 		
 	}
 	
+	public void borrarPartida(int id) {
+		try {
+			String delete = "delete from civilization_stats where id_civilization = ?";
+			PreparedStatement ps = conn.prepareStatement(delete);
+			
+			ps.setInt(1, id);
+			ps.executeUpdate();
+			System.out.println("Partida eliminada");
+			
+		} catch (Exception e) {
+			System.out.println("*******\nError!\nEl ID "+id+" no existe!\n*******");
+			
+		}
+		
+	}
 	
+}
