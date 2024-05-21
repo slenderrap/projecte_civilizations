@@ -90,7 +90,7 @@ public class VentanaInicio extends JFrame implements ActionListener{
 		
 		//Inicializamos las imagenes para botones
 		iNuevaPartida = new ImageIcon("src/front/img/NewGame.png");
-		iContinuarPartida = new ImageIcon("src/front/img/Cotinue.png");
+		iContinuarPartida = new ImageIcon("src/front/img/Continue.png");
 		iCreditos = new ImageIcon("src/front/img/Credits.png");
 		iSalir = new ImageIcon("src/front/img/Exit.png");
 		
