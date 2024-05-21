@@ -23,8 +23,12 @@ public class VentanaPartida extends JFrame {
 	private JLabel lFood, lWood, lIron, lMana, lAttack, lDefense, lBattles; //labels para resources
 	private JLabel lFarm, lSmithy, lCarpentry, lChurch, lMagicTower; //labels para buildings
 	private JLabel lSwordsman, lSpearman, lCrossbow, lCannon, lArrowTower, lCatapult, lRocketLauncherTower, lMagician, lPriest; //labels para army
+	private JLabel lAttackFoodCost, lAttackWoodCost, lAttackIronCost, lDefenseFoodCost, lDefenseWoodCost, lDefenseIronCost; //labels shop coste de tecnologias
+	private JButton bBuyFarm, bBuySmithy, bBuyCarpentry, bBuyMagicTower, bBuyChurch; //botones shop buy buildings
+	private JButton bBuySwordsman, bBuySpearman, bBuyCrossbow, bBuyCannon, bBuyArrowTower, bBuyCatapult, bBuyRocketLauncher, bBuyMagician, bBuyPriest; //botones shop buy army
+	private JButton bBuyAttack, bBuyDefense; //botones shop buy tecnologias
 	private JButton nuevaPartidaButton, continuarPartidaButton, salirButton;
-	private ImageIcon fondo, fondoCivilizationPanel, fondoArmyPanel;
+	private ImageIcon fondo, fondoCivilizationPanel, fondoArmyPanel, fondoShopPanel;
 
 	VentanaPartida() {
 		setSize(1200, 700);
@@ -34,7 +38,7 @@ public class VentanaPartida extends JFrame {
 
 		//PANEL PRINCIPAL
 		fondo = new ImageIcon("src/front/img/BackgroundTablaPergamino.png"); //añadimos imagen de fondo
-		//fondo = new ImageIcon("src/front/img/MapaMesa.png"); // IGNORAR este es para hacer cosas de photoshop
+		//fondo = new ImageIcon("src/front/img/PergaminoShop.png"); // IGNORAR este es para hacer cosas de photoshop
 		
 		principalPanel = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
@@ -124,9 +128,7 @@ public class VentanaPartida extends JFrame {
 		
 		
 		//PANELES PARA EL TABBED PANE
-		//civilizationPanel = new JPanel();
 		fondoCivilizationPanel = new ImageIcon("src/front/img/BackgroundCivilization.png"); //añadimos imagen de fondo
-		
 		civilizationPanel = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
@@ -135,15 +137,21 @@ public class VentanaPartida extends JFrame {
 		};		
 		
 		fondoArmyPanel = new ImageIcon("src/front/img/BackgroundArmy.png"); //añadimos imagen de fondo
-		
 		armyPanel = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				g.drawImage(fondoArmyPanel.getImage(), 0, 0, getWidth(), getHeight(), this);
 			}
 		};
-		//armyPanel = new JPanel();
-		shopPanel = new JPanel();
+		fondoShopPanel = new ImageIcon("src/front/img/BackgroundShop.png"); //añadimos imagen de fondo
+		
+		shopPanel = new JPanel(new BorderLayout()) {
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(fondoShopPanel.getImage(), 0, 0, getWidth(), getHeight(), this);
+			}
+		};
+		
 		battlegroundPanel = new JPanel();	
 		
 		
@@ -209,7 +217,6 @@ public class VentanaPartida extends JFrame {
 		
 		
 		// COSAS DEL PANEL ARMY -------------------------------------------------------
-		
 		//LABELS ARMY
 		lSwordsman = new JLabel("1");
 		lSpearman = new JLabel("2");
@@ -242,7 +249,7 @@ public class VentanaPartida extends JFrame {
 		lMagician.setForeground(new Color(076,051,026));
 		lPriest.setForeground(new Color(076,051,026));
 		
-		//añadir al panel Civilization
+		//añadir al panel Army
 		armyPanel.add(lSwordsman);
 		armyPanel.add(lSpearman);
 		armyPanel.add(lCrossbow);
@@ -286,6 +293,275 @@ public class VentanaPartida extends JFrame {
 		             size.width, size.height);
 		// fin de ARMY------------------------------------------------------------------------
 		
+		
+		
+		
+		// COSAS DEL PANEL SHOP -------------------------------------------------------
+		//LABELS SHOP
+		lAttackFoodCost = new JLabel("100");
+		lAttackWoodCost = new JLabel("200");
+		lAttackIronCost = new JLabel("300");
+		lDefenseFoodCost = new JLabel("400");
+		lDefenseWoodCost = new JLabel("500");
+		lDefenseIronCost = new JLabel("600");
+		
+		//cambiar fuente y color
+		lAttackFoodCost.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		lAttackWoodCost.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		lAttackIronCost.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		lDefenseFoodCost.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		lDefenseWoodCost.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		lDefenseIronCost.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		
+		lAttackFoodCost.setForeground(new Color(076,051,026));
+		lAttackWoodCost.setForeground(new Color(076,051,026));
+		lAttackIronCost.setForeground(new Color(076,051,026));
+		lDefenseFoodCost.setForeground(new Color(076,051,026));
+		lDefenseWoodCost.setForeground(new Color(076,051,026));
+		lDefenseIronCost.setForeground(new Color(076,051,026));
+
+		
+		//añadir al panel Shop
+		shopPanel.add(lAttackFoodCost);
+		shopPanel.add(lAttackWoodCost);
+		shopPanel.add(lAttackIronCost);
+		shopPanel.add(lDefenseFoodCost);
+		shopPanel.add(lDefenseWoodCost);
+		shopPanel.add(lDefenseIronCost);
+		
+		//mover labels a su sitio en coordenadas
+		shopPanel.setLayout(null);
+		
+		insets = shopPanel.getInsets();
+		size = lAttackFoodCost.getPreferredSize();
+		lAttackFoodCost.setBounds(377 + insets.left, 485 + insets.top,
+		             size.width, size.height);
+		size = lAttackWoodCost.getPreferredSize();
+		lAttackWoodCost.setBounds(377 + insets.left, 513 + insets.top,
+		             size.width, size.height);
+		size = lAttackIronCost.getPreferredSize();
+		lAttackIronCost.setBounds(442 + insets.left, 485 + insets.top,
+		             size.width, size.height);
+		size = lDefenseFoodCost.getPreferredSize();
+		lDefenseFoodCost.setBounds(377 + insets.left, 570 + insets.top,
+		             size.width, size.height);
+		size = lDefenseWoodCost.getPreferredSize();
+		lDefenseWoodCost.setBounds(377 + insets.left, 598 + insets.top,
+		             size.width, size.height);
+		size = lDefenseIronCost.getPreferredSize();
+		lDefenseIronCost.setBounds(442 + insets.left, 570 + insets.top,
+		             size.width, size.height);
+		
+		
+		
+		//BUTTONS SHOP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		bBuyFarm = new JButton("Buy1");
+		bBuySmithy = new JButton("Buy2");
+		bBuyCarpentry = new JButton("Buy3");
+		bBuyMagicTower = new JButton("Buy4");
+		bBuyChurch = new JButton("Buy5");
+
+		bBuySwordsman = new JButton("Buy1");
+		bBuySpearman = new JButton("Buy2");
+		bBuyCrossbow = new JButton("Buy3");
+		bBuyCannon = new JButton("Buy4");
+		bBuyArrowTower = new JButton("Buy5");
+		bBuyCatapult = new JButton("Buy6");
+		bBuyRocketLauncher = new JButton("Buy7");
+		bBuyMagician = new JButton("Buy8");
+		bBuyPriest = new JButton("Buy9");
+
+		bBuyAttack = new JButton("Buy1");
+		bBuyDefense = new JButton("Buy2");
+		
+		
+		//cambiar fuente,  color, background
+		bBuyFarm.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		bBuySmithy.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		bBuyCarpentry.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		bBuyMagicTower.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		bBuyChurch.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		
+		bBuySwordsman.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		bBuySpearman.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		bBuyCrossbow.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		bBuyCannon.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		bBuyArrowTower.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		bBuyCatapult.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		bBuyRocketLauncher.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		bBuyMagician.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		bBuyPriest.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		
+		bBuyAttack.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		bBuyDefense.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		
+		bBuyFarm.setForeground(Color.WHITE);
+		bBuySmithy.setForeground(Color.WHITE);
+		bBuyCarpentry.setForeground(Color.WHITE);
+		bBuyMagicTower.setForeground(Color.WHITE);
+		bBuyChurch.setForeground(Color.WHITE);
+		
+		bBuySwordsman.setForeground(Color.WHITE);
+		bBuySpearman.setForeground(Color.WHITE);
+		bBuyCrossbow.setForeground(Color.WHITE);
+		bBuyCannon.setForeground(Color.WHITE);
+		bBuyArrowTower.setForeground(Color.WHITE);
+		bBuyCatapult.setForeground(Color.WHITE);
+		bBuyRocketLauncher.setForeground(Color.WHITE);
+		bBuyMagician.setForeground(Color.WHITE);
+		bBuyPriest.setForeground(Color.WHITE);
+
+		bBuyAttack.setForeground(Color.WHITE);
+		bBuyDefense.setForeground(Color.WHITE);
+		
+		bBuyFarm.setBackground(new Color(076,051,026));
+		bBuySmithy.setBackground(new Color(076,051,026));
+		bBuyCarpentry.setBackground(new Color(076,051,026));
+		bBuyMagicTower.setBackground(new Color(076,051,026));
+		bBuyChurch.setBackground(new Color(076,051,026));
+		
+		bBuySwordsman.setBackground(new Color(076,051,026));
+		bBuySpearman.setBackground(new Color(076,051,026));
+		bBuyCrossbow.setBackground(new Color(076,051,026));
+		bBuyCannon.setBackground(new Color(076,051,026));
+		bBuyArrowTower.setBackground(new Color(076,051,026));
+		bBuyCatapult.setBackground(new Color(076,051,026));
+		bBuyRocketLauncher.setBackground(new Color(076,051,026));
+		bBuyMagician.setBackground(new Color(076,051,026));
+		bBuyPriest.setBackground(new Color(076,051,026));
+
+		bBuyAttack.setBackground(new Color(076,051,026));
+		bBuyDefense.setBackground(new Color(076,051,026));
+		
+		//añadir al panel Shop
+		shopPanel.add(bBuyFarm);
+		shopPanel.add(bBuySmithy);
+		shopPanel.add(bBuyCarpentry);
+		shopPanel.add(bBuyMagicTower);
+		shopPanel.add(bBuyChurch);
+
+		shopPanel.add(bBuySwordsman);
+		shopPanel.add(bBuySpearman);
+		shopPanel.add(bBuyCrossbow);
+		shopPanel.add(bBuyCannon);
+		shopPanel.add(bBuyArrowTower);
+		shopPanel.add(bBuyCatapult);
+		shopPanel.add(bBuyRocketLauncher);
+		shopPanel.add(bBuyMagician);
+		shopPanel.add(bBuyPriest);
+		
+		shopPanel.add(bBuyAttack);
+		shopPanel.add(bBuyDefense);
+		
+		//mover labels a su sitio en coordenadas VERSION BOTON ARRIBA	
+		insets = shopPanel.getInsets();
+		size = bBuyFarm.getPreferredSize();
+		bBuyFarm.setBounds(210 + insets.left, 70 + insets.top,
+		             size.width, size.height);
+		size = bBuySmithy.getPreferredSize();
+		bBuySmithy.setBounds(210 + insets.left, 160 + insets.top,
+		             size.width, size.height);
+		size = bBuyCarpentry.getPreferredSize();
+		bBuyCarpentry.setBounds(210 + insets.left, 255 + insets.top,
+		             size.width, size.height);
+		size = bBuyMagicTower.getPreferredSize();
+		bBuyMagicTower.setBounds(210 + insets.left, 365 + insets.top,
+		             size.width, size.height);
+		size = bBuyChurch.getPreferredSize();
+		bBuyChurch.setBounds(210 + insets.left, 485 + insets.top,
+		             size.width, size.height);
+		// comprar soldados --------
+		size = bBuySwordsman.getPreferredSize();
+		bBuySwordsman.setBounds(455 + insets.left, 55 + insets.top,
+		             size.width, size.height);
+		size = bBuySpearman.getPreferredSize();
+		bBuySpearman.setBounds(455 + insets.left, 150 + insets.top,
+		             size.width, size.height);
+		size = bBuyCrossbow.getPreferredSize();
+		bBuyCrossbow.setBounds(455 + insets.left, 250 + insets.top,
+		             size.width, size.height);
+		size = bBuyCannon.getPreferredSize();
+		bBuyCannon.setBounds(455 + insets.left, 345 + insets.top,
+		             size.width, size.height);
+		size = bBuyArrowTower.getPreferredSize();
+		bBuyArrowTower.setBounds(690 + insets.left, 270 + insets.top,
+		             size.width, size.height);
+		size = bBuyCatapult.getPreferredSize();
+		bBuyCatapult.setBounds(690 + insets.left, 375 + insets.top,
+		             size.width, size.height);
+		size = bBuyRocketLauncher.getPreferredSize();
+		bBuyRocketLauncher.setBounds(690 + insets.left, 483 + insets.top,
+		             size.width, size.height);
+		size = bBuyMagician.getPreferredSize();
+		bBuyMagician.setBounds(690 + insets.left, 55 + insets.top,
+		             size.width, size.height);
+		size = bBuyPriest.getPreferredSize();
+		bBuyPriest.setBounds(690 + insets.left, 147 + insets.top,
+		             size.width, size.height);
+		// comprar tecnologias --------
+		size = bBuyAttack.getPreferredSize();
+		bBuyAttack.setBounds(467 + insets.left, 455 + insets.top,
+		             size.width, size.height);
+		size = bBuyDefense.getPreferredSize();
+		bBuyDefense.setBounds(467 + insets.left, 540 + insets.top,
+		             size.width, size.height);
+		
+		
+		//mover labels a su sitio en coordenadas VERSION BOTON ABAJO	
+//		insets = shopPanel.getInsets();
+//		size = bBuyFarm.getPreferredSize();
+//		bBuyFarm.setBounds(210 + insets.left, 130 + insets.top,
+//		             size.width, size.height);
+//		size = bBuySmithy.getPreferredSize();
+//		bBuySmithy.setBounds(210 + insets.left, 230 + insets.top,
+//		             size.width, size.height);
+//		size = bBuyCarpentry.getPreferredSize();
+//		bBuyCarpentry.setBounds(210 + insets.left, 330 + insets.top,
+//		             size.width, size.height);
+//		size = bBuyMagicTower.getPreferredSize();
+//		bBuyMagicTower.setBounds(210 + insets.left, 460 + insets.top,
+//		             size.width, size.height);
+//		size = bBuyChurch.getPreferredSize();
+//		bBuyChurch.setBounds(210 + insets.left, 560 + insets.top,
+//		             size.width, size.height);
+//		// comprar soldados --------
+//		size = bBuySwordsman.getPreferredSize();
+//		bBuySwordsman.setBounds(455 + insets.left, 120 + insets.top,
+//		             size.width, size.height);
+//		size = bBuySpearman.getPreferredSize();
+//		bBuySpearman.setBounds(455 + insets.left, 220 + insets.top,
+//		             size.width, size.height);
+//		size = bBuyCrossbow.getPreferredSize();
+//		bBuyCrossbow.setBounds(455 + insets.left, 310 + insets.top,
+//		             size.width, size.height);
+//		size = bBuyCannon.getPreferredSize();
+//		bBuyCannon.setBounds(455 + insets.left, 400 + insets.top,
+//		             size.width, size.height);
+//		//--
+//		size = bBuyArrowTower.getPreferredSize();
+//		bBuyArrowTower.setBounds(690 + insets.left, 350 + insets.top,
+//		             size.width, size.height);
+//		size = bBuyCatapult.getPreferredSize();
+//		bBuyCatapult.setBounds(690 + insets.left, 440 + insets.top,
+//		             size.width, size.height);
+//		size = bBuyRocketLauncher.getPreferredSize();
+//		bBuyRocketLauncher.setBounds(690 + insets.left, 550 + insets.top,
+//		             size.width, size.height);
+//		//--
+//		size = bBuyMagician.getPreferredSize();
+//		bBuyMagician.setBounds(690 + insets.left, 55 + insets.top,
+//		             size.width, size.height);
+//		size = bBuyPriest.getPreferredSize();
+//		bBuyPriest.setBounds(690 + insets.left, 147 + insets.top,
+//		             size.width, size.height);
+//		// comprar tecnologias --------
+//		size = bBuyAttack.getPreferredSize();
+//		bBuyAttack.setBounds(455 + insets.left, 510 + insets.top,
+//		             size.width, size.height);
+//		size = bBuyDefense.getPreferredSize();
+//		bBuyDefense.setBounds(455 + insets.left, 590 + insets.top,
+//		             size.width, size.height);
+		// fin de SHOP ------------------------------------------------------------------------
 		
 		
 		
