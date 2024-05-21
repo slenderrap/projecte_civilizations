@@ -3,18 +3,18 @@ package game;
 import java.util.ArrayList;
 import java.util.Random;
 
-import src.game.attackUnities.AttackUnity;
-import src.game.attackUnities.Cannon;
-import src.game.attackUnities.Crossbow;
-import src.game.attackUnities.Spearman;
-import src.game.attackUnities.Swordsman;
-import src.game.defenseUnities.ArrowTower;
-import src.game.defenseUnities.Catapult;
-import src.game.defenseUnities.DefenseUnit;
-import src.game.defenseUnities.RocketLauncherTower;
-import src.game.specialUnities.Magician;
-import src.game.specialUnities.Priest;
-import src.game.specialUnities.SpecialUnit;
+import game.attackUnities.AttackUnity;
+import game.attackUnities.Cannon;
+import game.attackUnities.Crossbow;
+import game.attackUnities.Spearman;
+import game.attackUnities.Swordsman;
+import game.defenseUnities.ArrowTower;
+import game.defenseUnities.Catapult;
+import game.defenseUnities.DefenseUnit;
+import game.defenseUnities.RocketLauncherTower;
+import game.specialUnities.Magician;
+import game.specialUnities.Priest;
+import game.specialUnities.SpecialUnit;
 
 public class Battle implements Variables {
 	private ArrayList<MilitaryUnit>[] civilizationArmy = new ArrayList[9]; // Almacenar nuestro ejercito
@@ -31,7 +31,7 @@ public class Battle implements Variables {
 	private int[][] initialArmies = new int[2][9]; // Cuantifica cada tipo de unidad de los ejercitos iniciales
 	private int[] actualNumberUnitsCivilization, actualNumberUnitsEnemy; // Cuantifica cada tipo de unidad de los ejercitos
 																			// actuales
-	private boolean primerGolpe;
+	private int primerGolpe;
 
 	private Random random = new Random();
 	private Civilization civilization = new Civilization();
@@ -53,12 +53,12 @@ public class Battle implements Variables {
 		this.enemyArmy = enemyArmy;
 	}
 
-	public MilitaryUnit[][] getArmies() {
+	public ArrayList[][] getArmies() {
 		return armies;
 	}
 
 	public void setArmies(ArrayList[][] armies) {
-		this.armies = (MilitaryUnit[][]) armies;
+		this.armies = (ArrayList[][]) armies;
 	}
 
 	public String getBattleDevelopment() {
@@ -161,7 +161,7 @@ public class Battle implements Variables {
 		return primerGolpe;
 	}
 
-	public void setPrimerGolpe(boolean primerGolpe) {
+	public void setPrimerGolpe(int primerGolpe) {
 		this.primerGolpe = primerGolpe;
 	}
 

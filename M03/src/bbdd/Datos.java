@@ -26,7 +26,6 @@ public class Datos {
 	
 	public int crearNuevaPartida(String name) {
 		try {
-			System.out.println(name);
 			String insert = "Insert into Civilization_stats(\"name\") values(?)";
 			
 			PreparedStatement ps = conn.prepareStatement(insert,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
@@ -60,7 +59,7 @@ public class Datos {
 		ArrayList<String[]> resultados = new ArrayList<>();  
 		
 		try {
-			String search = "select id_civilization,\"name\",battles_counter from civilization_stats where lower(\"name\") like lower('%"+name+"%')";
+			String search = "select id_civilization,\"name\",battles_counter from civilization_stats where lower(\"name\") like lower('%"+name+"%')order by \"name\"";
 			Statement st = conn.createStatement();
 			String[] fila = new String[3];  
 			ResultSet rs  = st.executeQuery(search);
@@ -80,18 +79,22 @@ public class Datos {
 
 	}
 	
-	public ArrayList<String> seleccionarPartida(int id) {
+	public ArrayList<String> cargarPartida(int id) {
 		ArrayList<String> partida = new ArrayList<String>();
 		try {
 			String search = "select * from civilization_stats where id_civilization = "+id;
 			Statement st = conn.createStatement();
 			ResultSet rs  = st.executeQuery(search);
+			
 			rs.next();
-			for (int i=1;i<10;i++) {
+			for (int i=1;i<15;i++) {
 				if (partida.size()!=1) {
 					partida.add(String.valueOf(rs.getInt(i)));
+					System.out.println(rs.getInt(i));
+					
 				}else {
 					partida.add(rs.getString(i));
+					System.out.println(rs.getString(i));
 
 				}
 			}

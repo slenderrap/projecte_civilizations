@@ -1,9 +1,11 @@
 package front;
-import bbdd.Datos;
+import game.ControladorDominio;
+import game.TimerPersonalizado;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Timer;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,10 +18,10 @@ public class VentanaContinue extends JFrame implements ActionListener{
 	private JButton bBack,bSearch,bStart,bDelete;
 	private JTextField casillaNombre,casillaID;
 	private JLabel textoNombre,textoID; 
-	private Datos datos;
+	private ControladorDominio datosDominio;
 	
 	public VentanaContinue() {
-		datos = new Datos();
+		datosDominio = new ControladorDominio();
 		setSize(500, 500);
 		setLocationRelativeTo(null); // Para que se salga centrada la ventana
 		setTitle("Continue");
@@ -62,7 +64,7 @@ public class VentanaContinue extends JFrame implements ActionListener{
 			new VentanaInicio();
 		}else if (e.getSource()==bSearch) {
 			String name = casillaNombre.getText();
-			datos.mostrarPartidasNombre(name);
+			datosDominio.mostrarPartidasNombre(name);
 		}else if (e.getSource()==bStart) {
 			try {
 
@@ -70,14 +72,12 @@ public class VentanaContinue extends JFrame implements ActionListener{
 				if (!id.equals("")) {
 					int idNumber = Integer.parseInt(id);
 
-					ArrayList<String> datosPartida = datos.seleccionarPartida(idNumber);
+					ArrayList<String> datosPartida = datosDominio.cargarPartida(idNumber);
 					if (datosPartida.size()!=0){
 						System.out.println("empiezaria la partida");
-						for (String string : datosPartida) {
-							System.out.println(string);
-						}
 						dispose();
-						new VentanaPartida();
+						
+						new VentanaPartida(idNumber);
 					}else {
 						System.out.println("La partida no empieza");
 					}
@@ -106,7 +106,7 @@ public class VentanaContinue extends JFrame implements ActionListener{
 				String id = casillaID.getText();
 				if (!id.equals("")) {
 					int idNumber = Integer.parseInt(id);
-					datos.borrarPartida(idNumber);
+					datosDominio.borrarPartida(idNumber);
 				}else {
 					throw new TextoEnBlanco();
 				}
