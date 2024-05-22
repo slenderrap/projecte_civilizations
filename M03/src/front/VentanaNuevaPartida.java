@@ -1,11 +1,14 @@
 package front;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 
 import java.awt.event.ActionEvent;
@@ -24,10 +27,10 @@ import javax.swing.JTextField;
 
 
 public class VentanaNuevaPartida extends JFrame implements ActionListener{
-	private JPanel pPrincipal, pBack,pCentral;
+	private JPanel pPrincipal, pBack, pCentral, pTexto, pStart;
 	private JButton bBack, bCrearPartida;
 	private ImageIcon fondo;
-	private JLabel texto;
+	private JLabel texto, lVacio;
 	private JTextField nameTexto;
 	private ControladorDominio datosDominio;
 	private int id;
@@ -35,10 +38,12 @@ public class VentanaNuevaPartida extends JFrame implements ActionListener{
 	
 	public VentanaNuevaPartida() {
 		//datos = new Datos();
-		datosDominio = new ControladorDominio();
+		//datosDominio = new ControladorDominio();
 		setSize(500, 500);
 		setLocationRelativeTo(null); // Para que se salga centrada la ventana
 		setTitle("New Game");
+		
+		//instanciamos paneles
 		pPrincipal = new JPanel();
 		pBack = new JPanel();
 		pCentral = new JPanel();
@@ -56,26 +61,46 @@ public class VentanaNuevaPartida extends JFrame implements ActionListener{
 		
 		//boton back
 		bBack = new JButton("Back");
+		pBack.setLayout(new BoxLayout(pBack, BoxLayout.Y_AXIS));
+		bBack.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		bBack.setForeground(Color.WHITE);
+		bBack.setBackground(new Color(076,051,026));
 		pBack.add(bBack);
 		pPrincipal.add(pBack, BorderLayout.NORTH);
 		pBack.setOpaque(false);
 		
-		//instanciar
-		texto= new JLabel("Introduzca un nombre de partida");
+		//Textos y boton START
+		texto= new JLabel("Name your Civilization");
 		nameTexto = new JTextField(20);
-		bCrearPartida = new JButton("Crear partida");
+		bCrearPartida = new JButton("START");
+		bCrearPartida.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		bCrearPartida.setForeground(Color.WHITE);
+		bCrearPartida.setBackground(new Color(076,051,026));
 		
 		//listeners
 		nameTexto.addActionListener(this);
 		bCrearPartida.addActionListener(this);
 		bBack.addActionListener(this);
 		
-		//añadir al pPrincipal
+		//añadir al panel pTexto
+		pTexto = new JPanel();
+		pTexto.add(texto);
+		pTexto.add(nameTexto);
+		pTexto.setOpaque(false);
+
+		//panel pStart
+		pStart = new JPanel();
+		pStart.add(bCrearPartida);
+		
+		//añadir al panel Central
+		pCentral.setLayout(new GridLayout(6, 1));
+		lVacio = new JLabel(" ");
+		pCentral.add(lVacio);
+		pCentral.add(pTexto);
+		pCentral.add(pStart);
 		pPrincipal.add(pCentral,BorderLayout.CENTER);
-		pCentral.add(texto);
-		pCentral.add(nameTexto);
-		pCentral.add(bCrearPartida);
 		pCentral.setOpaque(false);
+		pStart.setOpaque(false);
 		
 		this.add(pPrincipal);
 		setResizable(false);
