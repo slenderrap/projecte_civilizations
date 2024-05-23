@@ -38,7 +38,7 @@ public class VentanaNuevaPartida extends JFrame implements ActionListener{
 	
 	public VentanaNuevaPartida() {
 		//datos = new Datos();
-		//datosDominio = new ControladorDominio();
+		datosDominio = new ControladorDominio();
 		setSize(500, 500);
 		setLocationRelativeTo(null); // Para que se salga centrada la ventana
 		setTitle("New Game");

@@ -7,7 +7,6 @@ public class TimerPersonalizado extends TimerTask {
 	
 	private int segundo=0;
 	private int minuto=0;
-	 @Override
 	    public void run() {
 		 	segundo++;
 		 	if (segundo==60) {

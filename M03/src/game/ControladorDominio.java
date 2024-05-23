@@ -5,6 +5,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import bbdd.Datos;
+import game.attackUnities.AttackUnity;
 
 
 public class ControladorDominio {
@@ -14,13 +15,13 @@ public class ControladorDominio {
 	public ControladorDominio() {
 		this.datos = new Datos();
 	}
-	public ControladorDominio(int id) {
+	
+public ControladorDominio(int id) {
 		this.datos = new Datos();
 		this.id = id;
 	}
 	
 	public int crearPartida(String nombre) {
-		
 		this.id = datos.crearNuevaPartida(nombre);
 		return id;
 		
@@ -57,6 +58,9 @@ public class ControladorDominio {
 
 	}
 	
-	
+	public void crearSoldado(MilitaryUnit mUnit) {
+		datos.crearSoldado(mUnit);
+		
+	}
 	
 }
