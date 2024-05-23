@@ -46,9 +46,9 @@ public class VentanaPartida extends JFrame {
 		
 		
 		//BBDD
-//		civilization = new Civilization(id);
-//		datosDominio = new ControladorDominio(id);
-//		datosDominio.iniciarPartida();
+		civilization = new Civilization(id);
+		datosDominio = new ControladorDominio(id);
+		datosDominio.iniciarPartida();
 		
 		
 		//PANEL PRINCIPAL
