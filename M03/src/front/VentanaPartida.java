@@ -44,16 +44,16 @@ public class VentanaPartida extends JFrame {
 		setLocationRelativeTo(null);
 		setTitle("CIVILIZATIONS");
 		
-		civilization = new Civilization(id);
 		
-	
+		//BBDD
+		civilization = new Civilization(id);
 		datosDominio = new ControladorDominio(id);
 		datosDominio.iniciarPartida();
 		
 		
 		//PANEL PRINCIPAL
 		fondo = new ImageIcon("src/front/img/BackgroundTablaPergamino.png"); //añadimos imagen de fondo
-		//fondo = new ImageIcon("src/front/img/PergaminoShop.png"); // IGNORAR este es para hacer cosas de photoshop
+		//fondo = new ImageIcon("src/front/img/PergaminoShopVersion2.png"); // IGNORAR este es para hacer cosas de photoshop
 		
 		principalPanel = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
@@ -349,45 +349,45 @@ public class VentanaPartida extends JFrame {
 		
 		insets = shopPanel.getInsets();
 		size = lAttackFoodCost.getPreferredSize();
-		lAttackFoodCost.setBounds(377 + insets.left, 485 + insets.top,
+		lAttackFoodCost.setBounds(390 + insets.left, 470 + insets.top,
 		             size.width, size.height);
 		size = lAttackWoodCost.getPreferredSize();
-		lAttackWoodCost.setBounds(377 + insets.left, 513 + insets.top,
+		lAttackWoodCost.setBounds(390 + insets.left, 490 + insets.top,
 		             size.width, size.height);
 		size = lAttackIronCost.getPreferredSize();
-		lAttackIronCost.setBounds(442 + insets.left, 485 + insets.top,
+		lAttackIronCost.setBounds(390 + insets.left, 510 + insets.top,
 		             size.width, size.height);
 		size = lDefenseFoodCost.getPreferredSize();
-		lDefenseFoodCost.setBounds(377 + insets.left, 570 + insets.top,
+		lDefenseFoodCost.setBounds(390 + insets.left, 557 + insets.top,
 		             size.width, size.height);
 		size = lDefenseWoodCost.getPreferredSize();
-		lDefenseWoodCost.setBounds(377 + insets.left, 598 + insets.top,
+		lDefenseWoodCost.setBounds(390 + insets.left, 577 + insets.top,
 		             size.width, size.height);
 		size = lDefenseIronCost.getPreferredSize();
-		lDefenseIronCost.setBounds(442 + insets.left, 570 + insets.top,
+		lDefenseIronCost.setBounds(390 + insets.left, 597 + insets.top,
 		             size.width, size.height);
 		
 		
 		
 		//BUTTONS SHOP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		bBuyFarm = new JButton("Buy1");
-		bBuySmithy = new JButton("Buy2");
-		bBuyCarpentry = new JButton("Buy3");
-		bBuyMagicTower = new JButton("Buy4");
-		bBuyChurch = new JButton("Buy5");
+		bBuyFarm = new JButton("Buy");
+		bBuySmithy = new JButton("Buy");
+		bBuyCarpentry = new JButton("Buy");
+		bBuyMagicTower = new JButton("Buy");
+		bBuyChurch = new JButton("Buy");
 
-		bBuySwordsman = new JButton("Buy1");
-		bBuySpearman = new JButton("Buy2");
-		bBuyCrossbow = new JButton("Buy3");
-		bBuyCannon = new JButton("Buy4");
-		bBuyArrowTower = new JButton("Buy5");
-		bBuyCatapult = new JButton("Buy6");
-		bBuyRocketLauncher = new JButton("Buy7");
-		bBuyMagician = new JButton("Buy8");
-		bBuyPriest = new JButton("Buy9");
+		bBuySwordsman = new JButton("Buy");
+		bBuySpearman = new JButton("Buy");
+		bBuyCrossbow = new JButton("Buy");
+		bBuyCannon = new JButton("Buy");
+		bBuyArrowTower = new JButton("Buy");
+		bBuyCatapult = new JButton("Buy");
+		bBuyRocketLauncher = new JButton("Buy");
+		bBuyMagician = new JButton("Buy");
+		bBuyPriest = new JButton("Buy");
 
-		bBuyAttack = new JButton("Buy1");
-		bBuyDefense = new JButton("Buy2");
+		bBuyAttack = new JButton("Buy");
+		bBuyDefense = new JButton("Buy");
 		
 		
 		//cambiar fuente,  color, background
@@ -467,114 +467,61 @@ public class VentanaPartida extends JFrame {
 		
 		shopPanel.add(bBuyAttack);
 		shopPanel.add(bBuyDefense);
+			
 		
-		//mover labels a su sitio en coordenadas VERSION BOTON ARRIBA	
-//		insets = shopPanel.getInsets();
-//		size = bBuyFarm.getPreferredSize();
-//		bBuyFarm.setBounds(210 + insets.left, 70 + insets.top,
-//		             size.width, size.height);
-//		size = bBuySmithy.getPreferredSize();
-//		bBuySmithy.setBounds(210 + insets.left, 160 + insets.top,
-//		             size.width, size.height);
-//		size = bBuyCarpentry.getPreferredSize();
-//		bBuyCarpentry.setBounds(210 + insets.left, 255 + insets.top,
-//		             size.width, size.height);
-//		size = bBuyMagicTower.getPreferredSize();
-//		bBuyMagicTower.setBounds(210 + insets.left, 365 + insets.top,
-//		             size.width, size.height);
-//		size = bBuyChurch.getPreferredSize();
-//		bBuyChurch.setBounds(210 + insets.left, 485 + insets.top,
-//		             size.width, size.height);
-//		// comprar soldados --------
-//		size = bBuySwordsman.getPreferredSize();
-//		bBuySwordsman.setBounds(455 + insets.left, 55 + insets.top,
-//		             size.width, size.height);
-//		size = bBuySpearman.getPreferredSize();
-//		bBuySpearman.setBounds(455 + insets.left, 150 + insets.top,
-//		             size.width, size.height);
-//		size = bBuyCrossbow.getPreferredSize();
-//		bBuyCrossbow.setBounds(455 + insets.left, 250 + insets.top,
-//		             size.width, size.height);
-//		size = bBuyCannon.getPreferredSize();
-//		bBuyCannon.setBounds(455 + insets.left, 345 + insets.top,
-//		             size.width, size.height);
-//		size = bBuyArrowTower.getPreferredSize();
-//		bBuyArrowTower.setBounds(690 + insets.left, 270 + insets.top,
-//		             size.width, size.height);
-//		size = bBuyCatapult.getPreferredSize();
-//		bBuyCatapult.setBounds(690 + insets.left, 375 + insets.top,
-//		             size.width, size.height);
-//		size = bBuyRocketLauncher.getPreferredSize();
-//		bBuyRocketLauncher.setBounds(690 + insets.left, 483 + insets.top,
-//		             size.width, size.height);
-//		size = bBuyMagician.getPreferredSize();
-//		bBuyMagician.setBounds(690 + insets.left, 55 + insets.top,
-//		             size.width, size.height);
-//		size = bBuyPriest.getPreferredSize();
-//		bBuyPriest.setBounds(690 + insets.left, 147 + insets.top,
-//		             size.width, size.height);
-//		// comprar tecnologias --------
-//		size = bBuyAttack.getPreferredSize();
-//		bBuyAttack.setBounds(467 + insets.left, 455 + insets.top,
-//		             size.width, size.height);
-//		size = bBuyDefense.getPreferredSize();
-//		bBuyDefense.setBounds(467 + insets.left, 540 + insets.top,
-//		             size.width, size.height);
-		
-		
-		//mover labels a su sitio en coordenadas VERSION BOTON ABAJO	
+		//mover labels a su sitio en coordenadas
 		insets = shopPanel.getInsets();
 		size = bBuyFarm.getPreferredSize();
-		bBuyFarm.setBounds(210 + insets.left, 130 + insets.top,
+		bBuyFarm.setBounds(210 + insets.left, 100 + insets.top,
 		             size.width, size.height);
 		size = bBuySmithy.getPreferredSize();
-		bBuySmithy.setBounds(210 + insets.left, 230 + insets.top,
+		bBuySmithy.setBounds(210 + insets.left, 190 + insets.top,
 		             size.width, size.height);
 		size = bBuyCarpentry.getPreferredSize();
-		bBuyCarpentry.setBounds(210 + insets.left, 330 + insets.top,
+		bBuyCarpentry.setBounds(210 + insets.left, 285 + insets.top,
 		             size.width, size.height);
 		size = bBuyMagicTower.getPreferredSize();
-		bBuyMagicTower.setBounds(210 + insets.left, 460 + insets.top,
+		bBuyMagicTower.setBounds(210 + insets.left, 405 + insets.top,
 		             size.width, size.height);
 		size = bBuyChurch.getPreferredSize();
-		bBuyChurch.setBounds(210 + insets.left, 560 + insets.top,
+		bBuyChurch.setBounds(210 + insets.left, 525 + insets.top,
 		             size.width, size.height);
 		// comprar soldados --------
 		size = bBuySwordsman.getPreferredSize();
-		bBuySwordsman.setBounds(455 + insets.left, 120 + insets.top,
+		bBuySwordsman.setBounds(455 + insets.left, 70 + insets.top,
 		             size.width, size.height);
 		size = bBuySpearman.getPreferredSize();
-		bBuySpearman.setBounds(455 + insets.left, 220 + insets.top,
+		bBuySpearman.setBounds(455 + insets.left, 170 + insets.top,
 		             size.width, size.height);
 		size = bBuyCrossbow.getPreferredSize();
-		bBuyCrossbow.setBounds(455 + insets.left, 310 + insets.top,
+		bBuyCrossbow.setBounds(455 + insets.left, 265 + insets.top,
 		             size.width, size.height);
 		size = bBuyCannon.getPreferredSize();
-		bBuyCannon.setBounds(455 + insets.left, 400 + insets.top,
+		bBuyCannon.setBounds(455 + insets.left, 360 + insets.top,
 		             size.width, size.height);
 		//--
 		size = bBuyArrowTower.getPreferredSize();
-		bBuyArrowTower.setBounds(690 + insets.left, 350 + insets.top,
+		bBuyArrowTower.setBounds(690 + insets.left, 345 + insets.top,
 		             size.width, size.height);
 		size = bBuyCatapult.getPreferredSize();
-		bBuyCatapult.setBounds(690 + insets.left, 440 + insets.top,
+		bBuyCatapult.setBounds(690 + insets.left, 445 + insets.top,
 		             size.width, size.height);
 		size = bBuyRocketLauncher.getPreferredSize();
-		bBuyRocketLauncher.setBounds(690 + insets.left, 550 + insets.top,
+		bBuyRocketLauncher.setBounds(690 + insets.left, 555 + insets.top,
 		             size.width, size.height);
 		//--
 		size = bBuyMagician.getPreferredSize();
-		bBuyMagician.setBounds(690 + insets.left, 55 + insets.top,
+		bBuyMagician.setBounds(690 + insets.left, 85 + insets.top,
 		             size.width, size.height);
 		size = bBuyPriest.getPreferredSize();
-		bBuyPriest.setBounds(690 + insets.left, 147 + insets.top,
+		bBuyPriest.setBounds(690 + insets.left, 195 + insets.top,
 		             size.width, size.height);
 		// comprar tecnologias --------
 		size = bBuyAttack.getPreferredSize();
-		bBuyAttack.setBounds(455 + insets.left, 510 + insets.top,
+		bBuyAttack.setBounds(455 + insets.left, 480 + insets.top,
 		             size.width, size.height);
 		size = bBuyDefense.getPreferredSize();
-		bBuyDefense.setBounds(455 + insets.left, 590 + insets.top,
+		bBuyDefense.setBounds(455 + insets.left, 568 + insets.top,
 		             size.width, size.height);
 		// fin de SHOP ------------------------------------------------------------------------
 		
