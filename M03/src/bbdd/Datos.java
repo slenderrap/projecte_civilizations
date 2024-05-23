@@ -9,8 +9,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class Datos {
-//	private String urlDatos = "jdbc:oracle:thin:@192.168.56.2:1521/orcl?serverTimezone=UTC&autoReconnect=true&useSSL=false"; // bbdd maquina virtual
-	private String urlDatos = "jdbc:oracle:thin:@localhost:1521/xe?serverTimezone=UTC&autoReconnect=true&useSSL=false"; // bbdd local
+//	private String urlDatos = "jdbc:oracle:thin:@192.168.56.2:1521/orcl?serverTimezone=UTC&autoReconnect=true&useSSL=false"; // bbdd maquina virtual Oriol
+	private String urlDatos = "jdbc:oracle:thin:@192.168.56.110:1521/orcl?serverTimezone=UTC&autoReconnect=true&useSSL=false"; // bbdd maquina virtual Mar
+	//private String urlDatos = "jdbc:oracle:thin:@localhost:1521/xe?serverTimezone=UTC&autoReconnect=true&useSSL=false"; // bbdd local
 	private String user = "civil";
 	private String password = "civil";
 	private Connection conn;
