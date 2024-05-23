@@ -8,9 +8,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import game.MilitaryUnit;
+import game.attackUnities.AttackUnity;
+import game.attackUnities.Spearman;
+import game.attackUnities.Swordsman;
+
 public class Datos {
-//	private String urlDatos = "jdbc:oracle:thin:@192.168.56.2:1521/orcl?serverTimezone=UTC&autoReconnect=true&useSSL=false"; // bbdd maquina virtual
-	private String urlDatos = "jdbc:oracle:thin:@localhost:1521/xe?serverTimezone=UTC&autoReconnect=true&useSSL=false"; // bbdd local
+	private String urlDatos = "jdbc:oracle:thin:@192.168.56.2:1521/orcl?serverTimezone=UTC&autoReconnect=true&useSSL=false"; // bbdd maquina virtual
+//	private String urlDatos = "jdbc:oracle:thin:@localhost:1521/xe?serverTimezone=UTC&autoReconnect=true&useSSL=false"; // bbdd local
 	private String user = "civil";
 	private String password = "civil";
 	private Connection conn;
@@ -126,6 +131,15 @@ public class Datos {
 
 		}
 
+	}
+	
+	public void crearSoldado(MilitaryUnit mUnit) {
+		if (mUnit instanceof AttackUnity) {
+			if (mUnit instanceof Swordsman) {
+				System.out.println("Se va a crear Swordsman");
+			}
+		}
+		
 	}
 
 }

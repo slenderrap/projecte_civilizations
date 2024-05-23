@@ -8,6 +8,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -21,8 +23,11 @@ import javax.swing.JTabbedPane;
 
 import game.Civilization;
 import game.ControladorDominio;
+import game.MilitaryUnit;
+import game.ResourceException;
+import game.attackUnities.Swordsman;
 
-public class VentanaPartida extends JFrame {
+public class VentanaPartida extends JFrame implements ActionListener{
 	private JPanel principalPanel, lateralPanel, recursosPanel, civilizationPanel, armyPanel, shopPanel, battlegroundPanel;
 	private JTabbedPane tabbedPane;
 	private JLabel lFood, lWood, lIron, lMana, lAttack, lDefense, lBattles; //labels para resources
@@ -32,7 +37,6 @@ public class VentanaPartida extends JFrame {
 	private JButton bBuyFarm, bBuySmithy, bBuyCarpentry, bBuyMagicTower, bBuyChurch; //botones shop buy buildings
 	private JButton bBuySwordsman, bBuySpearman, bBuyCrossbow, bBuyCannon, bBuyArrowTower, bBuyCatapult, bBuyRocketLauncher, bBuyMagician, bBuyPriest; //botones shop buy army
 	private JButton bBuyAttack, bBuyDefense; //botones shop buy tecnologias
-	private JButton nuevaPartidaButton, continuarPartidaButton, salirButton;
 	private ImageIcon fondo, fondoCivilizationPanel, fondoArmyPanel, fondoShopPanel;
 	private int id;
 	private Civilization civilization;
@@ -82,13 +86,13 @@ public class VentanaPartida extends JFrame {
 		
 		//COSAS DEL PANEL RECURSOS -------------------------------------------
 		//LABELS PANEL LATERAL RECURSOS
-		lFood = new JLabel("1.000.000.000");
-		lWood = new JLabel("20000");
-		lIron = new JLabel("30000");
-		lMana = new JLabel("40000");
-		lAttack = new JLabel("50000");
-		lDefense = new JLabel("60000");
-		lBattles = new JLabel("70000");
+		lFood = new JLabel(String.valueOf(civilization.getFood()));
+		lWood = new JLabel(String.valueOf(civilization.getWood()));
+		lIron = new JLabel(String.valueOf(civilization.getIron()));
+		lMana = new JLabel(String.valueOf(civilization.getMana()));
+		lAttack = new JLabel(String.valueOf(civilization.getTechnologyAttack()));
+		lDefense = new JLabel(String.valueOf(civilization.getTechnologyDefense()));
+		lBattles = new JLabel(String.valueOf(civilization.getBattles()));
 		
 		//cambiar fuente y color
 		lFood.setFont(new Font("Times New Roman", Font.BOLD, 16));
@@ -183,11 +187,11 @@ public class VentanaPartida extends JFrame {
 		
 		//COSAS DEL PANEL CIVILIZATION -------------------------------------------
 		//LABELS CIVILIZATION
-		lFarm = new JLabel("1");
-		lSmithy = new JLabel("2");
-		lCarpentry = new JLabel("3");
-		lChurch = new JLabel("4");
-		lMagicTower = new JLabel("5");
+		lFarm = new JLabel(String.valueOf(civilization.getFarm()));
+		lSmithy = new JLabel(String.valueOf(civilization.getSmithy()));
+		lCarpentry = new JLabel(String.valueOf(civilization.getCarpentry()));
+		lChurch = new JLabel(String.valueOf(civilization.getChurch()));
+		lMagicTower = new JLabel(String.valueOf(civilization.getMagicTower()));
 		
 		//cambiar fuente y color
 		lFarm.setFont(new Font("Times New Roman", Font.BOLD, 16));
@@ -233,15 +237,15 @@ public class VentanaPartida extends JFrame {
 		
 		// COSAS DEL PANEL ARMY -------------------------------------------------------
 		//LABELS ARMY
-		lSwordsman = new JLabel("1");
-		lSpearman = new JLabel("2");
-		lCrossbow = new JLabel("3");
-		lCannon = new JLabel("4");
-		lArrowTower = new JLabel("5");
-		lCatapult = new JLabel("6");
-		lRocketLauncherTower = new JLabel("7");
-		lMagician = new JLabel("8");
-		lPriest = new JLabel("9");
+		lSwordsman = new JLabel(String.valueOf(civilization.getArmy()[0].size()));
+		lSpearman = new JLabel(String.valueOf(civilization.getArmy()[1].size()));
+		lCrossbow = new JLabel(String.valueOf(civilization.getArmy()[2].size()));
+		lCannon = new JLabel(String.valueOf(civilization.getArmy()[3].size()));
+		lArrowTower = new JLabel(String.valueOf(civilization.getArmy()[4].size()));
+		lCatapult = new JLabel(String.valueOf(civilization.getArmy()[5].size()));
+		lRocketLauncherTower = new JLabel(String.valueOf(civilization.getArmy()[6].size()));
+		lMagician = new JLabel(String.valueOf(civilization.getArmy()[7].size()));
+		lPriest = new JLabel(String.valueOf(civilization.getArmy()[8].size()));
 		
 		//cambiar fuente y color
 		lSwordsman.setFont(new Font("Times New Roman", Font.BOLD, 20));
@@ -371,12 +375,14 @@ public class VentanaPartida extends JFrame {
 		
 		//BUTTONS SHOP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		bBuyFarm = new JButton("Buy");
+		bBuyFarm.addActionListener(this);
 		bBuySmithy = new JButton("Buy");
 		bBuyCarpentry = new JButton("Buy");
 		bBuyMagicTower = new JButton("Buy");
 		bBuyChurch = new JButton("Buy");
 
 		bBuySwordsman = new JButton("Buy");
+		bBuySwordsman.addActionListener(this);
 		bBuySpearman = new JButton("Buy");
 		bBuyCrossbow = new JButton("Buy");
 		bBuyCannon = new JButton("Buy");
@@ -554,6 +560,23 @@ public class VentanaPartida extends JFrame {
 		setVisible(true);
 		
 	}
+
+
+@Override
+public void actionPerformed(ActionEvent e) {
+
+	if (e.getSource()== bBuySwordsman) {
+		try {
+			System.out.println("evento");
+			civilization.newSwordsman(1);
+			datosDominio.crearSoldado(civilization.getArmy()[0].getLast());
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		}
+		
+	}
+	
+}
 	
 	
 }
