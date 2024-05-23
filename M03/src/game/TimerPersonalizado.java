@@ -5,12 +5,29 @@ import java.util.TimerTask;
 
 public class TimerPersonalizado extends TimerTask {
 	
-	private int i=0;
-	 @Override
+	private int segundo=0;
+	private int minuto=0;
 	    public void run() {
-		 	i++;
-	        System.out.println("Timer task started at: "+i);
-
+		 	segundo++;
+		 	if (segundo==60) {
+		 		segundo=0;
+		 		minuto++;
+		 		
+		 		//updates recursos
+		 	}
+	        System.out.println("Timer task started at: "+minuto+"' "+segundo+"\"");
+	        
+        
+	        
+        if (minuto==3 && segundo==0) {
+        	System.out.println("Batalla");
+        }else if (minuto==4 && segundo==0) {
+        	System.out.println("inicio batalla");
+        	minuto=0;
+		}
+        
+        
+        
 	    }
 
 	    
