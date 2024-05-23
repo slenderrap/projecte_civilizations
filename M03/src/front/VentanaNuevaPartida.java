@@ -71,6 +71,8 @@ public class VentanaNuevaPartida extends JFrame implements ActionListener{
 		
 		//Textos y boton START
 		texto= new JLabel("Name your Civilization");
+		texto.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		texto.setForeground(new Color(076,051,026));		
 		nameTexto = new JTextField(20);
 		bCrearPartida = new JButton("START");
 		bCrearPartida.setFont(new Font("Times New Roman", Font.BOLD, 12));
