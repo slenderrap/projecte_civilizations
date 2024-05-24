@@ -21,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import game.BuildingException;
 import game.Civilization;
 import game.ControladorDominio;
 import game.MilitaryUnit;
@@ -347,6 +348,7 @@ public class VentanaPartida extends JFrame implements ActionListener{
 		shopPanel.add(lDefenseFoodCost);
 		shopPanel.add(lDefenseWoodCost);
 		shopPanel.add(lDefenseIronCost);
+	
 		
 		//mover labels a su sitio en coordenadas
 		shopPanel.setLayout(null);
@@ -377,24 +379,37 @@ public class VentanaPartida extends JFrame implements ActionListener{
 		bBuyFarm = new JButton("Buy");
 		bBuyFarm.addActionListener(this);
 		bBuySmithy = new JButton("Buy");
+		bBuySmithy.addActionListener(this);
 		bBuyCarpentry = new JButton("Buy");
+		bBuyCarpentry.addActionListener(this);
 		bBuyMagicTower = new JButton("Buy");
+		bBuyMagicTower.addActionListener(this);
 		bBuyChurch = new JButton("Buy");
+		bBuyChurch.addActionListener(this);
 
 		bBuySwordsman = new JButton("Buy");
 		bBuySwordsman.addActionListener(this);
 		bBuySpearman = new JButton("Buy");
+		bBuySpearman.addActionListener(this);
 		bBuyCrossbow = new JButton("Buy");
+		bBuyCrossbow.addActionListener(this);
 		bBuyCannon = new JButton("Buy");
+		bBuyCannon.addActionListener(this);
 		bBuyArrowTower = new JButton("Buy");
+		bBuyArrowTower.addActionListener(this);
 		bBuyCatapult = new JButton("Buy");
+		bBuyCatapult.addActionListener(this);
 		bBuyRocketLauncher = new JButton("Buy");
+		bBuyRocketLauncher.addActionListener(this);
 		bBuyMagician = new JButton("Buy");
+		bBuyMagician.addActionListener(this);
 		bBuyPriest = new JButton("Buy");
+		bBuyPriest.addActionListener(this);
 
 		bBuyAttack = new JButton("Buy");
+		bBuyAttack.addActionListener(this);
 		bBuyDefense = new JButton("Buy");
-		
+		bBuyDefense.addActionListener(this);
 		
 		//cambiar fuente,  color, background
 		bBuyFarm.setFont(new Font("Times New Roman", Font.BOLD, 12));
@@ -562,9 +577,10 @@ public class VentanaPartida extends JFrame implements ActionListener{
 	}
 
 
-@Override
 public void actionPerformed(ActionEvent e) {
 
+	
+	//soldados
 	if (e.getSource()== bBuySwordsman) {
 		try {
 			System.out.println("evento");
@@ -574,8 +590,142 @@ public void actionPerformed(ActionEvent e) {
 			e1.printStackTrace();
 		}
 		
+	}else if (e.getSource()== bBuySpearman) {
+		try {
+			System.out.println("evento");
+			civilization.newSpearman(1);
+			datosDominio.crearSoldado(civilization.getArmy()[1].getLast());
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		}
+	}else if (e.getSource()== bBuyCrossbow) {
+		try {
+			System.out.println("evento");
+			civilization.newCrossbow(1);
+			datosDominio.crearSoldado(civilization.getArmy()[2].getLast());
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		}
+	}else if (e.getSource()== bBuyCannon) {
+		try {
+			System.out.println("evento");
+			civilization.newCannon(1);
+			datosDominio.crearSoldado(civilization.getArmy()[3].getLast());
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		}
+	}else if (e.getSource()== bBuyArrowTower) {
+		try {
+			System.out.println("evento");
+			civilization.newArrowTower(1);
+			datosDominio.crearSoldado(civilization.getArmy()[4].getLast());
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		}
+	}else if (e.getSource()== bBuyCatapult) {
+		try {
+			System.out.println("evento");
+			civilization.newCatapult(1);
+			datosDominio.crearSoldado(civilization.getArmy()[5].getLast());
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		}
+	}else if (e.getSource()== bBuyRocketLauncher) {
+		try {
+			System.out.println("evento");
+			civilization.newRocketLauncherTower(1);
+			datosDominio.crearSoldado(civilization.getArmy()[6].getLast());
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		}
+	}else if (e.getSource()== bBuyMagician) {
+		try {
+			System.out.println("evento");
+			civilization.newMagician(1);
+			datosDominio.crearSoldado(civilization.getArmy()[7].getLast());
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		} catch (BuildingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}else if (e.getSource()== bBuyPriest) {
+		try {
+			System.out.println("evento");
+			civilization.newPriest(1);
+			datosDominio.crearSoldado(civilization.getArmy()[8].getLast());
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		} catch (BuildingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
-	
+	//edificios
+	else if (e.getSource()== bBuyFarm) {
+		try {
+			System.out.println("evento");
+			civilization.newFarm();
+			lFarm.setText(String.valueOf(civilization.getFarm()));
+			datosDominio.crearConstruccion(1);
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		}
+	}else if (e.getSource()== bBuySmithy) {
+		try {
+			System.out.println("evento");
+			civilization.newSmithy();
+			lSmithy.setText(String.valueOf(civilization.getSmithy()));
+			datosDominio.crearConstruccion(2);
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		}
+	}else if (e.getSource()== bBuyCarpentry) {
+		try {
+			System.out.println("evento");
+			civilization.newCarpentry();
+			lCarpentry.setText(String.valueOf(civilization.getCarpentry()));
+			datosDominio.crearConstruccion(3);
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		}
+	}else if (e.getSource()== bBuyMagicTower) {
+		try {
+			System.out.println("evento");
+			civilization.newMagictower();
+			lMagicTower.setText(String.valueOf(civilization.getMagicTower()));
+			datosDominio.crearConstruccion(4);
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		}
+	}else if (e.getSource()== bBuyChurch) {
+		try {
+			System.out.println("evento");
+			civilization.newChurch();
+			lChurch.setText(String.valueOf(civilization.getChurch()));
+			datosDominio.crearConstruccion(5);
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		}
+	}else if (e.getSource()== bBuyAttack) {
+		try {
+			System.out.println("evento");
+			civilization.upgradeTechnologyAttack();
+			lChurch.setText(String.valueOf(civilization.getChurch()));
+			datosDominio.crearConstruccion(5);
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		}
+	}else if (e.getSource()== bBuyDefense) {
+		try {
+			System.out.println("evento");
+			civilization.newChurch();
+			lChurch.setText(String.valueOf(civilization.getChurch()));
+			datosDominio.crearConstruccion(5);
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		}
+	}
 }
 	
 	
