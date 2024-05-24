@@ -15,13 +15,22 @@ import game.attackUnities.Swordsman;
 
 public class Datos {
 
-//	private String urlDatos = "jdbc:oracle:thin:@192.168.56.2:1521/orcl?serverTimezone=UTC&autoReconnect=true&useSSL=false"; // bbdd maquina virtual Oriol
-	private String urlDatos = "jdbc:oracle:thin:@192.168.56.110:1521/orcl?serverTimezone=UTC&autoReconnect=true&useSSL=false"; // bbdd maquina virtual Mar
+	private String urlDatos = "jdbc:oracle:thin:@192.168.56.2:1521/orcl?serverTimezone=UTC&autoReconnect=true&useSSL=false"; // bbdd maquina virtual Oriol
+//	private String urlDatos = "jdbc:oracle:thin:@192.168.56.110:1521/orcl?serverTimezone=UTC&autoReconnect=true&useSSL=false"; // bbdd maquina virtual Mar
 	//private String urlDatos = "jdbc:oracle:thin:@localhost:1521/xe?serverTimezone=UTC&autoReconnect=true&useSSL=false"; // bbdd local
 
 	private String user = "civil";
 	private String password = "civil";
 	private Connection conn;
+	private int id;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public Datos() {
 
@@ -33,7 +42,16 @@ public class Datos {
 			System.out.println(e.getMessage());
 		}
 	}
+	public Datos(int id) {
 
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			this.conn = DriverManager.getConnection(this.urlDatos, this.user, this.password);
+			this.id=id;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
 	public int crearNuevaPartida(String name) {
 		try {
 			String insert = "Insert into Civilization_stats(\"name\") values(?)";
@@ -97,7 +115,7 @@ public class Datos {
 			String search = "select * from civilization_stats where id_civilization = " + id;
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(search);
-
+			this.id=id;
 			rs.next();
 			for (int i = 1; i < 15; i++) {
 				if (partida.size() != 1) {
@@ -131,7 +149,7 @@ public class Datos {
 
 		} catch (Exception e) {
 			System.out.println("*******\nError!\nEl ID " + id + " no existe!\n*******");
-
+			e.printStackTrace();
 		}
 
 	}
@@ -139,7 +157,19 @@ public class Datos {
 	public void crearSoldado(MilitaryUnit mUnit) {
 		if (mUnit instanceof AttackUnity) {
 			if (mUnit instanceof Swordsman) {
-				System.out.println("Se va a crear Swordsman");
+				String insert= "insert into attack_units_stats(id_civilization,type,armor,base_damage) values(?,?,?,?)";
+				try {
+					PreparedStatement ps = conn.prepareStatement(insert);
+					ps.setInt(1, getId());
+					ps.setString(2, String.valueOf(mUnit.getClass().getSimpleName()));
+					ps.setInt(3, mUnit.getActualArmor());
+					ps.setInt(4, ((AttackUnity) mUnit).getBaseDamage());
+					ps.executeUpdate();
+					System.out.println("Introducido");
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		
