@@ -17,7 +17,7 @@ public class ControladorDominio {
 	}
 	
 public ControladorDominio(int id) {
-		this.datos = new Datos();
+		this.datos = new Datos(id);
 		this.id = id;
 	}
 	
@@ -59,6 +59,7 @@ public ControladorDominio(int id) {
 	}
 	
 	public void crearSoldado(MilitaryUnit mUnit) {
+		System.out.println(getId());
 		datos.crearSoldado(mUnit);
 		
 	}
