@@ -8,6 +8,11 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Insets;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,10 +22,14 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import game.Battle;
+import game.BuildingException;
 import game.Civilization;
 import game.ControladorDominio;
+import game.MilitaryUnit;
+import game.ResourceException;
+import game.attackUnities.Swordsman;
 
-public class VentanaPartida extends JFrame {
+public class VentanaPartida extends JFrame implements ActionListener{
 	private JPanel principalPanel, lateralPanel, recursosPanel, civilizationPanel, armyPanel, shopPanel, battlegroundPanel;
 	private JTabbedPane tabbedPane;
 	private JLabel lFood, lWood, lIron, lMana, lAttack, lDefense, lBattles; // labels para resources
@@ -38,6 +47,7 @@ public class VentanaPartida extends JFrame {
 	private JButton bBuyAttack, bBuyDefense; // botones shop buy tecnologias
 	private JButton nuevaPartidaButton, continuarPartidaButton, salirButton;
 	private ImageIcon fondo, fondoCivilizationPanel, fondoArmyPanel, fondoShopPanel, fondoBattleground;
+
 	private int id;
 	private Civilization civilization;
 	private Battle battle;
@@ -48,16 +58,18 @@ public class VentanaPartida extends JFrame {
 		setLocationRelativeTo(null);
 		setTitle("CIVILIZATIONS");
 
-		// BBDD
+		
+		
+		//BBDD
 		civilization = new Civilization(id);
 		datosDominio = new ControladorDominio(id);
 		datosDominio.iniciarPartida();
-
-		// PANEL PRINCIPAL
-		fondo = new ImageIcon("src/front/img/BackgroundTablaPergamino.png"); // añadimos imagen de fondo
-		// fondo = new ImageIcon("src/front/img/PergaminoShopVersion2.png"); // IGNORAR
-		// este es para hacer cosas de photoshop
-
+		
+		
+		//PANEL PRINCIPAL
+		fondo = new ImageIcon("src/front/img/BackgroundTablaPergamino.png"); //añadimos imagen de fondo
+		//fondo = new ImageIcon("src/front/img/PergaminoShopVersion2.png"); // IGNORAR este es para hacer cosas de photoshop
+		
 		principalPanel = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
@@ -81,17 +93,19 @@ public class VentanaPartida extends JFrame {
 		recursosPanel.setOpaque(false);
 		lateralPanel.setBorder(BorderFactory.createEmptyBorder(90, 60, 0, 0));
 
-		// COSAS DEL PANEL RECURSOS -------------------------------------------
-		// LABELS PANEL LATERAL RECURSOS
-		lFood = new JLabel("1.000.000.000");
-		lWood = new JLabel("20000");
-		lIron = new JLabel("30000");
-		lMana = new JLabel("40000");
-		lAttack = new JLabel("50000");
-		lDefense = new JLabel("60000");
-		lBattles = new JLabel("70000");
-
-		// cambiar fuente y color
+		
+		
+		//COSAS DEL PANEL RECURSOS -------------------------------------------
+		//LABELS PANEL LATERAL RECURSOS
+		lFood = new JLabel(String.valueOf(civilization.getFood()));
+		lWood = new JLabel(String.valueOf(civilization.getWood()));
+		lIron = new JLabel(String.valueOf(civilization.getIron()));
+		lMana = new JLabel(String.valueOf(civilization.getMana()));
+		lAttack = new JLabel(String.valueOf(civilization.getTechnologyAttack()));
+		lDefense = new JLabel(String.valueOf(civilization.getTechnologyDefense()));
+		lBattles = new JLabel(String.valueOf(civilization.getBattles()));
+		
+		//cambiar fuente y color
 		lFood.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		lWood.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		lIron.setFont(new Font("Times New Roman", Font.BOLD, 16));
@@ -176,15 +190,19 @@ public class VentanaPartida extends JFrame {
 		tabbedPane.addTab("Shop", shopPanel);
 		tabbedPane.addTab("Battleground", battlegroundPanel);
 
-		// COSAS DEL PANEL CIVILIZATION -------------------------------------------
-		// LABELS CIVILIZATION
-		lFarm = new JLabel("1");
-		lSmithy = new JLabel("2");
-		lCarpentry = new JLabel("3");
-		lChurch = new JLabel("4");
-		lMagicTower = new JLabel("5");
-
-		// cambiar fuente y color
+		
+		
+		
+		
+		//COSAS DEL PANEL CIVILIZATION -------------------------------------------
+		//LABELS CIVILIZATION
+		lFarm = new JLabel(String.valueOf(civilization.getFarm()));
+		lSmithy = new JLabel(String.valueOf(civilization.getSmithy()));
+		lCarpentry = new JLabel(String.valueOf(civilization.getCarpentry()));
+		lChurch = new JLabel(String.valueOf(civilization.getChurch()));
+		lMagicTower = new JLabel(String.valueOf(civilization.getMagicTower()));
+		
+		//cambiar fuente y color
 		lFarm.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		lSmithy.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		lCarpentry.setFont(new Font("Times New Roman", Font.BOLD, 16));
@@ -221,18 +239,19 @@ public class VentanaPartida extends JFrame {
 		// CIVILIZATION------------------------------------------------------------------------
 
 		// COSAS DEL PANEL ARMY -------------------------------------------------------
-		// LABELS ARMY
-		lSwordsman = new JLabel("1");
-		lSpearman = new JLabel("2");
-		lCrossbow = new JLabel("3");
-		lCannon = new JLabel("4");
-		lArrowTower = new JLabel("5");
-		lCatapult = new JLabel("6");
-		lRocketLauncherTower = new JLabel("7");
-		lMagician = new JLabel("8");
-		lPriest = new JLabel("9");
 
-		// cambiar fuente y color
+		//LABELS ARMY
+		lSwordsman = new JLabel(String.valueOf(civilization.getArmy()[0].size()));
+		lSpearman = new JLabel(String.valueOf(civilization.getArmy()[1].size()));
+		lCrossbow = new JLabel(String.valueOf(civilization.getArmy()[2].size()));
+		lCannon = new JLabel(String.valueOf(civilization.getArmy()[3].size()));
+		lArrowTower = new JLabel(String.valueOf(civilization.getArmy()[4].size()));
+		lCatapult = new JLabel(String.valueOf(civilization.getArmy()[5].size()));
+		lRocketLauncherTower = new JLabel(String.valueOf(civilization.getArmy()[6].size()));
+		lMagician = new JLabel(String.valueOf(civilization.getArmy()[7].size()));
+		lPriest = new JLabel(String.valueOf(civilization.getArmy()[8].size()));
+		
+		//cambiar fuente y color
 		lSwordsman.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		lSpearman.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		lCrossbow.setFont(new Font("Times New Roman", Font.BOLD, 20));
@@ -321,7 +340,9 @@ public class VentanaPartida extends JFrame {
 		shopPanel.add(lDefenseWoodCost);
 		shopPanel.add(lDefenseIronCost);
 
-		// mover labels a su sitio en coordenadas
+	
+		
+		//mover labels a su sitio en coordenadas
 		shopPanel.setLayout(null);
 
 		insets = shopPanel.getInsets();
@@ -340,25 +361,43 @@ public class VentanaPartida extends JFrame {
 
 		// BUTTONS SHOP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		bBuyFarm = new JButton("Buy");
+		bBuyFarm.addActionListener(this);
 		bBuySmithy = new JButton("Buy");
+		bBuySmithy.addActionListener(this);
 		bBuyCarpentry = new JButton("Buy");
+		bBuyCarpentry.addActionListener(this);
 		bBuyMagicTower = new JButton("Buy");
+		bBuyMagicTower.addActionListener(this);
 		bBuyChurch = new JButton("Buy");
+		bBuyChurch.addActionListener(this);
 
 		bBuySwordsman = new JButton("Buy");
+		bBuySwordsman.addActionListener(this);
 		bBuySpearman = new JButton("Buy");
+		bBuySpearman.addActionListener(this);
 		bBuyCrossbow = new JButton("Buy");
+		bBuyCrossbow.addActionListener(this);
 		bBuyCannon = new JButton("Buy");
+		bBuyCannon.addActionListener(this);
 		bBuyArrowTower = new JButton("Buy");
+		bBuyArrowTower.addActionListener(this);
 		bBuyCatapult = new JButton("Buy");
+		bBuyCatapult.addActionListener(this);
 		bBuyRocketLauncher = new JButton("Buy");
+		bBuyRocketLauncher.addActionListener(this);
 		bBuyMagician = new JButton("Buy");
+		bBuyMagician.addActionListener(this);
 		bBuyPriest = new JButton("Buy");
+		bBuyPriest.addActionListener(this);
 
 		bBuyAttack = new JButton("Buy");
+		bBuyAttack.addActionListener(this);
 		bBuyDefense = new JButton("Buy");
-
-		// cambiar fuente, color, background
+		bBuyDefense.addActionListener(this);
+    
+    
+		
+		//cambiar fuente,  color, background
 		bBuyFarm.setFont(new Font("Times New Roman", Font.BOLD, 12));
 		bBuySmithy.setFont(new Font("Times New Roman", Font.BOLD, 12));
 		bBuyCarpentry.setFont(new Font("Times New Roman", Font.BOLD, 12));
@@ -541,4 +580,156 @@ public class VentanaPartida extends JFrame {
 
 	}
 
+public void actionPerformed(ActionEvent e) {
+
+	
+	//soldados
+	if (e.getSource()== bBuySwordsman) {
+		try {
+			System.out.println("evento");
+			civilization.newSwordsman(1);
+			datosDominio.crearSoldado(civilization.getArmy()[0].getLast());
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		}
+		
+	}else if (e.getSource()== bBuySpearman) {
+		try {
+			System.out.println("evento");
+			civilization.newSpearman(1);
+			datosDominio.crearSoldado(civilization.getArmy()[1].getLast());
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		}
+	}else if (e.getSource()== bBuyCrossbow) {
+		try {
+			System.out.println("evento");
+			civilization.newCrossbow(1);
+			datosDominio.crearSoldado(civilization.getArmy()[2].getLast());
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		}
+	}else if (e.getSource()== bBuyCannon) {
+		try {
+			System.out.println("evento");
+			civilization.newCannon(1);
+			datosDominio.crearSoldado(civilization.getArmy()[3].getLast());
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		}
+	}else if (e.getSource()== bBuyArrowTower) {
+		try {
+			System.out.println("evento");
+			civilization.newArrowTower(1);
+			datosDominio.crearSoldado(civilization.getArmy()[4].getLast());
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		}
+	}else if (e.getSource()== bBuyCatapult) {
+		try {
+			System.out.println("evento");
+			civilization.newCatapult(1);
+			datosDominio.crearSoldado(civilization.getArmy()[5].getLast());
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		}
+	}else if (e.getSource()== bBuyRocketLauncher) {
+		try {
+			System.out.println("evento");
+			civilization.newRocketLauncherTower(1);
+			datosDominio.crearSoldado(civilization.getArmy()[6].getLast());
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		}
+	}else if (e.getSource()== bBuyMagician) {
+		try {
+			System.out.println("evento");
+			civilization.newMagician(1);
+			datosDominio.crearSoldado(civilization.getArmy()[7].getLast());
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		} catch (BuildingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}else if (e.getSource()== bBuyPriest) {
+		try {
+			System.out.println("evento");
+			civilization.newPriest(1);
+			datosDominio.crearSoldado(civilization.getArmy()[8].getLast());
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		} catch (BuildingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+	//edificios
+	else if (e.getSource()== bBuyFarm) {
+		try {
+			System.out.println("evento");
+			civilization.newFarm();
+			lFarm.setText(String.valueOf(civilization.getFarm()));
+			datosDominio.crearConstruccion(1);
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		}
+	}else if (e.getSource()== bBuySmithy) {
+		try {
+			System.out.println("evento");
+			civilization.newSmithy();
+			lSmithy.setText(String.valueOf(civilization.getSmithy()));
+			datosDominio.crearConstruccion(2);
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		}
+	}else if (e.getSource()== bBuyCarpentry) {
+		try {
+			System.out.println("evento");
+			civilization.newCarpentry();
+			lCarpentry.setText(String.valueOf(civilization.getCarpentry()));
+			datosDominio.crearConstruccion(3);
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		}
+	}else if (e.getSource()== bBuyMagicTower) {
+		try {
+			System.out.println("evento");
+			civilization.newMagictower();
+			lMagicTower.setText(String.valueOf(civilization.getMagicTower()));
+			datosDominio.crearConstruccion(4);
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		}
+	}else if (e.getSource()== bBuyChurch) {
+		try {
+			System.out.println("evento");
+			civilization.newChurch();
+			lChurch.setText(String.valueOf(civilization.getChurch()));
+			datosDominio.crearConstruccion(5);
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		}
+	}else if (e.getSource()== bBuyAttack) {
+		try {
+			System.out.println("evento");
+			civilization.upgradeTechnologyAttack();
+			lChurch.setText(String.valueOf(civilization.getChurch()));
+			datosDominio.crearConstruccion(5);
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		}
+	}else if (e.getSource()== bBuyDefense) {
+		try {
+			System.out.println("evento");
+			civilization.newChurch();
+			lChurch.setText(String.valueOf(civilization.getChurch()));
+			datosDominio.crearConstruccion(5);
+		} catch (ResourceException e1) {
+			e1.printStackTrace();
+		}
+	}
+}
+	
+	
 }

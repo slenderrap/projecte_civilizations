@@ -28,7 +28,8 @@ public class VentanaNuevaPartida extends JFrame implements ActionListener {
 	private int id;
 
 	public VentanaNuevaPartida() {
-		// datos = new Datos();
+
+		datos = new Datos();
 		datosDominio = new ControladorDominio();
 		setSize(500, 500);
 		setLocationRelativeTo(null); // Para que se salga centrada la ventana
@@ -59,8 +60,9 @@ public class VentanaNuevaPartida extends JFrame implements ActionListener {
 		pPrincipal.add(pBack, BorderLayout.NORTH);
 		pBack.setOpaque(false);
 
-		// Textos y boton START
-		texto = new JLabel("Name your Civilization");
+		texto= new JLabel("Name your Civilization");
+		texto.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		texto.setForeground(new Color(076,051,026));		
 		nameTexto = new JTextField(20);
 		bCrearPartida = new JButton("START");
 		bCrearPartida.setFont(new Font("Times New Roman", Font.BOLD, 12));

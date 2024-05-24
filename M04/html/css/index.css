@@ -1,0 +1,33 @@
+body {
+    background-color: rgb(0, 0, 0);
+    font-family: 'Gothic Medium',Arial, sans-serif;
+    font-weight: bold;
+    color: white;
+}
+
+.contenedorindex{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+.linkindex{
+    width: 300px;
+    margin: 20px 20px;
+    display: flex;
+    flex-direction: row;
+    background-color: rgb(17, 17, 17);
+    border-radius: 8px;
+    align-items: center;
+    padding: 50 50;
+}
+
+
+.linkindex{
+    display: flex;
+    flex-direction: column;
+    margin: 10 auto;
+    align-items: center;
+}
+
+
