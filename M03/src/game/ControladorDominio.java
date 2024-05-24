@@ -64,4 +64,13 @@ public ControladorDominio(int id) {
 		
 	}
 	
+	public void crearConstruccion(int i) {
+		
+		datos.crearConstruccion(i);
+		
+	}
+	
+	public void crearIncrementoTecnologia(int id) {
+		datos.crearIncrementoTecnologia(id);
+	}
 }
