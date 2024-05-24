@@ -34,7 +34,7 @@ public class VentanaContinue extends JFrame implements ActionListener{
 	private JScrollPane scrollPane;
 	
 	public VentanaContinue() {
-		//datosDominio = new ControladorDominio();
+		datosDominio = new ControladorDominio();
 		setSize(500, 500);
 		setLocationRelativeTo(null); // Para que se salga centrada la ventana
 		setTitle("Continue");
