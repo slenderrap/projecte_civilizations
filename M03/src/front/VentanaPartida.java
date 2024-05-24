@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import game.Battle;
 import game.Civilization;
 import game.ControladorDominio;
 
@@ -29,14 +30,17 @@ public class VentanaPartida extends JFrame {
 	private JLabel lAttackFoodCost, lAttackWoodCost, lAttackIronCost, lDefenseFoodCost, lDefenseWoodCost, lDefenseIronCost; // labels shop
 																															// coste de
 																															// tecnologias
+	private JLabel lSwordsmanEnemy, lSpearmanEnemy, lCrossbowEnemy, lCannonEnemy, lBattleDevelopment, lBattleSummary; // label para
+																														// battleground
 	private JButton bBuyFarm, bBuySmithy, bBuyCarpentry, bBuyMagicTower, bBuyChurch; // botones shop buy buildings
 	private JButton bBuySwordsman, bBuySpearman, bBuyCrossbow, bBuyCannon, bBuyArrowTower, bBuyCatapult, bBuyRocketLauncher, bBuyMagician,
 			bBuyPriest; // botones shop buy army
 	private JButton bBuyAttack, bBuyDefense; // botones shop buy tecnologias
 	private JButton nuevaPartidaButton, continuarPartidaButton, salirButton;
-	private ImageIcon fondo, fondoCivilizationPanel, fondoArmyPanel, fondoShopPanel;
+	private ImageIcon fondo, fondoCivilizationPanel, fondoArmyPanel, fondoShopPanel, fondoBattleground;
 	private int id;
 	private Civilization civilization;
+	private Battle battle;
 	private ControladorDominio datosDominio;
 
 	public VentanaPartida(int id) {
@@ -156,7 +160,13 @@ public class VentanaPartida extends JFrame {
 			}
 		};
 
-		battlegroundPanel = new JPanel();
+		fondoBattleground = new ImageIcon("src/front/img/BackgroundBattleground.png");
+		battlegroundPanel = new JPanel(new BorderLayout()) {
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(fondoBattleground.getImage(), 0, 0, getWidth(), getHeight(), this);
+			}
+		};
 
 		// TABBED PANEL
 		tabbedPane = new JTabbedPane();
@@ -465,6 +475,44 @@ public class VentanaPartida extends JFrame {
 		size = bBuyDefense.getPreferredSize();
 		bBuyDefense.setBounds(455 + insets.left, 568 + insets.top, size.width, size.height);
 		// fin de SHOP
+		// ------------------------------------------------------------------------
+
+		// COSAS DEL PANEL BATTLEGROUND
+		// -------------------------------------------------------
+		// LABELS BATTLEGROUND
+		lSwordsmanEnemy = new JLabel("1000");
+		lSpearmanEnemy = new JLabel("2000");
+		lCrossbowEnemy = new JLabel("3000");
+		lCannonEnemy = new JLabel("4000");
+		lBattleDevelopment = new JLabel(battle.getBattleDevelopment());
+		lBattleSummary = new JLabel(battle.getBattleSummary());
+
+		// cambiar fuente y color
+		lSwordsmanEnemy.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		lSpearmanEnemy.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		lCrossbowEnemy.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		lCannonEnemy.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		lBattleDevelopment.setFont(new Font("Times New Roman", Font.BOLD, 20)); // poner color blanco
+		lBattleSummary.setFont(new Font("Times New Roman", Font.BOLD, 20)); // poner color blanco
+
+		// añadir al panel Battleground
+		battlegroundPanel.add(lSwordsman);
+		battlegroundPanel.add(lSpearman);
+		battlegroundPanel.add(lCrossbow);
+		battlegroundPanel.add(lCannon);
+		battlegroundPanel.add(lArrowTower);
+		battlegroundPanel.add(lCatapult);
+		battlegroundPanel.add(lRocketLauncherTower);
+		battlegroundPanel.add(lMagician);
+		battlegroundPanel.add(lPriest);
+		battlegroundPanel.add(lSwordsmanEnemy);
+		battlegroundPanel.add(lSpearmanEnemy);
+		battlegroundPanel.add(lCrossbowEnemy);
+		battlegroundPanel.add(lCannonEnemy);
+		battlegroundPanel.add(lBattleDevelopment);
+		battlegroundPanel.add(lBattleSummary);
+
+		// fin de BATTLEGROUND
 		// ------------------------------------------------------------------------
 
 		// todo en opaco falso porque no sé qué está fallando, por qué no se ve el fondo

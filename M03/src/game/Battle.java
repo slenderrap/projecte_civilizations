@@ -31,7 +31,6 @@ public class Battle implements Variables {
 																									// soldado de los ejercitos actuales
 																									// son 4
 	private int primerGolpe;
-
 	private Random random = new Random();
 
 	// GETTER AND SETTERS-------------
@@ -756,9 +755,9 @@ public class Battle implements Variables {
 		// comprobamos quien a tenido menos perdidas
 		if (resourcesLooses[0][3] < resourcesLooses[1][3]) { // si hemos perdido menos abremos ganado y nos llevaremos los recursos que se
 																// haya generado
-			System.out.println("Recursos de madera antes :" + civilization.getWood());
+//			System.out.println("Recursos de madera antes :" + civilization.getWood());
 			civilization.setWood(civilization.getWood() + wasteWoodIron[0]);
-			System.out.println("Recursos de madera despues :" + civilization.getWood());
+//			System.out.println("Recursos de madera despues :" + civilization.getWood());
 			civilization.setIron(civilization.getIron() + wasteWoodIron[1]);
 			battleDevelopment += "********************YOU'VE WON********************\n";
 			battleWin = true;
