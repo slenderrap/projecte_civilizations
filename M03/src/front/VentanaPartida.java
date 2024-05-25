@@ -138,25 +138,25 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		Insets insets = recursosPanel.getInsets();
 		Dimension size = lFood.getPreferredSize();
 		lFood.setBounds(50 + insets.left, 80 + insets.top,
-		             size.width, size.height);
+		             size.width+30, size.height);
 		size = lWood.getPreferredSize();
 		lWood.setBounds(50 + insets.left, 115 + insets.top,
-		             size.width, size.height);
+		             size.width+30, size.height);
 		size = lIron.getPreferredSize();
 		lIron.setBounds(50 + insets.left, 150 + insets.top,
-		             size.width, size.height);
+		             size.width+30, size.height);
 		size = lMana.getPreferredSize();
 		lMana.setBounds(50 + insets.left, 185 + insets.top,
-		             size.width, size.height);
+		             size.width+30, size.height);
 		size = lAttack.getPreferredSize();
 		lAttack.setBounds(50 + insets.left, 300 + insets.top,
-		             size.width, size.height);
+		             size.width+30, size.height);
 		size = lDefense.getPreferredSize();
 		lDefense.setBounds(50 + insets.left, 335 + insets.top,
-		             size.width, size.height);
+		             size.width+30, size.height);
 		size = lBattles.getPreferredSize();
 		lBattles.setBounds(50 + insets.left, 450 + insets.top,
-		             size.width, size.height);
+		             size.width+30, size.height);
 		// fin de panel recursos ------------------------------------------------------------------------
 				
 		
@@ -924,7 +924,6 @@ public void actionPerformed(ActionEvent e) {
 			datosDominio.crearSoldado(civilization.getArmy()[0].getLast());
 			
 		} catch (ResourceException e1) {
-			e1.printStackTrace();
 		}
 		
 	}else if (e.getSource()== bBuySpearman) {
@@ -933,7 +932,6 @@ public void actionPerformed(ActionEvent e) {
 			civilization.newSpearman(1);
 			datosDominio.crearSoldado(civilization.getArmy()[1].getLast());
 		} catch (ResourceException e1) {
-			e1.printStackTrace();
 		}
 	}else if (e.getSource()== bBuyCrossbow) {
 		try {
@@ -941,7 +939,6 @@ public void actionPerformed(ActionEvent e) {
 			civilization.newCrossbow(1);
 			datosDominio.crearSoldado(civilization.getArmy()[2].getLast());
 		} catch (ResourceException e1) {
-			e1.printStackTrace();
 		}
 	}else if (e.getSource()== bBuyCannon) {
 		try {
@@ -949,7 +946,6 @@ public void actionPerformed(ActionEvent e) {
 			civilization.newCannon(1);
 			datosDominio.crearSoldado(civilization.getArmy()[3].getLast());
 		} catch (ResourceException e1) {
-			e1.printStackTrace();
 		}
 	}else if (e.getSource()== bBuyArrowTower) {
 		try {
@@ -957,7 +953,6 @@ public void actionPerformed(ActionEvent e) {
 			civilization.newArrowTower(1);
 			datosDominio.crearSoldado(civilization.getArmy()[4].getLast());
 		} catch (ResourceException e1) {
-			e1.printStackTrace();
 		}
 	}else if (e.getSource()== bBuyCatapult) {
 		try {
@@ -965,7 +960,6 @@ public void actionPerformed(ActionEvent e) {
 			civilization.newCatapult(1);
 			datosDominio.crearSoldado(civilization.getArmy()[5].getLast());
 		} catch (ResourceException e1) {
-			e1.printStackTrace();
 		}
 	}else if (e.getSource()== bBuyRocketLauncher) {
 		try {
@@ -973,7 +967,6 @@ public void actionPerformed(ActionEvent e) {
 			civilization.newRocketLauncherTower(1);
 			datosDominio.crearSoldado(civilization.getArmy()[6].getLast());
 		} catch (ResourceException e1) {
-			e1.printStackTrace();
 		}
 	}else if (e.getSource()== bBuyMagician) {
 		try {
@@ -981,9 +974,7 @@ public void actionPerformed(ActionEvent e) {
 			civilization.newMagician(1);
 			datosDominio.crearSoldado(civilization.getArmy()[7].getLast());
 		} catch (ResourceException e1) {
-			e1.printStackTrace();
 		} catch (BuildingException e1) {
-			e1.printStackTrace();
 		}
 	}else if (e.getSource()== bBuyPriest) {
 		try {
@@ -991,9 +982,7 @@ public void actionPerformed(ActionEvent e) {
 			civilization.newPriest(1);
 			datosDominio.crearSoldado(civilization.getArmy()[8].getLast());
 		} catch (ResourceException e1) {
-			e1.printStackTrace();
 		} catch (BuildingException e1) {
-			e1.printStackTrace();
 		}
 	}
 	
@@ -1005,7 +994,6 @@ public void actionPerformed(ActionEvent e) {
 			lFarm.setText(String.valueOf(civilization.getFarm()));
 			datosDominio.crearConstruccion(1);
 		} catch (ResourceException e1) {
-			e1.printStackTrace();
 		}
 	}else if (e.getSource()== bBuySmithy) {
 		try {
@@ -1014,7 +1002,6 @@ public void actionPerformed(ActionEvent e) {
 			lSmithy.setText(String.valueOf(civilization.getSmithy()));
 			datosDominio.crearConstruccion(2);
 		} catch (ResourceException e1) {
-			e1.printStackTrace();
 		}
 	}else if (e.getSource()== bBuyCarpentry) {
 		try {
@@ -1023,7 +1010,6 @@ public void actionPerformed(ActionEvent e) {
 			lCarpentry.setText(String.valueOf(civilization.getCarpentry()));
 			datosDominio.crearConstruccion(3);
 		} catch (ResourceException e1) {
-			e1.printStackTrace();
 		}
 	}else if (e.getSource()== bBuyMagicTower) {
 		try {
@@ -1032,7 +1018,6 @@ public void actionPerformed(ActionEvent e) {
 			lMagicTower.setText(String.valueOf(civilization.getMagicTower()));
 			datosDominio.crearConstruccion(4);
 		} catch (ResourceException e1) {
-			e1.printStackTrace();
 		}
 	}else if (e.getSource()== bBuyChurch) {
 		try {
@@ -1042,7 +1027,6 @@ public void actionPerformed(ActionEvent e) {
 			datosDominio.crearConstruccion(5);
 			
 		} catch (ResourceException e1) {
-			e1.printStackTrace();
 		}
 		
 	//tecnologias
@@ -1071,7 +1055,6 @@ public void actionPerformed(ActionEvent e) {
 			
 			datosDominio.crearIncrementoTecnologia(1);
 		} catch (ResourceException e1) {
-			e1.printStackTrace();
 		}
 	}else if (e.getSource()== bBuyDefense) {
 		try {
@@ -1097,7 +1080,6 @@ public void actionPerformed(ActionEvent e) {
 		
 			datosDominio.crearIncrementoTecnologia(2);
 		} catch (ResourceException e1) {
-			e1.printStackTrace();
 		}
 	}
 	lFood.setText(String.valueOf(civilization.getFood()));

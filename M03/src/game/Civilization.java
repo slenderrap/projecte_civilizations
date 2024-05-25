@@ -525,7 +525,10 @@ public class Civilization implements Variables{
 				if(iron<IRON_COST_MAGICIAN) {
 					throw new ResourceException("Not enough Iron!");
 				}
-				if(army[7].size()>magicTower) {
+				if(mana<MANA_COST_MAGICIAN) {
+					throw new ResourceException("Not enough Mana!");
+				}
+				if(army[7].size()>=magicTower) {
 					throw new BuildingException("Not enough Magic Towers!");						
 				}
 			}			
@@ -552,6 +555,9 @@ public class Civilization implements Variables{
 				}
 				if(iron<IRON_COST_PRIEST) {
 					throw new ResourceException("Not enough Iron!");
+				}
+				if(mana<MANA_COST_PRIEST) {
+					throw new ResourceException("Not enough Mana!");
 				}
 				if(army[8].size()>=church) {
 					throw new BuildingException("Not enough Churches!");					

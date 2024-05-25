@@ -1,5 +1,6 @@
 package front;
 import game.ControladorDominio;
+import game.EmptyTextException;
 import game.TimerPersonalizado;
 
 import java.awt.BorderLayout;
@@ -18,6 +19,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -171,26 +173,20 @@ public class VentanaContinue extends JFrame implements ActionListener{
 
 					ArrayList<String> datosPartida = datosDominio.cargarPartida(idNumber);
 					if (datosPartida.size()!=0){
-						System.out.println("empiezaria la partida");
 						dispose();
 						
 						new VentanaPartida(idNumber);
 					}else {
-						System.out.println("La partida no empieza");
 					}
 				}else {
-					throw new TextoEnBlanco();
+					throw new EmptyTextException("Text can't be empty!");
 				}
 
 
-			}catch (TextoEnBlanco e2) {
-				
-				System.err.println("Ese texto esta en blanco");
-			
-			
-				
-			} catch (NumberFormatException e3) {
-				System.out.println("No has introducido un numero!");
+			}catch (EmptyTextException e2) {
+			} 
+			catch (NumberFormatException e3) {
+				JOptionPane.showMessageDialog(null, "You must insert a number!", "Error: no number", JOptionPane.WARNING_MESSAGE);
 			}catch (Exception e4) {
 				e4.getStackTrace();
 			}
@@ -205,18 +201,14 @@ public class VentanaContinue extends JFrame implements ActionListener{
 					int idNumber = Integer.parseInt(id);
 					datosDominio.borrarPartida(idNumber);
 				}else {
-					throw new TextoEnBlanco();
+					throw new EmptyTextException("Text can't be empty!");
 				}
 
 
-			}catch (TextoEnBlanco e2) {
-				
-				System.err.println("Ese texto esta en blanco");
-			
-			
-				
-			} catch (NumberFormatException e3) {
-				System.out.println("No has introducido un numero!");
+			}catch (EmptyTextException e2) {
+			} 
+			catch (NumberFormatException e3) {
+				JOptionPane.showMessageDialog(null, "You must insert a number!", "Error: no number", JOptionPane.WARNING_MESSAGE);
 			}catch (Exception e4) {
 				e4.getStackTrace();
 			}
@@ -224,9 +216,5 @@ public class VentanaContinue extends JFrame implements ActionListener{
 		
 		
 	}
-	}
-}
-class TextoEnBlanco extends Exception{
-	public TextoEnBlanco() {
 	}
 }
