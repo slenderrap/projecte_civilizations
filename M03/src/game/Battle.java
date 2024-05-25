@@ -364,7 +364,7 @@ public class Battle implements Variables {
 
 	// Para calcular los porcentajes de unidades que quedan respecto los ejércitos
 	// iniciales.
-	public boolean remainderPercentageFleetCivilization() {
+	public boolean remainingPercentageFleetCivilization() {
 		createActualNumberUnitsCivilization();
 		boolean perdido = false;
 		float numeroPerderCivilization = (float) (initialNumberUnitsCivilization * 0.20); // Creamos el numero el cual sera nuestro 20%
@@ -382,7 +382,7 @@ public class Battle implements Variables {
 
 	// Para calcular los porcentajes de unidades que quedan respecto los ejércitos
 	// enemigos iniciales.
-	public boolean remainderPercentageFleetEnemy() {
+	public boolean remainingPercentageFleetEnemy() {
 		createActualNumberUnitsEnemy();
 		boolean perdido = false;
 		float numeroPerderEnemy = (float) (initialNumberUnitsEnemy * 0.20); // Creamos el numero el cual sera nuestro 20%
@@ -561,7 +561,7 @@ public class Battle implements Variables {
 		}
 	}
 
-	public String BattleSummary(int turno) {
+	public String battleSummary(int turno) {
 		createActualNumberUnitsCivilization(); // Actualizaqmos el numero actual de nuestro ejercito
 		createActualNumberUnitsEnemy(); // Actualizaqmos el numero actual del ejercito enemigo
 		createInitialCostFleet();
@@ -740,11 +740,11 @@ public class Battle implements Variables {
 				}
 			}
 
-			if (remainderPercentageFleetCivilization() == true) { // Comprueba si nuestra civilizacion esta por encima del 20%
+			if (remainingPercentageFleetCivilization() == true) { // Comprueba si nuestra civilizacion esta por encima del 20%
 				battleover = true;
 			}
 
-			if (remainderPercentageFleetEnemy() == true) { // Comprueba si la civilizacion enemiga esta por encima del 20%
+			if (remainingPercentageFleetEnemy() == true) { // Comprueba si la civilizacion enemiga esta por encima del 20%
 				battleover = true;
 			}
 
@@ -752,13 +752,13 @@ public class Battle implements Variables {
 			desanctify();
 
 			if (turno % 5 == 0) {
-				BattleSummary(turno);
+				battleSummary(turno);
 			}
 			turno += 1; // Al terminar añade un turno
 		}
 
 		updateResourcesLooses(); // guardamos la perdidas
-		BattleSummary(turno);
+		battleSummary(turno);
 
 		// comprobamos quien a tenido menos perdidas
 		if (resourcesLooses[0][3] < resourcesLooses[1][3]) { // si hemos perdido menos abremos ganado y nos llevaremos los recursos que se
