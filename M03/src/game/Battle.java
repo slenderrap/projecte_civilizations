@@ -20,14 +20,14 @@ public class Battle implements Variables {
 	private ArrayList<MilitaryUnit>[] civilizationArmy = new ArrayList[9]; // Almacenar nuestro ejercito
 	private ArrayList<MilitaryUnit>[] enemyArmy = new ArrayList[4]; // Almacenar ejercito enemigo // son 4
 	private ArrayList[][] armies = new ArrayList[2][9]; // Almacena los dos ejercitos
-	private String battleDevelopment; // Guarda el desarollo de la partida
-	private String battleSummary; // Guarda el resumen de la batalla
+	private String battleDevelopment = ""; // Guarda el desarollo de la partida
+	private String battleSummary = ""; // Guarda el resumen de la batalla
 	private int[][] initialCostFleet = new int[2][3]; // Guarda el coste total de todas nuestras unidades y del enemigo
 	private int initialNumberUnitsCivilization, initialNumberUnitsEnemy; // Guarda el numero de soldados iniciales de cada ejercito
 	private int[] wasteWoodIron = new int[2]; // Residuos generados
 	private int[][] resourcesLooses = new int[2][4]; // Guarda las perdidas de los 2 bandos
 	private int[][] initialArmies = new int[2][9]; // Guarda la cantidad de cada tipo de soldado de los 2 bandos
-	private int[] actualNumberUnitsCivilization = new int[9], actualNumberUnitsEnemy = new int[9]; // Guarda la cantidad de cada tipo de
+	private int[] actualNumberUnitsCivilization = new int[9], actualNumberUnitsEnemy = new int[4]; // Guarda la cantidad de cada tipo de
 																									// soldado de los ejercitos actuales
 																									// son 4
 	private int primerGolpe;
@@ -59,7 +59,11 @@ public class Battle implements Variables {
 	}
 
 	public String getBattleDevelopment() {
-		return battleDevelopment;
+		if (battleDevelopment == null) {
+			return "";
+		} else {
+			return battleDevelopment;
+		}
 	}
 
 	public void setBattleDevelopment(String battleDevelopment) {
@@ -203,7 +207,7 @@ public class Battle implements Variables {
 	// Metodo para guardar el ejercito enemigo, el numero de soldados y el total
 	public void listArmyEnemy(ArrayList<MilitaryUnit>[] Army) {
 
-		for (int i = 0; i < Army.length; i++) { // limpia el ArrayList
+		for (int i = 0; i < /* Army.length */ 4; i++) { // limpia el ArrayList
 			if (enemyArmy[i] != null && enemyArmy[i].size() > 0) {
 				enemyArmy[i].clear();
 			}
@@ -211,7 +215,7 @@ public class Battle implements Variables {
 
 		int numeroEjercito = 0;
 
-		for (int i = 0; i < Army.length; i++) { // añade el ejercito enemigo
+		for (int i = 0; i < /* Army.length */4; i++) { // añade el ejercito enemigo
 			enemyArmy[i] = new ArrayList<MilitaryUnit>();
 			for (MilitaryUnit unit : Army[i]) {
 				enemyArmy[i].add(createUnit(unit.getClass().getName().substring(unit.getClass().getName().lastIndexOf(".") + 1),
@@ -598,38 +602,42 @@ public class Battle implements Variables {
 				// verifica el ejército enemigo.
 			} else {
 				if (i < enemyArmy.length) {
-					String name = enemyArmy[i].get(0).getClass().getName()
-							.substring(enemyArmy[i].get(0).getClass().getName().lastIndexOf(".") + 1);
 					if (enemyArmy[i] != null && enemyArmy[i].size() > 0 && initialArmies[1][i] > 0) {
-						// Obtiene el nombre de la clase de la primera unidad en la posición i del
-						// ejército enemigo.
+						if (i < enemyArmy.length) {
+							String name = enemyArmy[i].get(0).getClass().getName()
+									.substring(enemyArmy[i].get(0).getClass().getName().lastIndexOf(".") + 1);
+							if (enemyArmy[i] != null && enemyArmy[i].size() > 0 && initialArmies[1][i] > 0) {
+								// Obtiene el nombre de la clase de la primera unidad en la posición i del
+								// ejército enemigo.
 
-						// Si la posición i es menor que 5, se procesa tanto el ejército enemigo como el
-						// de la civilización.
-						if (i < 5) {
-							texto += name + " " + 0 + " " + 0 + " " + name + " " + initialArmies[1][i] + " " + actualNumberUnitsEnemy[i]
-									+ "\n";
+								// Si la posición i es menor que 5, se procesa tanto el ejército enemigo como el
+								// de la civilización.
+								if (i < 5) {
+									texto += name + " " + 0 + " " + 0 + " " + name + " " + initialArmies[1][i] + " "
+											+ actualNumberUnitsEnemy[i] + "\n";
+								}
+							} else {
+								// Si la posición i es mayor o igual a 5, solo se procesa el ejército enemigo.
+								texto += name + " " + 0 + " " + 0 + "\n";
+							}
 						}
-					} else {
-						// Si la posición i es mayor o igual a 5, solo se procesa el ejército enemigo.
-						texto += name + " " + 0 + " " + 0 + "\n";
 					}
 				}
 			}
 
 		}
 
-		texto += "**************************************************************************************\n";
+		texto += "******************************************************\n";
 		texto += "Cost Army Civilization Cost Army Enemy\n";
 		texto += "Food: " + initialCostFleet[0][0] + " Food: " + initialCostFleet[1][0] + "\n";
 		texto += "Wood: " + initialCostFleet[0][1] + " Wood: " + initialCostFleet[1][1] + "\n";
 		texto += "Iron: " + initialCostFleet[0][2] + " Iron: " + initialCostFleet[1][2] + "\n";
-		texto += "**************************************************************************************\n";
+		texto += "******************************************************\n";
 		texto += "Losses Army Civilization Losses Army Enemy\n";
 		texto += "Food: " + resourcesLooses[0][0] + " Food: " + resourcesLooses[1][0] + "\n";
 		texto += "Wood: " + resourcesLooses[0][1] + " Wood: " + resourcesLooses[1][1] + "\n";
 		texto += "Iron: " + resourcesLooses[0][2] + " Iron: " + resourcesLooses[1][2] + "\n";
-		texto += "**************************************************************************************\n";
+		texto += "******************************************************\n";
 
 		battleSummary += texto;
 		return texto;
