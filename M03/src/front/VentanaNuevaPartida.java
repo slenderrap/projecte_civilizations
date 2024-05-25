@@ -11,7 +11,9 @@ import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 
+import game.BuildingException;
 import game.ControladorDominio;
+import game.EmptyTextException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -105,14 +107,14 @@ public class VentanaNuevaPartida extends JFrame implements ActionListener{
 		setVisible(true);
 		}
 	
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e){
 		
 		if (e.getSource()==bCrearPartida) {
 			try {
 				
 				String name = nameTexto.getText();
 				if (name.equals("")) {
-					throw new TextoEnBlanco();
+					throw new EmptyTextException("Text can't be empty!");
 					
 				}else {
 					System.out.println("Creando nueva partida");
@@ -125,8 +127,7 @@ public class VentanaNuevaPartida extends JFrame implements ActionListener{
 					new VentanaPartida(id);
 
 				}
-			} catch (TextoEnBlanco e2) {
-				System.out.println("El texto está vacio");
+			} catch (EmptyTextException e2) {
 			}
 		}
 		else if (e.getSource()==bBack) {
@@ -144,7 +145,3 @@ public class VentanaNuevaPartida extends JFrame implements ActionListener{
 	}
 		
 
-class TextoEnBlanco extends Exception{
-	public TextoEnBlanco() {
-	}
-}

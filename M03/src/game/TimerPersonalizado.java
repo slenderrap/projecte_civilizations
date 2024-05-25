@@ -79,6 +79,7 @@ public class TimerPersonalizado extends TimerTask implements Variables{
         }else if (minuto==4 && segundo==0) {
         	System.out.println("inicio batalla");
         	minuto=0;
+        	//checkear que hay mas de un soldado en el array
         	//efectuar codigo de la batalla
         	//displayear resultados en panel Battleground
 		}
