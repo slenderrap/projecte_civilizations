@@ -1,109 +1,69 @@
 body {
     background-color: rgb(0, 0, 0);
-    font-family: 'Gothic Medium',Arial, sans-serif;
-    font-weight: bold;
-    color: white;
+    font-family: "Caudex", serif;
+    font-weight: 700;
+    color: rgb(0, 0, 0);
 }
 
-.contenedorindex{
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.imagencaratula{
-    width: 100px;
-    height: 100px;
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-}
-
-.cancionindex{
-    width: 300px;
-    margin: 20px 20px;
-    display: flex;
-    flex-direction: row;
-    background-color: rgb(17, 17, 17);
-    border-radius: 8px;
-    align-items: center;
-}
-
-.cancionindex a{
-    color: white;
-    text-decoration: none;
-    padding: 20px;
-}
-
-
-
-.contenedorcanco{
+.contendor{
+    background-image: url("background.jpg");
     display: flex;
     flex-direction: column;
-    margin: 0 auto;
-    align-items: center;
-}
-
-.imagen{
-    margin-top: 20px;
-    width: 250px;
-    height: 250px;
-}
-
-.superior{
-    display: flex;
-    flex-direction: column;
-    margin: 0 auto;
-    margin-bottom: 20px;
-    align-items: center;
-    text-align: center;
-}
-
-.superior h2{
-    margin-top: 20px;
-    margin-bottom:0;
-}
-
-.superior h3,h5{
-    color: rgb(167, 167, 167);
-    margin-top: 10px;
-    margin-bottom:0;
-}
-
-.album{
-    display: flex;
-    flex-direction: row;
     justify-content: center;
-}
-.album h5{
-    margin: 2px;
-    margin-top: 10px;
+    margin: 0 200;
+
 }
 
-.superior a{
-    background-color: rgb(29, 185, 84);
-    border-radius: 50px;
-    color: white;
-    text-decoration: none;
-    width: 200px;
-    margin-top: 20px;
-}
-
-
-.lletra{
-    width: 500px;
-    background-color: rgb(17, 17, 17);
-    border-radius: 8px;
-    padding: 20px;
-}
-
-.lletra h5{
-    margin: 0;
-}
-
-
-.contenedorcancoextra{
+.contenedorDefenseUnits{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
     margin: 0 auto;
-    align-items: center;
-    background-color:darkcyan;
+}
+
+.contenedorDefenseUnit{
+    font-family: "Caudex", serif;
+    font-weight: 700;
+    color: rgb(0, 119, 20);
+    display: flex;
+    flex-direction: row-reverse;
+    padding: 10px 10px;
+    margin: 30 auto;
+}
+
+
+.contenidoDefenseUnit{
+    padding: 20px 20px;
+}
+
+.contenidoDefenseUnit h1{
+    font-weight: 1000;
+}
+
+.titulo h1{
+    color: rgb(238, 220, 197);
+    font-size: 60;
+    margin-left: 50px;
+    padding: 10px;
+    width: fit-content;
+    height: fit-content;
+    background-color:rgb(0, 119, 20);
+}
+
+h1{
+    font-weight: bold;
+}
+
+img {
+    background-color: rgb(233, 218, 201);
+    width: 300px;
+    margin: 10px;
+    border: 5px solid transparent;
+    border-color: rgb(0, 119, 20);
+    padding: 10px;
+}
+
+.foto{
+    margin: auto;
 }

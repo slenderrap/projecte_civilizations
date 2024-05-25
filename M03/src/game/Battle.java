@@ -785,5 +785,3 @@ public class Battle implements Variables {
 	}
 
 }
-
-// modificar el ejercito civilizacion cuando termine la batalla

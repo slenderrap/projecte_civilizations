@@ -293,7 +293,22 @@ public class Datos {
 				e.printStackTrace();
 			}
 		}
-
+		
 	}
+
+	public void actualizarRecursos(int food,int wood,int iron,int mana) {
+		String update = "update civilization_stats set food_amount = "+food+", wood_amount = "+wood+ ", iron_amount = " + iron + ", mana_amount = " + mana + " where id_civilization = "+getId();
+		try {
+			Statement st = conn.createStatement();
+			
+			st.executeUpdate(update);
+			System.out.println("Datos guardados");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+
 
 }
