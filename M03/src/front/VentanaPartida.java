@@ -10,13 +10,13 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
@@ -28,7 +28,6 @@ import game.Battle;
 import game.BuildingException;
 import game.Civilization;
 import game.ControladorDominio;
-import game.MilitaryUnit;
 import game.ResourceException;
 import game.TimerPersonalizado;
 import game.Variables;
@@ -109,8 +108,8 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		lAttack = new JLabel(String.valueOf(civilization.getTechnologyAttack()));
 		lDefense = new JLabel(String.valueOf(civilization.getTechnologyDefense()));
 		lBattles = new JLabel(String.valueOf(civilization.getBattles()));
-		
-		//cambiar fuente y color
+
+		// cambiar fuente y color
 		lFood.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		lWood.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		lIron.setFont(new Font("Times New Roman", Font.BOLD, 16));
@@ -214,8 +213,8 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		lCarpentry = new JLabel(String.valueOf(civilization.getCarpentry()));
 		lChurch = new JLabel(String.valueOf(civilization.getChurch()));
 		lMagicTower = new JLabel(String.valueOf(civilization.getMagicTower()));
-		
-		//cambiar fuente y color
+
+		// cambiar fuente y color
 		lFarm.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		lSmithy.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		lCarpentry.setFont(new Font("Times New Roman", Font.BOLD, 16));
@@ -268,8 +267,8 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		lRocketLauncherTower = new JLabel(String.valueOf(civilization.getArmy()[6].size()));
 		lMagician = new JLabel(String.valueOf(civilization.getArmy()[7].size()));
 		lPriest = new JLabel(String.valueOf(civilization.getArmy()[8].size()));
-		
-		//cambiar fuente y color
+
+		// cambiar fuente y color
 		lSwordsman.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		lSpearman.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		lCrossbow.setFont(new Font("Times New Roman", Font.BOLD, 20));
@@ -390,6 +389,7 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		shopPanel.add(lDefenseFoodCost);
 		shopPanel.add(lDefenseWoodCost);
 		shopPanel.add(lDefenseIronCost);
+
 	
 		
 		//mover labels a su sitio en coordenadas
@@ -452,6 +452,8 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		bBuyAttack.addActionListener(this);
 		bBuyDefense = new JButton("Buy");
 		bBuyDefense.addActionListener(this);
+    
+    
 		
 		//cambiar fuente,  color, background
 		bBuyFarm.setFont(new Font("Times New Roman", Font.BOLD, 12));

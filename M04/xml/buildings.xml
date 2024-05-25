@@ -7,7 +7,7 @@
 			<iron_cost>10000</iron_cost>
 			<wood_cost>12000</wood_cost>
 		</costs>
-		<sprite>IconFarm.png</sprite>
+		<sprite>IconFood.png</sprite>
 	</building>
 	<building>
 		<name>CARPENTRY</name>
