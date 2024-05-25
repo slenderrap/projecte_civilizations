@@ -16,7 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import bbdd.Datos;
+
 import game.ControladorDominio;
 
 public class VentanaNuevaPartida extends JFrame implements ActionListener {
@@ -30,7 +30,7 @@ public class VentanaNuevaPartida extends JFrame implements ActionListener {
 
 	public VentanaNuevaPartida() {
 
-		Datos datos = new Datos();
+		
 		datosDominio = new ControladorDominio();
 		setSize(500, 500);
 		setLocationRelativeTo(null); // Para que se salga centrada la ventana
