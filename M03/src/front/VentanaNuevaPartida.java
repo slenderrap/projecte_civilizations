@@ -11,13 +11,7 @@ import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.ExceptionListener;
-import java.util.Timer;
-
 import game.ControladorDominio;
-import game.TimerPersonalizado;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;

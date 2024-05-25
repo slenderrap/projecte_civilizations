@@ -10,10 +10,6 @@ import java.util.ArrayList;
 
 import game.MilitaryUnit;
 import game.attackUnities.AttackUnity;
-import game.attackUnities.Cannon;
-import game.attackUnities.Crossbow;
-import game.attackUnities.Spearman;
-import game.attackUnities.Swordsman;
 import game.defenseUnities.DefenseUnit;
 import game.specialUnities.Magician;
 import game.specialUnities.Priest;
@@ -293,6 +289,18 @@ public class Datos {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+		}
+		
+	}
+	public void actualizarRecursos(int food,int wood,int iron,int mana) {
+		String update = "update civilization_stats set food_amount = "+food+", wood_amount = "+wood+ ", iron_amount = " + iron + ", mana_amount = " + mana + " where id_civilization = "+getId();
+		try {
+			Statement st = conn.createStatement();
+			
+			st.executeUpdate(update);
+			System.out.println("Datos guardados");
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		
 	}

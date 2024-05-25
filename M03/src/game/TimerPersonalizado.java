@@ -2,46 +2,69 @@ package game;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import game.ControladorDominio;
 
 public class TimerPersonalizado extends TimerTask implements Variables{
-	
+	private ControladorDominio cDominio;
+	private int id;
 	private int segundo=0;
 	private int minuto=0;
+	private int[] recursos;
+	public TimerPersonalizado(int id) {
+		this.id=id;
+		cDominio=new ControladorDominio(id);
+	}
 	    public void run() {
+	    	
 		 	segundo++;
 		 	if (segundo==60) {
+		 		int food = recursos[0];
+		 		int wood = recursos[1];
+		 		int iron = recursos[2];
+		 		int mana = recursos[3];
+		 		int farm = recursos[4];
+		 		int carpentery = recursos[5];
+		 		int smithery = recursos[6];
+		 		int magicTower = recursos[7];
+		 		
 		 		segundo=0;
 		 		minuto++;
+		 			
+		 		
 		 		
 		 		//updates recursos
+		 		
+		 		
 		 		//GENERACION FOOD
-//				if (civilization.getFarm()==0) {
-//					civilization.setFood(civilization.getFood()+CIVILIZATION_FOOD_GENERATED);
-//				}
-//				else {
-//					civilization.setFood(civilization.getFood()+(civilization.getFarm()*CIVILIZATION_FOOD_GENERATED_PER_FARM));
-//				}
-//				
+				if (farm==0) {
+					food+=CIVILIZATION_FOOD_GENERATED;
+				}
+				else {
+					food+=farm*CIVILIZATION_FOOD_GENERATED_PER_FARM;
+				}
+
 //				//GENERACION WOOD
-//				if (civilization.getCarpentry()==0) {
-//					civilization.setWood(civilization.getWood()+CIVILIZATION_WOOD_GENERATED);
-//				}
-//				else {
-//					civilization.setWood(civilization.getWood()+(civilization.getCarpentry()*CIVILIZATION_WOOD_GENERATED_PER_CARPENTRY));
-//				}
-//				
+				if (carpentery==0) {
+					wood+=CIVILIZATION_WOOD_GENERATED;
+				}
+				else {
+					wood+=carpentery*CIVILIZATION_WOOD_GENERATED_PER_CARPENTRY;
+				}
+
 //				//GENERACION IRON
-//				if (civilization.getSmithy()==0) {
-//					civilization.setIron(civilization.getIron()+CIVILIZATION_IRON_GENERATED);
-//				}
-//				else {
-//					civilization.setIron(civilization.getIron()+(civilization.getSmithy()*CIVILIZATION_IRON_GENERATED_PER_SMITHY));
-//				}
-//				
+				
+				if (smithery==0) {
+					iron+=CIVILIZATION_IRON_GENERATED;
+				}
+				else {
+					iron+=smithery*CIVILIZATION_IRON_GENERATED_PER_SMITHY;
+				}
 //				//GENERACION MANA
-//				if (civilization.getMagicTower()>0) {
-//					civilization.setMana(civilization.getMana()+CIVILIZATION_MANA_GENERATED_PER_MAGIC_TOWER);
-//				}
+				if (magicTower>0) {
+					mana+=CIVILIZATION_MANA_GENERATED_PER_MAGIC_TOWER;
+				}
+		 		cDominio.actualizarRecursos(food,wood,iron,mana);
+		 		
 		 	}
 	        System.out.println("Timer task started at: "+minuto+"' "+segundo+"\"");
 	        
@@ -63,6 +86,11 @@ public class TimerPersonalizado extends TimerTask implements Variables{
         
         
 	    }
+	    public void recursosActualizar(int food, int wood, int iron, int mana, int farm,int carpentery, int smithery, int magicTower) {
+	    	
+	    	this.recursos = new int[] {food,wood,iron,mana,farm,carpentery,smithery,magicTower};
+			
+		}
 
 	    
 }

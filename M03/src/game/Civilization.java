@@ -158,7 +158,7 @@ public class Civilization implements Variables{
 	
 	//nueva CHURCH
 	public void newChurch() throws ResourceException {
-		if (food>FOOD_COST_CHURCH && wood>WOOD_COST_CHURCH && iron>IRON_COST_CHURCH) {
+		if (food>=FOOD_COST_CHURCH && wood>=WOOD_COST_CHURCH && iron>=IRON_COST_CHURCH) {
 			church+=1;
 			food-=FOOD_COST_CHURCH;
 			wood-=WOOD_COST_CHURCH;
@@ -179,7 +179,7 @@ public class Civilization implements Variables{
 	
 	//nueva MAGIC TOWER
 	public void newMagictower() throws ResourceException{
-		if (food>FOOD_COST_MAGICTOWER && wood>WOOD_COST_MAGICTOWER && iron>IRON_COST_MAGICTOWER) {
+		if (food>=FOOD_COST_MAGICTOWER && wood>=WOOD_COST_MAGICTOWER && iron>=IRON_COST_MAGICTOWER) {
 			magicTower+=1;
 			food-=FOOD_COST_MAGICTOWER;
 			wood-=WOOD_COST_MAGICTOWER;
@@ -200,7 +200,7 @@ public class Civilization implements Variables{
 	
 	//nueva FARM
 	public void newFarm() throws ResourceException {
-		if (food>FOOD_COST_FARM && wood>WOOD_COST_FARM && iron>IRON_COST_FARM) {
+		if (food>=FOOD_COST_FARM && wood>=WOOD_COST_FARM && iron>=IRON_COST_FARM) {
 			farm+=1;
 			food-=FOOD_COST_FARM;
 			wood-=WOOD_COST_FARM;
@@ -221,7 +221,7 @@ public class Civilization implements Variables{
 	
 	//nueva CARPENTRY
 	public void newCarpentry() throws ResourceException {
-		if (food>FOOD_COST_CARPENTRY && wood>WOOD_COST_CARPENTRY && iron>IRON_COST_CARPENTRY) {
+		if (food>=FOOD_COST_CARPENTRY && wood>=WOOD_COST_CARPENTRY && iron>=IRON_COST_CARPENTRY) {
 			carpentry+=1;
 			food-=FOOD_COST_CARPENTRY;
 			wood-=WOOD_COST_CARPENTRY;
@@ -242,7 +242,7 @@ public class Civilization implements Variables{
 
 	//nuevo SMITHY
 	public void newSmithy() throws ResourceException {
-		if (food>FOOD_COST_SMITHY && wood>WOOD_COST_SMITHY && iron>IRON_COST_SMITHY) {
+		if (food>=FOOD_COST_SMITHY && wood>=WOOD_COST_SMITHY && iron>=IRON_COST_SMITHY) {
 			smithy+=1;
 			food-=FOOD_COST_SMITHY;
 			wood-=WOOD_COST_SMITHY;
@@ -276,7 +276,7 @@ public class Civilization implements Variables{
 				ironCost += ironCost/100*UPGRADE_PLUS_DEFENSE_TECHNOLOGY_IRON_COST;
 			}
 		}
-		if (food>foodCost && wood>woodCost && iron>ironCost) {
+		if (food>=foodCost && wood>=woodCost && iron>=ironCost) {
 			technologyDefense+=1;
 			food-=foodCost;
 			wood-=woodCost;
@@ -336,7 +336,8 @@ public class Civilization implements Variables{
 		int armor =(ARMOR_SWORDSMAN+(getTechnologyDefense()*PLUS_ARMOR_SWORDSMAN_BY_TECHNOLOGY)*1000/100);
 		int baseDamage = (BASE_DAMAGE_SWORDSMAN+(getTechnologyAttack()*PLUS_ATTACK_SWORDSMAN_BY_TECHNOLOGY)*1000/100);
 		for (int i=0;i<n;i++) {
-			if (food>FOOD_COST_SWORDSMAN && wood>WOOD_COST_SWORDSMAN && iron>IRON_COST_SWORDSMAN) {
+			if (food>=FOOD_COST_SWORDSMAN && wood>=WOOD_COST_SWORDSMAN && iron>=IRON_COST_SWORDSMAN) {
+				System.err.println("compra");
 				army[0].add(new Swordsman(armor, baseDamage));
 				food-=FOOD_COST_SWORDSMAN;
 				wood-=WOOD_COST_SWORDSMAN;
@@ -360,7 +361,7 @@ public class Civilization implements Variables{
 		int armor = (ARMOR_SPEARMAN+(getTechnologyDefense()*PLUS_ARMOR_SPEARMAN_BY_TECHNOLOGY)*1000/100);
 		int baseDamage = (BASE_DAMAGE_SPEARMAN+(getTechnologyAttack()*PLUS_ATTACK_SPEARMAN_BY_TECHNOLOGY)*1000/100);
 		for (int i=0;i<n;i++) {
-			if (food>FOOD_COST_SPEARMAN && wood>WOOD_COST_SPEARMAN && iron>IRON_COST_SPEARMAN) {
+			if (food>=FOOD_COST_SPEARMAN && wood>=WOOD_COST_SPEARMAN && iron>=IRON_COST_SPEARMAN) {
 				army[1].add(new Spearman(armor, baseDamage));
 				food-=FOOD_COST_SPEARMAN;
 				wood-=WOOD_COST_SPEARMAN;
@@ -384,7 +385,7 @@ public class Civilization implements Variables{
 		int armor=(ARMOR_CROSSBOW+(getTechnologyDefense()*PLUS_ARMOR_CROSSBOW_BY_TECHNOLOGY)*1000/100);
 		int baseDamage=(BASE_DAMAGE_CROSSBOW+(getTechnologyAttack()*PLUS_ATTACK_CROSSBOW_BY_TECHNOLOGY)*1000/100);
 		for (int i=0;i<n;i++) {
-			if (food>FOOD_COST_CROSSBOW && wood>WOOD_COST_CROSSBOW && iron>IRON_COST_CROSSBOW) {
+			if (food>=FOOD_COST_CROSSBOW && wood>=WOOD_COST_CROSSBOW && iron>=IRON_COST_CROSSBOW) {
 				army[2].add(new Crossbow(armor, baseDamage));
 				food-=FOOD_COST_CROSSBOW;
 				wood-=WOOD_COST_CROSSBOW;
@@ -408,7 +409,7 @@ public class Civilization implements Variables{
 		int armor = (ARMOR_CANNON+(getTechnologyDefense()*PLUS_ARMOR_CANNON_BY_TECHNOLOGY)*1000/100);
 		int baseDamage = (BASE_DAMAGE_CANNON+(getTechnologyAttack()*PLUS_ATTACK_CANNON_BY_TECHNOLOGY)*1000/100);
 		for (int i=0;i<n;i++) {
-			if (food>FOOD_COST_CANNON && wood>WOOD_COST_CANNON && iron>IRON_COST_CANNON) {
+			if (food>=FOOD_COST_CANNON && wood>=WOOD_COST_CANNON && iron>=IRON_COST_CANNON) {
 				army[3].add(new Cannon(armor, baseDamage));
 				food-=FOOD_COST_CANNON;
 				wood-=WOOD_COST_CANNON;
@@ -433,7 +434,7 @@ public class Civilization implements Variables{
 		int armor=(ARMOR_ARROWTOWER+(getTechnologyDefense()*PLUS_ARMOR_ARROWTOWER_BY_TECHNOLOGY)*1000/100);
 		int baseDamage=(BASE_DAMAGE_ARROWTOWER+(getTechnologyAttack()*PLUS_ATTACK_ARROWTOWER_BY_TECHNOLOGY)*1000/100);
 		for (int i=0;i<n;i++) {
-			if (food>FOOD_COST_ARROWTOWER && wood>WOOD_COST_ARROWTOWER && iron>IRON_COST_ARROWTOWER) {
+			if (food>=FOOD_COST_ARROWTOWER && wood>=WOOD_COST_ARROWTOWER && iron>=IRON_COST_ARROWTOWER) {
 				army[4].add(new ArrowTower(armor, baseDamage));
 				food-=FOOD_COST_ARROWTOWER;
 				wood-=WOOD_COST_ARROWTOWER;
@@ -457,7 +458,7 @@ public class Civilization implements Variables{
 		int armor =(ARMOR_CATAPULT+(getTechnologyDefense()*PLUS_ARMOR_CATAPULT_BY_TECHNOLOGY)*1000/100);
 		int baseDamage=(BASE_DAMAGE_CATAPULT+(getTechnologyAttack()*PLUS_ATTACK_CATAPULT_BY_TECHNOLOGY)*1000/100);
 		for (int i=0;i<n;i++) {
-			if (food>FOOD_COST_CATAPULT && wood>WOOD_COST_CATAPULT && iron>IRON_COST_CATAPULT) {
+			if (food>=FOOD_COST_CATAPULT && wood>=WOOD_COST_CATAPULT && iron>=IRON_COST_CATAPULT) {
 				army[5].add(new Catapult(armor, baseDamage));
 				food-=FOOD_COST_CATAPULT;
 				wood-=WOOD_COST_CATAPULT;
@@ -481,7 +482,7 @@ public class Civilization implements Variables{
 		int armor=(ARMOR_ROCKETLAUNCHERTOWER+(getTechnologyDefense()*PLUS_ARMOR_ROCKETLAUNCHERTOWER_BY_TECHNOLOGY)*1000/100);
 		int baseDamage=(BASE_DAMAGE_ROCKETLAUNCHERTOWER+(getTechnologyAttack()*PLUS_ATTACK_ROCKETLAUNCHERTOWER_BY_TECHNOLOGY)*1000/100);
 		for (int i=0;i<n;i++) {
-			if (food>FOOD_COST_ROCKETLAUNCHERTOWER && wood>WOOD_COST_ROCKETLAUNCHERTOWER && iron>IRON_COST_ROCKETLAUNCHERTOWER) {
+			if (food>=FOOD_COST_ROCKETLAUNCHERTOWER && wood>=WOOD_COST_ROCKETLAUNCHERTOWER && iron>=IRON_COST_ROCKETLAUNCHERTOWER) {
 				army[6].add(new RocketLauncherTower(armor, baseDamage));
 				food-=FOOD_COST_ROCKETLAUNCHERTOWER;
 				wood-=WOOD_COST_ROCKETLAUNCHERTOWER;
@@ -507,7 +508,7 @@ public class Civilization implements Variables{
 		int armor=0;
 		int baseDamage=(BASE_DAMAGE_MAGICIAN+(getTechnologyAttack()*PLUS_ATTACK_MAGICIAN_BY_TECHNOLOGY)*1000/100);
 		for (int i=0;i<n;i++) {
-			if (food>FOOD_COST_MAGICIAN && wood>WOOD_COST_MAGICIAN && iron>IRON_COST_MAGICIAN && mana>MANA_COST_MAGICIAN && army[7].size()<magicTower) {
+			if (food>=FOOD_COST_MAGICIAN && wood>WOOD_COST_MAGICIAN && iron>=IRON_COST_MAGICIAN && mana>=MANA_COST_MAGICIAN && army[7].size()<magicTower) {
 				army[7].add(new Magician(armor, baseDamage));
 				food-=FOOD_COST_MAGICIAN;
 				wood-=WOOD_COST_MAGICIAN;
@@ -535,7 +536,7 @@ public class Civilization implements Variables{
 		int armor=0;
 		int baseDamage=0;
 		for (int i=0;i<n;i++) {
-			if (food>FOOD_COST_PRIEST && wood>WOOD_COST_PRIEST && iron>IRON_COST_PRIEST && mana>MANA_COST_PRIEST && army[8].size()<church) {
+			if (food>=FOOD_COST_PRIEST && wood>=WOOD_COST_PRIEST && iron>IRON_COST_PRIEST && mana>=MANA_COST_PRIEST && army[8].size()<church) {
 				army[8].add(new Priest(armor, baseDamage));
 				food-=FOOD_COST_PRIEST;
 				wood-=WOOD_COST_PRIEST;

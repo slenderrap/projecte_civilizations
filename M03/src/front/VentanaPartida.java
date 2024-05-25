@@ -20,15 +20,19 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import game.BuildingException;
 import game.Civilization;
 import game.ControladorDominio;
 import game.MilitaryUnit;
 import game.ResourceException;
+import game.TimerPersonalizado;
+import game.Variables;
 import game.attackUnities.Swordsman;
 
-public class VentanaPartida extends JFrame implements ActionListener{
+public class VentanaPartida extends JFrame implements ActionListener,Variables, ChangeListener{
 	private JPanel principalPanel, lateralPanel, recursosPanel, civilizationPanel, armyPanel, shopPanel, battlegroundPanel;
 	private JTabbedPane tabbedPane;
 	private JLabel lFood, lWood, lIron, lMana, lAttack, lDefense, lBattles; //labels para resources
@@ -42,7 +46,7 @@ public class VentanaPartida extends JFrame implements ActionListener{
 	private int id;
 	private Civilization civilization;
 	private ControladorDominio datosDominio;
-	
+	private TimerPersonalizado tPersonalizado;
 
   public VentanaPartida(int id) {
 		setSize(1200, 700);
@@ -54,7 +58,7 @@ public class VentanaPartida extends JFrame implements ActionListener{
 		civilization = new Civilization(id);
 		datosDominio = new ControladorDominio(id);
 		datosDominio.iniciarPartida();
-		
+		datosDominio.recursosActulizar(0, 0, 0, 0, 0, 0, 0, 0);
 		
 		//PANEL PRINCIPAL
 		fondo = new ImageIcon("src/front/img/BackgroundTablaPergamino.png"); //añadimos imagen de fondo
@@ -182,8 +186,9 @@ public class VentanaPartida extends JFrame implements ActionListener{
 		tabbedPane.addTab("Army", armyPanel);
 		tabbedPane.addTab("Shop", shopPanel);
 		tabbedPane.addTab("Battleground", battlegroundPanel);
+		tabbedPane.addChangeListener(this);
 		
-		
+		tabbedPane.setSelectedComponent(battlegroundPanel);
 		
 		
 		//COSAS DEL PANEL CIVILIZATION -------------------------------------------
@@ -318,12 +323,33 @@ public class VentanaPartida extends JFrame implements ActionListener{
 		
 		// COSAS DEL PANEL SHOP -------------------------------------------------------
 		//LABELS SHOP
-		lAttackFoodCost = new JLabel("100");
-		lAttackWoodCost = new JLabel("200");
-		lAttackIronCost = new JLabel("300");
-		lDefenseFoodCost = new JLabel("400");
-		lDefenseWoodCost = new JLabel("500");
-		lDefenseIronCost = new JLabel("600");
+		int AFoodCost = UPGRADE_BASE_ATTACK_TECHNOLOGY_FOOD_COST;
+		int AWoodCost = UPGRADE_BASE_ATTACK_TECHNOLOGY_WOOD_COST;
+		int AIronCost = UPGRADE_BASE_ATTACK_TECHNOLOGY_IRON_COST;
+		
+		if (civilization.getTechnologyAttack()>1) {
+			for (int i=0; i<civilization.getTechnologyAttack()-1;i++) {
+				AFoodCost += AFoodCost/100*UPGRADE_PLUS_ATTACK_TECHNOLOGY_FOOD_COST;
+				AWoodCost += AWoodCost/100*UPGRADE_PLUS_ATTACK_TECHNOLOGY_WOOD_COST;
+				AIronCost += AIronCost/100*UPGRADE_PLUS_ATTACK_TECHNOLOGY_IRON_COST;
+			}}
+		lAttackFoodCost = new JLabel(String.valueOf(AFoodCost));
+		lAttackWoodCost = new JLabel(String.valueOf(AWoodCost));
+		lAttackIronCost = new JLabel(String.valueOf(AIronCost));
+		
+		int DFoodCost = UPGRADE_BASE_DEFENSE_TECHNOLOGY_FOOD_COST;
+		int DWoodCost = UPGRADE_BASE_DEFENSE_TECHNOLOGY_WOOD_COST;
+		int DIronCost = UPGRADE_BASE_DEFENSE_TECHNOLOGY_IRON_COST;
+		
+		if (civilization.getTechnologyDefense()>1) {
+			for (int i=0; i<civilization.getTechnologyDefense()-1;i++) {
+				DFoodCost += DFoodCost/100*UPGRADE_PLUS_DEFENSE_TECHNOLOGY_FOOD_COST;
+				DWoodCost += DWoodCost/100*UPGRADE_PLUS_DEFENSE_TECHNOLOGY_WOOD_COST;
+				DIronCost += DIronCost/100*UPGRADE_PLUS_DEFENSE_TECHNOLOGY_IRON_COST;
+			}}
+		lDefenseFoodCost = new JLabel(String.valueOf(DFoodCost));
+		lDefenseWoodCost = new JLabel(String.valueOf(DWoodCost));
+		lDefenseIronCost = new JLabel(String.valueOf(DIronCost));
 		
 		//cambiar fuente y color
 		lAttackFoodCost.setFont(new Font("Times New Roman", Font.BOLD, 12));
@@ -356,22 +382,22 @@ public class VentanaPartida extends JFrame implements ActionListener{
 		insets = shopPanel.getInsets();
 		size = lAttackFoodCost.getPreferredSize();
 		lAttackFoodCost.setBounds(390 + insets.left, 470 + insets.top,
-		             size.width, size.height);
+		             size.width+30, size.height);
 		size = lAttackWoodCost.getPreferredSize();
 		lAttackWoodCost.setBounds(390 + insets.left, 490 + insets.top,
-		             size.width, size.height);
+		             size.width+30, size.height);
 		size = lAttackIronCost.getPreferredSize();
 		lAttackIronCost.setBounds(390 + insets.left, 510 + insets.top,
-		             size.width, size.height);
+		             size.width+30, size.height);
 		size = lDefenseFoodCost.getPreferredSize();
 		lDefenseFoodCost.setBounds(390 + insets.left, 557 + insets.top,
-		             size.width, size.height);
+		             size.width+30, size.height);
 		size = lDefenseWoodCost.getPreferredSize();
 		lDefenseWoodCost.setBounds(390 + insets.left, 577 + insets.top,
-		             size.width, size.height);
+		             size.width+30, size.height);
 		size = lDefenseIronCost.getPreferredSize();
 		lDefenseIronCost.setBounds(390 + insets.left, 597 + insets.top,
-		             size.width, size.height);
+		             size.width+30, size.height);
 		
 		
 		
@@ -567,7 +593,7 @@ public class VentanaPartida extends JFrame implements ActionListener{
 //		battlegroundPanel.setVisible(false);	
 		
 		
-
+		System.out.println(civilization.getArmy());
 		this.add(principalPanel);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -579,13 +605,15 @@ public class VentanaPartida extends JFrame implements ActionListener{
 
 public void actionPerformed(ActionEvent e) {
 
-	
 	//soldados
 	if (e.getSource()== bBuySwordsman) {
 		try {
 			System.out.println("evento");
 			civilization.newSwordsman(1);
+			System.out.println("antes ddbb");
+			System.out.println(civilization.getArmy()[0].size());
 			datosDominio.crearSoldado(civilization.getArmy()[0].getLast());
+			
 		} catch (ResourceException e1) {
 			e1.printStackTrace();
 		}
@@ -646,7 +674,6 @@ public void actionPerformed(ActionEvent e) {
 		} catch (ResourceException e1) {
 			e1.printStackTrace();
 		} catch (BuildingException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}else if (e.getSource()== bBuyPriest) {
@@ -657,10 +684,10 @@ public void actionPerformed(ActionEvent e) {
 		} catch (ResourceException e1) {
 			e1.printStackTrace();
 		} catch (BuildingException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}
+	
 	//edificios
 	else if (e.getSource()== bBuyFarm) {
 		try {
@@ -704,27 +731,92 @@ public void actionPerformed(ActionEvent e) {
 			civilization.newChurch();
 			lChurch.setText(String.valueOf(civilization.getChurch()));
 			datosDominio.crearConstruccion(5);
+			
 		} catch (ResourceException e1) {
 			e1.printStackTrace();
 		}
+		
+	//tecnologias
+		
 	}else if (e.getSource()== bBuyAttack) {
 		try {
-			System.out.println("evento");
+			System.out.println("tecnologia");
 			civilization.upgradeTechnologyAttack();
-			lChurch.setText(String.valueOf(civilization.getChurch()));
-			datosDominio.crearConstruccion(5);
+			lAttack.setText(String.valueOf(civilization.getTechnologyAttack()));
+			int foodCost = UPGRADE_BASE_ATTACK_TECHNOLOGY_FOOD_COST;
+			int woodCost = UPGRADE_BASE_ATTACK_TECHNOLOGY_WOOD_COST;
+			int ironCost = UPGRADE_BASE_ATTACK_TECHNOLOGY_IRON_COST;
+			
+			if (civilization.getTechnologyAttack()>1) {
+				for (int i=0; i<civilization.getTechnologyAttack()-1;i++) {
+					foodCost += foodCost/100*UPGRADE_PLUS_ATTACK_TECHNOLOGY_FOOD_COST;
+					woodCost += woodCost/100*UPGRADE_PLUS_ATTACK_TECHNOLOGY_WOOD_COST;
+					ironCost += ironCost/100*UPGRADE_PLUS_ATTACK_TECHNOLOGY_IRON_COST;
+				}
+			}
+			lAttackFoodCost.setText(Integer.toString(foodCost));
+			lAttackWoodCost.setText(Integer.toString(woodCost));
+			lAttackIronCost.setText(Integer.toString(ironCost));
+	
+
+			
+			datosDominio.crearIncrementoTecnologia(1);
 		} catch (ResourceException e1) {
 			e1.printStackTrace();
 		}
 	}else if (e.getSource()== bBuyDefense) {
 		try {
-			System.out.println("evento");
-			civilization.newChurch();
-			lChurch.setText(String.valueOf(civilization.getChurch()));
-			datosDominio.crearConstruccion(5);
+			System.out.println("tecnologia");
+			civilization.upgradeTechnologyDefense();
+			lDefense.setText(String.valueOf(civilization.getTechnologyDefense()));
+			int foodCost = UPGRADE_BASE_DEFENSE_TECHNOLOGY_FOOD_COST;
+			int woodCost = UPGRADE_BASE_DEFENSE_TECHNOLOGY_WOOD_COST;
+			int ironCost = UPGRADE_BASE_DEFENSE_TECHNOLOGY_IRON_COST;
+			
+			if (civilization.getTechnologyAttack()>1) {
+				for (int i=0; i<civilization.getTechnologyAttack()-1;i++) {
+					foodCost += foodCost/100*UPGRADE_PLUS_DEFENSE_TECHNOLOGY_FOOD_COST;
+					woodCost += woodCost/100*UPGRADE_PLUS_DEFENSE_TECHNOLOGY_WOOD_COST;
+					ironCost += ironCost/100*UPGRADE_PLUS_DEFENSE_TECHNOLOGY_IRON_COST;
+				}
+			}
+			lDefenseFoodCost.setText(Integer.toString(foodCost));
+			lDefenseWoodCost.setText(Integer.toString(woodCost));
+			lDefenseIronCost.setText(Integer.toString(ironCost));
+			
+
+		
+			datosDominio.crearIncrementoTecnologia(2);
 		} catch (ResourceException e1) {
 			e1.printStackTrace();
 		}
+	}
+	lFood.setText(String.valueOf(civilization.getFood()));
+	lWood.setText(String.valueOf(civilization.getWood()));
+	lIron.setText(String.valueOf(civilization.getIron()));
+	lMana.setText(String.valueOf(civilization.getMana()));
+	datosDominio.recursosActulizar(civilization.getFood(), civilization.getWood(), civilization.getIron(), civilization.getMana(),
+			civilization.getFarm(), civilization.getCarpentry(), civilization.getSmithy(), civilization.getMagicTower());
+	
+}
+
+
+@Override
+public void stateChanged(ChangeEvent e) {
+	System.out.println("comprueba");
+	int[] recursos = datosDominio.getUpdatable();
+	if (recursos != null) {
+		civilization.setFood(recursos[0]);
+		civilization.setWood(recursos[1]);
+		civilization.setIron(recursos[2]);
+		civilization.setMana(recursos[3]);
+		System.out.println(civilization.getFood());
+		System.out.println(recursos[1]);
+		lFood.setText(String.valueOf(civilization.getFood()));
+		lWood.setText(String.valueOf(civilization.getWood()));
+		lIron.setText(String.valueOf(civilization.getIron()));
+		lMana.setText(String.valueOf(civilization.getMana()));
+		
 	}
 }
 	
