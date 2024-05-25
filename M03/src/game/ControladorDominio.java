@@ -91,6 +91,7 @@ public ControladorDominio(int id) {
 	//cuando se sube a la bbdd
 	public void actualizarRecursos(int food,int wood,int iron,int mana) {
 		datos.actualizarRecursos(food, wood, iron, mana);
+		setUpdatable(true);
 		this.recursos = new int[] {food,wood,iron,mana};
 		System.out.println("y aqui? "+updatable);
 		
