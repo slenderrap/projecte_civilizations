@@ -308,7 +308,7 @@ public class Civilization implements Variables{
 				ironCost += ironCost/100*UPGRADE_PLUS_ATTACK_TECHNOLOGY_IRON_COST;
 			}
 		}
-		if (food>foodCost && wood>woodCost && iron>ironCost) {
+		if (food>=foodCost && wood>=woodCost && iron>=ironCost) {
 			technologyAttack+=1;
 			food-=foodCost;
 			wood-=woodCost;
@@ -508,7 +508,7 @@ public class Civilization implements Variables{
 		int armor=0;
 		int baseDamage=(BASE_DAMAGE_MAGICIAN+(getTechnologyAttack()*PLUS_ATTACK_MAGICIAN_BY_TECHNOLOGY)*1000/100);
 		for (int i=0;i<n;i++) {
-			if (food>=FOOD_COST_MAGICIAN && wood>WOOD_COST_MAGICIAN && iron>=IRON_COST_MAGICIAN && mana>=MANA_COST_MAGICIAN && army[7].size()<magicTower) {
+			if (food>=FOOD_COST_MAGICIAN && wood>=WOOD_COST_MAGICIAN && iron>=IRON_COST_MAGICIAN && mana>=MANA_COST_MAGICIAN && army[7].size()<magicTower) {
 				army[7].add(new Magician(armor, baseDamage));
 				food-=FOOD_COST_MAGICIAN;
 				wood-=WOOD_COST_MAGICIAN;
@@ -536,7 +536,7 @@ public class Civilization implements Variables{
 		int armor=0;
 		int baseDamage=0;
 		for (int i=0;i<n;i++) {
-			if (food>=FOOD_COST_PRIEST && wood>=WOOD_COST_PRIEST && iron>IRON_COST_PRIEST && mana>=MANA_COST_PRIEST && army[8].size()<church) {
+			if (food>=FOOD_COST_PRIEST && wood>=WOOD_COST_PRIEST && iron>=IRON_COST_PRIEST && mana>=MANA_COST_PRIEST && army[8].size()<church) {
 				army[8].add(new Priest(armor, baseDamage));
 				food-=FOOD_COST_PRIEST;
 				wood-=WOOD_COST_PRIEST;

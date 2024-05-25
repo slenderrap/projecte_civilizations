@@ -17,8 +17,8 @@ import game.specialUnities.SpecialUnit;
 
 public class Datos {
 
-//	private String urlDatos = "jdbc:oracle:thin:@192.168.56.2:1521/orcl?serverTimezone=UTC&autoReconnect=true&useSSL=false"; // bbdd maquina virtual Oriol
-	private String urlDatos = "jdbc:oracle:thin:@192.168.56.110:1521/orcl?serverTimezone=UTC&autoReconnect=true&useSSL=false"; // bbdd maquina virtual Mar
+	private String urlDatos = "jdbc:oracle:thin:@192.168.56.2:1521/orcl?serverTimezone=UTC&autoReconnect=true&useSSL=false"; // bbdd maquina virtual Oriol
+//	private String urlDatos = "jdbc:oracle:thin:@192.168.56.110:1521/orcl?serverTimezone=UTC&autoReconnect=true&useSSL=false"; // bbdd maquina virtual Mar
 //	private String urlDatos = "jdbc:oracle:thin:@localhost:1521/xe?serverTimezone=UTC&autoReconnect=true&useSSL=false"; // bbdd local
 
 	private String user = "civil";
@@ -273,16 +273,6 @@ public class Datos {
 
 	public void crearIncrementoTecnologia(int i) {
 		if (i == 1) {
-			String update = "update civilization_stats set technology_defense_level = technology_defense_level+1 where id_civilization = (?)";
-			try {
-				PreparedStatement ps = conn.prepareStatement(update);
-				ps.setInt(1, getId());
-				ps.executeUpdate();
-				System.out.println("Edificio creado");
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		} else if (i == 2) {
 			String update = "update civilization_stats set technology_attack_level =technology_attack_level +1 where id_civilization = (?)";
 			try {
 				PreparedStatement ps = conn.prepareStatement(update);
@@ -292,8 +282,17 @@ public class Datos {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+		} else if (i == 2) {
+			String update = "update civilization_stats set technology_defense_level = technology_defense_level+1 where id_civilization = (?)";
+			try {
+				PreparedStatement ps = conn.prepareStatement(update);
+				ps.setInt(1, getId());
+				ps.executeUpdate();
+				System.out.println("Edificio creado");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-		
 	}
 
 	public void actualizarRecursos(int food,int wood,int iron,int mana) {
