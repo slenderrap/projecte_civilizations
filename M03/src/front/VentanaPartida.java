@@ -6,12 +6,10 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -19,10 +17,14 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import game.Battle;
 import game.BuildingException;
 import game.Civilization;
 import game.ControladorDominio;
@@ -30,7 +32,7 @@ import game.MilitaryUnit;
 import game.ResourceException;
 import game.TimerPersonalizado;
 import game.Variables;
-import game.attackUnities.Swordsman;
+
 
 public class VentanaPartida extends JFrame implements ActionListener,Variables, ChangeListener{
 	private JPanel principalPanel, lateralPanel, recursosPanel, civilizationPanel, armyPanel, shopPanel, battlegroundPanel;
@@ -39,14 +41,19 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 	private JLabel lFarm, lSmithy, lCarpentry, lChurch, lMagicTower; //labels para buildings
 	private JLabel lSwordsman, lSpearman, lCrossbow, lCannon, lArrowTower, lCatapult, lRocketLauncherTower, lMagician, lPriest; //labels para army
 	private JLabel lAttackFoodCost, lAttackWoodCost, lAttackIronCost, lDefenseFoodCost, lDefenseWoodCost, lDefenseIronCost; //labels shop coste de tecnologias
+    private JScrollPane spBattleDevelopment, spBattleSummary;
+	private JLabel lSwordsmanBattle, lSpearmanBattle, lCrossbowBattle, lCannonBattle, lArrowTowerBattle, lCatapultBattle,
+			lRocketLauncherTowerBattle, lMagicianBattle, lPriestBattle, lSwordsmanEnemy, lSpearmanEnemy, lCrossbowEnemy, lCannonEnemy; 
+	private JTextArea taBattleDevelopment, taBattleSummary;
 	private JButton bBuyFarm, bBuySmithy, bBuyCarpentry, bBuyMagicTower, bBuyChurch; //botones shop buy buildings
 	private JButton bBuySwordsman, bBuySpearman, bBuyCrossbow, bBuyCannon, bBuyArrowTower, bBuyCatapult, bBuyRocketLauncher, bBuyMagician, bBuyPriest; //botones shop buy army
 	private JButton bBuyAttack, bBuyDefense; //botones shop buy tecnologias
-	private ImageIcon fondo, fondoCivilizationPanel, fondoArmyPanel, fondoShopPanel;
+	private ImageIcon fondo, fondoCivilizationPanel, fondoArmyPanel, fondoShopPanel, fondoBattleground;
 	private int id;
 	private Civilization civilization;
 	private ControladorDominio datosDominio;
 	private TimerPersonalizado tPersonalizado;
+	private Battle battle;
 
   public VentanaPartida(int id) {
 		setSize(1200, 700);
@@ -60,10 +67,14 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		datosDominio.iniciarPartida();
 		datosDominio.recursosActulizar(0, 0, 0, 0, 0, 0, 0, 0);
 		
-		//PANEL PRINCIPAL
-		fondo = new ImageIcon("src/front/img/BackgroundTablaPergamino.png"); //añadimos imagen de fondo
-		//fondo = new ImageIcon("src/front/img/PergaminoShopVersion2.png"); // IGNORAR este es para hacer cosas de photoshop
-		
+			// Battle
+		battle = new Battle();
+
+		// PANEL PRINCIPAL
+		fondo = new ImageIcon("src/front/img/BackgroundTablaPergamino.png"); // añadimos imagen de fondo
+		// fondo = new ImageIcon("src/front/img/PergaminoShopVersion2.png"); // IGNORAR
+		// este es para hacer cosas de photoshop
+        
 		principalPanel = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
@@ -175,8 +186,13 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 				g.drawImage(fondoShopPanel.getImage(), 0, 0, getWidth(), getHeight(), this);
 			}
 		};
-		
-		battlegroundPanel = new JPanel();	
+		fondoBattleground = new ImageIcon("src/front/img/BackgroundBattleground.png");
+		battlegroundPanel = new JPanel(new BorderLayout()) {
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(fondoBattleground.getImage(), 0, 0, getWidth(), getHeight(), this);
+			}
+		};
 		
 		
 		//TABBED PANEL
@@ -475,7 +491,7 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 
 		bBuyAttack.setForeground(Color.WHITE);
 		bBuyDefense.setForeground(Color.WHITE);
-		
+        
 		bBuyFarm.setBackground(new Color(076,051,026));
 		bBuySmithy.setBackground(new Color(076,051,026));
 		bBuyCarpentry.setBackground(new Color(076,051,026));
@@ -572,7 +588,298 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		             size.width, size.height);
 		// fin de SHOP ------------------------------------------------------------------------
 		
-		
+		// COSAS DEL PANEL BATTLEGROUND
+		// -------------------------------------------------------
+		// LABELS BATTLEGROUND
+		lSwordsmanBattle = new JLabel(String.valueOf(civilization.getArmy()[0].size()));
+		lSpearmanBattle = new JLabel(String.valueOf(civilization.getArmy()[1].size()));
+		lCrossbowBattle = new JLabel(String.valueOf(civilization.getArmy()[2].size()));
+		lCannonBattle = new JLabel(String.valueOf(civilization.getArmy()[3].size()));
+		lArrowTowerBattle = new JLabel(String.valueOf(civilization.getArmy()[4].size()));
+		lCatapultBattle = new JLabel(String.valueOf(civilization.getArmy()[5].size()));
+		lRocketLauncherTowerBattle = new JLabel(String.valueOf(civilization.getArmy()[6].size()));
+		lMagicianBattle = new JLabel(String.valueOf(civilization.getArmy()[7].size()));
+		lPriestBattle = new JLabel(String.valueOf(civilization.getArmy()[8].size()));
+		lSwordsmanEnemy = new JLabel("10");
+		lSpearmanEnemy = new JLabel("2");
+		lCrossbowEnemy = new JLabel("300");
+		lCannonEnemy = new JLabel("0");
+		taBattleDevelopment = new JTextArea(
+				/* battle.getBattleDevelopment() "*********CHANGE ATTACKER************\r\n" */"********************CHANGE ATTACKER********************\r\n"
+						+ "Attacks Civilization: Swordsman attacks Swordsman\r\n" + "Swordsman genrates the damage = 80\r\n"
+						+ "Swordsman stays with armor =  320\r\n" + "********************CHANGE ATTACKER********************\r\n"
+						+ "Attacks army enemy: Crossbow attacks Cannon\r\n" + "Crossbow genrates the damage = 1000\r\n"
+						+ "Cannon stays with armor =  7000\r\n" + "********************CHANGE ATTACKER********************\r\n"
+						+ "Attacks Civilization: Cannon attacks Crossbow\r\n" + "Cannon genrates the damage = 700\r\n"
+						+ "Crossbow stays with armor =  5300\r\n" + "Attacks Civilization: Swordsman attacks Crossbow\r\n"
+						+ "Swordsman genrates the damage = 80\r\n" + "Crossbow stays with armor =  5220\r\n"
+						+ "********************CHANGE ATTACKER********************\r\n" + "Attacks army enemy: Crossbow attacks Cannon\r\n"
+						+ "Crossbow genrates the damage = 1000\r\n" + "Cannon stays with armor =  6000\r\n"
+						+ "********************CHANGE ATTACKER********************\r\n"
+						+ "Attacks Civilization: Swordsman attacks Cannon\r\n" + "Swordsman genrates the damage = 80\r\n"
+						+ "Cannon stays with armor =  5920\r\n" + "********************CHANGE ATTACKER********************\r\n"
+						+ "Attacks army enemy: Swordsman attacks Cannon\r\n" + "Swordsman genrates the damage = 80\r\n"
+						+ "Cannon stays with armor =  7920\r\n" + "********************CHANGE ATTACKER********************\r\n"
+						+ "Attacks Civilization: Swordsman attacks Swordsman\r\n" + "Swordsman genrates the damage = 80\r\n"
+						+ "Swordsman stays with armor =  240\r\n" + "********************CHANGE ATTACKER********************\r\n"
+						+ "Attacks army enemy: Crossbow attacks Crossbow\r\n" + "Crossbow genrates the damage = 1000\r\n"
+						+ "Crossbow stays with armor =  4220\r\n" + "Attacks army enemy: Swordsman attacks Swordsman\r\n"
+						+ "Swordsman genrates the damage = 80\r\n" + "Swordsman stays with armor =  160\r\n"
+						+ "********************CHANGE ATTACKER********************\r\n"
+						+ "Attacks Civilization: Cannon attacks Crossbow\r\n" + "Cannon genrates the damage = 700\r\n"
+						+ "Crossbow stays with armor =  3520\r\n" + "********************CHANGE ATTACKER********************\r\n"
+						+ "Attacks army enemy: Cannon attacks Swordsman\r\n" + "Cannon genrates the damage = 700\r\n"
+						+ "Swordsman stays with armor =  -540\r\n" + "We eliminateSwordsman\r\n"
+						+ "Attacks army enemy: Crossbow attacks Cannon\r\n" + "Crossbow genrates the damage = 1000\r\n"
+						+ "Cannon stays with armor =  4920\r\n" + "********************CHANGE ATTACKER********************\r\n"
+						+ "Attacks Civilization: Swordsman attacks Crossbow\r\n" + "Swordsman genrates the damage = 80\r\n"
+						+ "Crossbow stays with armor =  3440\r\n" + "********************CHANGE ATTACKER********************\r\n"
+						+ "Attacks army enemy: Cannon attacks Swordsman\r\n" + "Cannon genrates the damage = 700\r\n"
+						+ "Swordsman stays with armor =  -300\r\n" + "We eliminateSwordsman\r\n"
+						+ "********************CHANGE ATTACKER********************\r\n"
+						+ "Attacks Civilization: Crossbow attacks Cannon\r\n" + "Crossbow genrates the damage = 1000\r\n"
+						+ "Cannon stays with armor =  3920\r\n" + "********************CHANGE ATTACKER********************\r\n"
+						+ "Attacks army enemy: Cannon attacks Crossbow\r\n" + "Cannon genrates the damage = 700\r\n"
+						+ "Crossbow stays with armor =  2740\r\n" + "Attacks army enemy: Cannon attacks Cannon\r\n"
+						+ "Cannon genrates the damage = 700\r\n" + "Cannon stays with armor =  3220\r\n"
+						+ "Attacks army enemy: Swordsman attacks Cannon\r\n" + "Swordsman genrates the damage = 80\r\n"
+						+ "Cannon stays with armor =  7840\r\n" + "********************CHANGE ATTACKER********************\r\n"
+						+ "Attacks Civilization: Cannon attacks Crossbow\r\n" + "Cannon genrates the damage = 700\r\n"
+						+ "Crossbow stays with armor =  2040\r\n" + "Attacks Civilization: Cannon attacks Cannon\r\n"
+						+ "Cannon genrates the damage = 700\r\n" + "Cannon stays with armor =  2520\r\n"
+						+ "Attacks Civilization: Cannon attacks Cannon\r\n" + "Cannon genrates the damage = 700\r\n"
+						+ "Cannon stays with armor =  1820\r\n" + "Attacks Civilization: Crossbow attacks Crossbow\r\n"
+						+ "Crossbow genrates the damage = 1000\r\n" + "Crossbow stays with armor =  1040\r\n"
+						+ "********************CHANGE ATTACKER********************\r\n" + "Attacks army enemy: Cannon attacks Cannon\r\n"
+						+ "Cannon genrates the damage = 700\r\n" + "Cannon stays with armor =  1120\r\n"
+						+ "Attacks army enemy: Cannon attacks Cannon\r\n" + "Cannon genrates the damage = 700\r\n"
+						+ "Cannon stays with armor =  7140\r\n" + "Attacks army enemy: Cannon attacks Crossbow\r\n"
+						+ "Cannon genrates the damage = 700\r\n" + "Crossbow stays with armor =  340\r\n"
+						+ "Attacks army enemy: Swordsman attacks Cannon\r\n" + "Swordsman genrates the damage = 80\r\n"
+						+ "Cannon stays with armor =  7060\r\n" + "********************CHANGE ATTACKER********************\r\n"
+						+ "Attacks Civilization: Cannon attacks Crossbow\r\n" + "Cannon genrates the damage = 700\r\n"
+						+ "Crossbow stays with armor =  -360\r\n" + "We eliminateCrossbow\r\n"
+						+ "Attacks Civilization: Crossbow attacks Crossbow\r\n" + "Crossbow genrates the damage = 1000\r\n"
+						+ "Crossbow stays with armor =  5000\r\n" + "********************CHANGE ATTACKER********************\r\n"
+						+ "Attacks army enemy: Swordsman attacks Cannon\r\n" + "Swordsman genrates the damage = 80\r\n"
+						+ "Cannon stays with armor =  6980\r\n" + "********************CHANGE ATTACKER********************\r\n"
+						+ "Attacks Civilization: Cannon attacks Swordsman\r\n" + "Cannon genrates the damage = 700\r\n"
+						+ "Swordsman stays with armor =  -1240\r\n" + "We eliminateSwordsman\r\n"
+						+ "Attacks Civilization: Crossbow attacks Cannon\r\n" + "Crossbow genrates the damage = 1000\r\n"
+						+ "Cannon stays with armor =  5980\r\n" + "********************CHANGE ATTACKER********************\r\n"
+						+ "Attacks army enemy: Swordsman attacks Cannon\r\n" + "Swordsman genrates the damage = 80\r\n"
+						+ "Cannon stays with armor =  5900\r\n" + "********************CHANGE ATTACKER********************\r\n"
+						+ "Attacks Civilization: Crossbow attacks Crossbow\r\n" + "Crossbow genrates the damage = 1000\r\n"
+						+ "Crossbow stays with armor =  4000\r\n" + "********************CHANGE ATTACKER********************\r\n"
+						+ "Attacks army enemy: Cannon attacks Cannon\r\n" + "Cannon genrates the damage = 700\r\n"
+						+ "Cannon stays with armor =  5200\r\n" + "********************CHANGE ATTACKER********************\r\n"
+						+ "Attacks Civilization: Crossbow attacks Swordsman\r\n" + "Crossbow genrates the damage = 1000\r\n"
+						+ "Swordsman stays with armor =  -1300\r\n" + "We eliminateSwordsman\r\n"
+						+ "********************CHANGE ATTACKER********************\r\n" + "Attacks army enemy: Cannon attacks Cannon\r\n"
+						+ "Cannon genrates the damage = 700\r\n" + "Cannon stays with armor =  4500\r\n"
+						+ "********************CHANGE ATTACKER********************\r\n"
+						+ "Attacks Civilization: Crossbow attacks Crossbow\r\n" + "Crossbow genrates the damage = 1000\r\n"
+						+ "Crossbow stays with armor =  3000\r\n" + "Attacks Civilization: Crossbow attacks Crossbow\r\n"
+						+ "Crossbow genrates the damage = 1000\r\n" + "Crossbow stays with armor =  2000\r\n"
+						+ "Attacks Civilization: Cannon attacks Crossbow\r\n" + "Cannon genrates the damage = 700\r\n"
+						+ "Crossbow stays with armor =  1300\r\n" + "********************CHANGE ATTACKER********************\r\n"
+						+ "Attacks army enemy: Cannon attacks Cannon\r\n" + "Cannon genrates the damage = 700\r\n"
+						+ "Cannon stays with armor =  3800\r\n" + "Attacks army enemy: Crossbow attacks Cannon\r\n"
+						+ "Crossbow genrates the damage = 1000\r\n" + "Cannon stays with armor =  120\r\n"
+						+ "Attacks army enemy: Cannon attacks Crossbow\r\n" + "Cannon genrates the damage = 700\r\n"
+						+ "Crossbow stays with armor =  -1060\r\n" + "We eliminateCrossbow\r\n"
+						+ "********************CHANGE ATTACKER********************\r\n" + "Attacks Civilization: Cannon attacks Cannon\r\n"
+						+ "Cannon genrates the damage = 700\r\n" + "Cannon stays with armor =  -580\r\n" + "We eliminateCannon\r\n"
+						+ "Attacks Civilization: Crossbow attacks Cannon\r\n" + "Crossbow genrates the damage = 1000\r\n"
+						+ "Cannon stays with armor =  2800\r\n" + "Attacks Civilization: Cannon attacks Cannon\r\n"
+						+ "Cannon genrates the damage = 700\r\n" + "Cannon stays with armor =  2100\r\n"
+						+ "Attacks Civilization: Cannon attacks Crossbow\r\n" + "Cannon genrates the damage = 700\r\n"
+						+ "Crossbow stays with armor =  600\r\n" + "********************CHANGE ATTACKER********************\r\n"
+						+ "Attacks army enemy: Cannon attacks Crossbow\r\n" + "Cannon genrates the damage = 700\r\n"
+						+ "Crossbow stays with armor =  -100\r\n" + "We eliminateCrossbow\r\n"
+						+ "Attacks army enemy: Cannon attacks Cannon\r\n" + "Cannon genrates the damage = 700\r\n"
+						+ "Cannon stays with armor =  1400\r\n" + "********************CHANGE ATTACKER********************\r\n"
+						+ "Attacks Civilization: Cannon attacks Cannon\r\n" + "Cannon genrates the damage = 700\r\n"
+						+ "Cannon stays with armor =  700\r\n" + "Attacks Civilization: Cannon attacks Cannon\r\n"
+						+ "Cannon genrates the damage = 700\r\n" + "Cannon stays with armor =  0\r\n" + "We eliminateCannon\r\n"
+						+ "Attacks Civilization: Cannon attacks Crossbow\r\n" + "Cannon genrates the damage = 700\r\n"
+						+ "Crossbow stays with armor =  -800\r\n" + "We eliminateCrossbow\r\n"
+						+ "Attacks Civilization: Cannon attacks Cannon\r\n" + "Cannon genrates the damage = 700\r\n"
+						+ "Cannon stays with armor =  7300\r\n" + "Attacks Civilization: Cannon attacks Cannon\r\n"
+						+ "Cannon genrates the damage = 700\r\n" + "Cannon stays with armor =  6600\r\n"
+						+ "********************YOU'VE WON********************");
+		taBattleSummary = new JTextArea(/* battle.getBattleSummary() */"BATTLE NUMBER: 5\r\n" + "BATTLE STATISTICS\r\n"
+				+ "Army planet Units Drops Initial Army Enemy Units Drops\r\n" + "Swordsman 2 1 Swordsman 2 1\r\n"
+				+ "Crossbow 2 2 Crossbow 2 2\r\n" + "Cannon 3 3 Cannon 3 3\r\n"
+				+ "**************************************************************************************\r\n"
+				+ "Cost Army Civilization Cost Army Enemy\r\n" + "Food: 16000 Food: 16000\r\n" + "Wood: 186000 Wood: 186000\r\n"
+				+ "Iron: 59100 Iron: 59100\r\n"
+				+ "**************************************************************************************\r\n"
+				+ "Losses Army Civilization Losses Army Enemy\r\n" + "Food: 8000 Food: 8000\r\n" + "Wood: 3000 Wood: 3000\r\n"
+				+ "Iron: 50 Iron: 50\r\n" + "**************************************************************************************\r\n"
+				+ "BATTLE NUMBER: 10\r\n" + "BATTLE STATISTICS\r\n" + "Army planet Units Drops Initial Army Enemy Units Drops\r\n"
+				+ "Swordsman 2 0 Swordsman 2 0\r\n" + "Crossbow 2 2 Crossbow 2 2\r\n" + "Cannon 3 3 Cannon 3 3\r\n"
+				+ "**************************************************************************************\r\n"
+				+ "Cost Army Civilization Cost Army Enemy\r\n" + "Food: 16000 Food: 16000\r\n" + "Wood: 186000 Wood: 186000\r\n"
+				+ "Iron: 59100 Iron: 59100\r\n"
+				+ "**************************************************************************************\r\n"
+				+ "Losses Army Civilization Losses Army Enemy\r\n" + "Food: 16000 Food: 16000\r\n" + "Wood: 6000 Wood: 6000\r\n"
+				+ "Iron: 100 Iron: 100\r\n" + "**************************************************************************************\r\n"
+				+ "BATTLE NUMBER: 15\r\n" + "BATTLE STATISTICS\r\n" + "Army planet Units Drops Initial Army Enemy Units Drops\r\n"
+				+ "Swordsman 2 0 Swordsman 2 0\r\n" + "Crossbow 2 2 Crossbow 2 2\r\n" + "Cannon 3 2 Cannon 3 2\r\n"
+				+ "**************************************************************************************\r\n"
+				+ "Cost Army Civilization Cost Army Enemy\r\n" + "Food: 16000 Food: 16000\r\n" + "Wood: 186000 Wood: 186000\r\n"
+				+ "Iron: 59100 Iron: 59100\r\n"
+				+ "**************************************************************************************\r\n"
+				+ "Losses Army Civilization Losses Army Enemy\r\n" + "Food: 16000 Food: 16000\r\n" + "Wood: 36000 Wood: 36000\r\n"
+				+ "Iron: 15100 Iron: 15100\r\n"
+				+ "**************************************************************************************\r\n" + "BATTLE NUMBER: 20\r\n"
+				+ "BATTLE STATISTICS\r\n" + "Army planet Units Drops Initial Army Enemy Units Drops\r\n" + "Swordsman 2 0 Swordsman 2 0\r\n"
+				+ "Crossbow 2 1 Crossbow 2 1\r\n" + "Cannon 3 1 Cannon 3 1\r\n"
+				+ "**************************************************************************************\r\n"
+				+ "Cost Army Civilization Cost Army Enemy\r\n" + "Food: 16000 Food: 16000\r\n" + "Wood: 186000 Wood: 186000\r\n"
+				+ "Iron: 59100 Iron: 59100\r\n"
+				+ "**************************************************************************************\r\n"
+				+ "Losses Army Civilization Losses Army Enemy\r\n" + "Food: 16000 Food: 16000\r\n" + "Wood: 111000 Wood: 111000\r\n"
+				+ "Iron: 37100 Iron: 37100\r\n"
+				+ "**************************************************************************************\r\n" + "BATTLE NUMBER: 22\r\n"
+				+ "BATTLE STATISTICS\r\n" + "Army planet Units Drops Initial Army Enemy Units Drops\r\n" + "Swordsman 2 0 Swordsman 2 0\r\n"
+				+ "Crossbow 2 0 Crossbow 2 1\r\n" + "Cannon 3 1 Cannon 3 1\r\n"
+				+ "**************************************************************************************\r\n"
+				+ "Cost Army Civilization Cost Army Enemy\r\n" + "Food: 16000 Food: 16000\r\n" + "Wood: 186000 Wood: 186000\r\n"
+				+ "Iron: 59100 Iron: 59100\r\n"
+				+ "**************************************************************************************\r\n"
+				+ "Losses Army Civilization Losses Army Enemy\r\n" + "Food: 16000 Food: 16000\r\n" + "Wood: 156000 Wood: 111000\r\n"
+				+ "Iron: 44100 Iron: 37100\r\n" + "**************************************************************************************");
+
+		spBattleDevelopment = new JScrollPane(taBattleDevelopment);
+		spBattleSummary = new JScrollPane(taBattleSummary);
+
+		// cambiar fuente y color
+		lSwordsmanBattle.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		lSpearmanBattle.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		lCrossbowBattle.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		lCannonBattle.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		lArrowTowerBattle.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		lCatapultBattle.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		lRocketLauncherTowerBattle.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		lMagicianBattle.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		lPriestBattle.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		lSwordsmanEnemy.setFont(new Font("Times New Roman", Font.BOLD, 27));
+		lSpearmanEnemy.setFont(new Font("Times New Roman", Font.BOLD, 27));
+		lCrossbowEnemy.setFont(new Font("Times New Roman", Font.BOLD, 27));
+		lCannonEnemy.setFont(new Font("Times New Roman", Font.BOLD, 27));
+		taBattleDevelopment.setFont(new Font("Times New Roman", Font.PLAIN, 11));
+		taBattleSummary.setFont(new Font("Times New Roman", Font.BOLD, 13));
+
+		lSwordsmanBattle.setForeground(new Color(076, 051, 026));
+		lSpearmanBattle.setForeground(new Color(076, 051, 026));
+		lCrossbowBattle.setForeground(new Color(076, 051, 026));
+		lCannonBattle.setForeground(new Color(076, 051, 026));
+		lArrowTowerBattle.setForeground(new Color(076, 051, 026));
+		lCatapultBattle.setForeground(new Color(076, 051, 026));
+		lRocketLauncherTowerBattle.setForeground(new Color(076, 051, 026));
+		lMagicianBattle.setForeground(new Color(076, 051, 026));
+		lPriestBattle.setForeground(new Color(076, 051, 026));
+		lSwordsmanEnemy.setForeground(new Color(076, 051, 026));
+		lSpearmanEnemy.setForeground(new Color(076, 051, 026));
+		lCrossbowEnemy.setForeground(new Color(076, 051, 026));
+		lCannonEnemy.setForeground(new Color(076, 051, 026));
+		taBattleDevelopment.setForeground(new Color(255, 255, 255));
+		taBattleSummary.setForeground(new Color(255, 255, 255));
+
+		lSwordsmanBattle.setHorizontalAlignment(SwingConstants.CENTER);
+		lSpearmanBattle.setHorizontalAlignment(SwingConstants.CENTER);
+		lCrossbowBattle.setHorizontalAlignment(SwingConstants.CENTER);
+		lCannonBattle.setHorizontalAlignment(SwingConstants.CENTER);
+		lArrowTowerBattle.setHorizontalAlignment(SwingConstants.CENTER);
+		lCatapultBattle.setHorizontalAlignment(SwingConstants.CENTER);
+		lRocketLauncherTowerBattle.setHorizontalAlignment(SwingConstants.CENTER);
+		lMagicianBattle.setHorizontalAlignment(SwingConstants.CENTER);
+		lPriestBattle.setHorizontalAlignment(SwingConstants.CENTER);
+		lSwordsmanEnemy.setHorizontalAlignment(SwingConstants.CENTER);
+		lSpearmanEnemy.setHorizontalAlignment(SwingConstants.CENTER);
+		lCrossbowEnemy.setHorizontalAlignment(SwingConstants.CENTER);
+		lCannonEnemy.setHorizontalAlignment(SwingConstants.CENTER);
+
+		taBattleDevelopment.setLineWrap(true); // Permitir ajuste de línea automático
+		taBattleDevelopment.setWrapStyleWord(true); // Ajustar por palabras
+		taBattleDevelopment.setEditable(false); // Hacer el JTextArea no editable
+		taBattleDevelopment.setOpaque(false); // Hacer el JTextArea transparente
+		taBattleSummary.setLineWrap(true); // Permitir ajuste de línea automático
+		taBattleSummary.setWrapStyleWord(true); // Ajustar por palabras
+		taBattleSummary.setEditable(false); // Hacer el JTextArea no editable
+		taBattleSummary.setOpaque(false); // Hacer el JTextArea transparente
+
+		spBattleDevelopment.setPreferredSize(new Dimension(322, 275));
+		spBattleDevelopment.setOpaque(false);
+		spBattleDevelopment.getViewport().setOpaque(false);
+		spBattleSummary.setPreferredSize(new Dimension(322, 275));
+		spBattleSummary.setOpaque(false);
+		spBattleSummary.getViewport().setOpaque(false);
+
+		// añadir al panel Battleground
+		battlegroundPanel.add(lSwordsmanBattle);
+		battlegroundPanel.add(lSpearmanBattle);
+		battlegroundPanel.add(lCrossbowBattle);
+		battlegroundPanel.add(lCannonBattle);
+		battlegroundPanel.add(lArrowTowerBattle);
+		battlegroundPanel.add(lCatapultBattle);
+		battlegroundPanel.add(lRocketLauncherTowerBattle);
+		battlegroundPanel.add(lMagicianBattle);
+		battlegroundPanel.add(lPriestBattle);
+		battlegroundPanel.add(lSwordsmanEnemy);
+		battlegroundPanel.add(lSpearmanEnemy);
+		battlegroundPanel.add(lCrossbowEnemy);
+		battlegroundPanel.add(lCannonEnemy);
+//		battlegroundPanel.add(lBattleDevelopment);
+//		battlegroundPanel.add(lBattleSummary);
+
+		battlegroundPanel.add(spBattleDevelopment);
+		battlegroundPanel.add(spBattleSummary);
+
+		// mover labels a su sitio en coordenadas
+		battlegroundPanel.setLayout(null);
+
+		insets = battlegroundPanel.getInsets();
+		size = lSwordsmanBattle.getPreferredSize();
+		lSwordsmanBattle.setBounds(16 + insets.left, 138 + insets.top, size.width + 30, size.height);
+		size = lSpearmanBattle.getPreferredSize();
+		lSpearmanBattle.setBounds(16 + insets.left, 204 + insets.top, size.width + 30, size.height);
+		size = lCrossbowBattle.getPreferredSize();
+		lCrossbowBattle.setBounds(16 + insets.left, 268 + insets.top, size.width + 30, size.height);
+		size = lCannonBattle.getPreferredSize();
+		lCannonBattle.setBounds(74 + insets.left, 138 + insets.top, size.width + 30, size.height);
+		size = lArrowTowerBattle.getPreferredSize();
+		lArrowTowerBattle.setBounds(74 + insets.left, 204 + insets.top, size.width + 30, size.height);
+		size = lCatapultBattle.getPreferredSize();
+		lCatapultBattle.setBounds(74 + insets.left, 268 + insets.top, size.width + 30, size.height);
+		size = lRocketLauncherTowerBattle.getPreferredSize();
+		lRocketLauncherTowerBattle.setBounds(131 + insets.left, 138 + insets.top, size.width + 30, size.height);
+		size = lMagicianBattle.getPreferredSize();
+		lMagicianBattle.setBounds(131 + insets.left, 204 + insets.top, size.width + 30, size.height);
+		size = lPriestBattle.getPreferredSize();
+		lPriestBattle.setBounds(131 + insets.left, 268 + insets.top, size.width + 30, size.height);
+		size = lSwordsmanEnemy.getPreferredSize();
+		lSwordsmanEnemy.setBounds(583 + insets.left, 156 + insets.top, size.width + 30, size.height);
+		size = lSpearmanEnemy.getPreferredSize();
+		lSpearmanEnemy.setBounds(583 + insets.left, 257 + insets.top, size.width + 30, size.height);
+		size = lCrossbowEnemy.getPreferredSize();
+		lCrossbowEnemy.setBounds(671 + insets.left, 156 + insets.top, size.width + 30, size.height);
+		size = lCannonEnemy.getPreferredSize();
+		lCannonEnemy.setBounds(671 + insets.left, 257 + insets.top, size.width + 30, size.height);
+//		size = lBattleDevelopment.getPreferredSize();
+//		lBattleDevelopment.setBounds(insets.left, insets.top, size.width + 30, size.height);
+//		size = lBattleSummary.getPreferredSize();
+//		lBattleSummary.setBounds(683 + insets.left, 247 + insets.top, size.width + 30, size.height);
+		size = spBattleDevelopment.getPreferredSize();
+		spBattleDevelopment.setBounds(20 + insets.left, 339 + insets.top, size.width + 30, size.height);
+		size = spBattleSummary.getPreferredSize();
+		spBattleSummary.setBounds(409 + insets.left, 339 + insets.top, size.width + 30, size.height);
+
+		// fin de BATTLEGROUND
+		// ------------------------------------------------------------------------
+
 		
 		
 		//todo en opaco falso porque no sé qué está fallando, por qué no se ve el fondo en tabbed panel
@@ -801,7 +1108,6 @@ public void actionPerformed(ActionEvent e) {
 }
 
 
-@Override
 public void stateChanged(ChangeEvent e) {
 	System.out.println("comprueba");
 	int[] recursos = datosDominio.getUpdatable();
