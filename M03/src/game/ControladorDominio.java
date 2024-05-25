@@ -2,15 +2,17 @@ package game;
 
 import java.util.ArrayList;
 import java.util.Timer;
-import java.util.TimerTask;
-
+import game.TimerPersonalizado;
 import bbdd.Datos;
-import game.attackUnities.AttackUnity;
 
 
 public class ControladorDominio {
 	private Datos datos;
+	private boolean updatable;
 	private int id;
+	private TimerPersonalizado timerTask;
+	private Timer timer;
+	private int[] recursos;
 
 	public ControladorDominio() {
 		this.datos = new Datos();
@@ -19,6 +21,7 @@ public class ControladorDominio {
 public ControladorDominio(int id) {
 		this.datos = new Datos(id);
 		this.id = id;
+		this.updatable=false;
 	}
 	
 	public int crearPartida(String nombre) {
@@ -48,19 +51,26 @@ public ControladorDominio(int id) {
 	public int getId() {
 		return id;
 	}
+	public void setUpdatable(boolean i) {
+		this.updatable = i;
+	}
 	public void iniciarPartida() {
 		System.out.println("TimerTask started");
-		TimerPersonalizado timerTask = new TimerPersonalizado();
+		this.timerTask = new TimerPersonalizado(id);
         //running timer task as daemon thread
-        Timer timer = new Timer(true);
-        timer.scheduleAtFixedRate(timerTask, 0, 1000);
+        this.timer = new Timer(true);
+        timer.scheduleAtFixedRate(timerTask, 0, 500);
 		
 
 	}
 	
 	public void crearSoldado(MilitaryUnit mUnit) {
-		System.out.println(getId());
+		System.out.println("aqui1");
+		System.out.println(this.updatable);
+
+		System.out.println("aqui2");
 		datos.crearSoldado(mUnit);
+		System.out.println("aqui3");
 		
 	}
 	
@@ -73,4 +83,27 @@ public ControladorDominio(int id) {
 	public void crearIncrementoTecnologia(int id) {
 		datos.crearIncrementoTecnologia(id);
 	}
+	
+	//cuando se actualiza la array que al minuto se subirá
+	public void recursosActulizar(int food, int wood, int iron, int mana, int farm,int carpentery, int smithery, int magicTower) {
+		timerTask.recursosActualizar(food, wood, iron, mana, farm, carpentery, smithery, magicTower);
+	}
+	//cuando se sube a la bbdd
+	public void actualizarRecursos(int food,int wood,int iron,int mana) {
+		datos.actualizarRecursos(food, wood, iron, mana);
+		this.recursos = new int[] {food,wood,iron,mana};
+		System.out.println("y aqui? "+updatable);
+		
+	}
+	
+	public int[] getUpdatable() {
+		System.out.println("lo es? "+ updatable);
+		if (updatable) {
+			setUpdatable(false);
+			return recursos;
+			
+		}
+			return null;
+		}
+	
 }
