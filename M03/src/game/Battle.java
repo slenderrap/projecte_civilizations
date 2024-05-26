@@ -22,6 +22,7 @@ public class Battle implements Variables {
 	private ArrayList[][] armies = new ArrayList[2][9]; // Almacena los dos ejercitos
 	private String battleDevelopment = ""; // Guarda el desarollo de la partida
 	private String battleSummary = ""; // Guarda el resumen de la batalla
+	private int[] battleDrops = new int[4]; // Guardar los caidos en battalla
 	private int[][] initialCostFleet = new int[2][3]; // Guarda el coste total de todas nuestras unidades y del enemigo
 	private int initialNumberUnitsCivilization, initialNumberUnitsEnemy; // Guarda el numero de soldados iniciales de cada ejercito
 	private int[] wasteWoodIron = new int[2]; // Residuos generados
@@ -215,7 +216,7 @@ public class Battle implements Variables {
 
 		int numeroEjercito = 0;
 
-		for (int i = 0; i < /* Army.length */4; i++) { // añade el ejercito enemigo
+		for (int i = 0; i < Army.length; i++) { // añade el ejercito enemigo
 			enemyArmy[i] = new ArrayList<MilitaryUnit>();
 			for (MilitaryUnit unit : Army[i]) {
 				enemyArmy[i].add(createUnit(unit.getClass().getName().substring(unit.getClass().getName().lastIndexOf(".") + 1),
@@ -627,17 +628,17 @@ public class Battle implements Variables {
 
 		}
 
-		texto += "******************************************************\n";
+		texto += "***********************************************\n";
 		texto += "Cost Army Civilization Cost Army Enemy\n";
 		texto += "Food: " + initialCostFleet[0][0] + " Food: " + initialCostFleet[1][0] + "\n";
 		texto += "Wood: " + initialCostFleet[0][1] + " Wood: " + initialCostFleet[1][1] + "\n";
 		texto += "Iron: " + initialCostFleet[0][2] + " Iron: " + initialCostFleet[1][2] + "\n";
-		texto += "******************************************************\n";
+		texto += "***********************************************\n";
 		texto += "Losses Army Civilization Losses Army Enemy\n";
 		texto += "Food: " + resourcesLooses[0][0] + " Food: " + resourcesLooses[1][0] + "\n";
 		texto += "Wood: " + resourcesLooses[0][1] + " Wood: " + resourcesLooses[1][1] + "\n";
 		texto += "Iron: " + resourcesLooses[0][2] + " Iron: " + resourcesLooses[1][2] + "\n";
-		texto += "******************************************************\n";
+		texto += "***********************************************\n";
 
 		battleSummary += texto;
 		return texto;
@@ -689,10 +690,13 @@ public class Battle implements Variables {
 					+ defenderSoldier.getClass().getName().substring(attackerSoldier.getClass().getName().lastIndexOf(".") + 1) + "\n";
 		}
 
-		int numeroAleatorioRepetirTurno = random.nextInt(101);
-
-		if (numeroAleatorioRepetirTurno > attackerSoldier.getChanceAttackAgain()) { // Comprobamos si podra efectuar un nuevo ataque
-			repetirTurno = false;
+		if (remainingPercentageFleetCivilization() == false && remainingPercentageFleetEnemy() == false) { // Comprueba si nuestra
+																											// civilizacion esta por encima
+																											// del 20%
+			int numeroAleatorioRepetirTurno = random.nextInt(101);
+			if (numeroAleatorioRepetirTurno > attackerSoldier.getChanceAttackAgain()) { // Comprobamos si podra efectuar un nuevo ataque
+				repetirTurno = false;
+			}
 		}
 
 		return repetirTurno;
@@ -700,11 +704,6 @@ public class Battle implements Variables {
 
 	// Genera la batalla
 	public void battle(Civilization civilization) {
-		System.out.println("\n\n---Revisar ejercito desde battle----");
-		for (ArrayList<MilitaryUnit> army : civilization.getArmy()) {
-			System.out.println(army);
-		}
-
 		battleDevelopment = "";
 		battleSummary = "";
 
@@ -724,7 +723,7 @@ public class Battle implements Variables {
 		sanctify();
 
 		while (!battleover) { // Empeza la batalla
-			battleDevelopment += "********************CHANGE ATTACKER********************\n";
+			battleDevelopment += "****************CHANGE ATTACKER****************\n";
 
 			boolean repetirTurno = true;
 
@@ -756,7 +755,8 @@ public class Battle implements Variables {
 			}
 			turno += 1; // Al terminar añade un turno
 		}
-
+		createActualNumberUnitsCivilization(); // Actualizaqmos el numero actual de nuestro ejercito
+		createActualNumberUnitsEnemy(); // Actualizaqmos el numero actual del ejercito enemigo
 		updateResourcesLooses(); // guardamos la perdidas
 		battleSummary(turno);
 
@@ -767,20 +767,46 @@ public class Battle implements Variables {
 			civilization.setWood(civilization.getWood() + wasteWoodIron[0]);
 //			System.out.println("Recursos de madera despues :" + civilization.getWood());
 			civilization.setIron(civilization.getIron() + wasteWoodIron[1]);
-			battleDevelopment += "********************YOU'VE WON********************\n";
+			battleDevelopment += "******************YOU'VE WON*******************\n";
 			battleWin = true;
 		} else {
-			battleDevelopment += "********************YOU HAVE LOST********************\n";
+			battleDevelopment += "*****************YOU HAVE LOST*****************\n";
 		}
 
 		civilization.setArmy(armies[0]);
 
-		System.out.println(battleDevelopment); // borrar
-		System.out.println(battleSummary); // borrar
+		// guarda los caidos
+		battleDrops[0] = 0;
+		battleDrops[1] = 0;
+		battleDrops[2] = 0;
+		battleDrops[3] = 0;
 
-		System.out.println("\n\n---Revisar ejercito desde battle----");
-		for (ArrayList armi : civilization.getArmy()) {
-			System.out.println(armi);
+		for (int i = 0; i < getCivilizationArmy().length; i++) {
+			if (getCivilizationArmy()[i] != null && getCivilizationArmy()[i].size() > 0) {
+				if (i < 4) {
+					battleDrops[0] += initialArmies[0][i] - actualNumberUnitsCivilization[i];
+				} else if (i < 7) {
+					battleDrops[1] += initialArmies[0][i] - actualNumberUnitsCivilization[i];
+				} else {
+					battleDrops[2] += initialArmies[0][i] - actualNumberUnitsCivilization[i];
+				}
+			}
+		}
+
+		for (int i = 0; i < getEnemyArmy().length; i++) {
+			battleDrops[3] = 0;
+			if (getEnemyArmy()[i] != null && getEnemyArmy()[i].size() > 0) {
+				battleDrops[3] += initialArmies[0][i] - actualNumberUnitsEnemy[i];
+			}
+		}
+
+		// Añde experiencia
+		for (int i = 0; i < civilization.getArmy().length; i++) {
+			if (civilization.getArmy()[i] != null && civilization.getArmy()[i].size() > 0) {
+				for (int j = 0; j < civilization.getArmy()[i].size(); j++) {
+					civilization.getArmy()[i].get(j).setExperience(i);
+				}
+			}
 		}
 	}
 
