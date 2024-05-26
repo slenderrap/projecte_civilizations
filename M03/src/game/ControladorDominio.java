@@ -21,7 +21,7 @@ public class ControladorDominio {
 public ControladorDominio(int id) {
 		this.datos = new Datos(id);
 		this.id = id;
-		this.updatable=false;
+		
 	}
 	
 	public int crearPartida(String nombre) {
@@ -54,23 +54,12 @@ public ControladorDominio(int id) {
 	public void setUpdatable(boolean i) {
 		this.updatable = i;
 	}
-	public void iniciarPartida() {
-		System.out.println("TimerTask started");
-		this.timerTask = new TimerPersonalizado(id);
-        //running timer task as daemon thread
-        this.timer = new Timer(true);
-        timer.scheduleAtFixedRate(timerTask, 0, 500);
-		
-
-	}
+	
 	
 	public void crearSoldado(MilitaryUnit mUnit) {
-		System.out.println("aqui1");
-		System.out.println(this.updatable);
 
-		System.out.println("aqui2");
 		datos.crearSoldado(mUnit);
-		System.out.println("aqui3");
+
 		
 	}
 	
@@ -93,18 +82,16 @@ public ControladorDominio(int id) {
 		datos.actualizarRecursos(food, wood, iron, mana);
 		setUpdatable(true);
 		this.recursos = new int[] {food,wood,iron,mana};
-		System.out.println("y aqui? "+updatable);
+		System.out.println("y aqui? "+this.updatable);
 		
 	}
 	
 	public int[] getUpdatable() {
-		System.out.println("lo es? "+ updatable);
-		if (updatable) {
-			setUpdatable(false);
+
 			return recursos;
 			
-		}
-			return null;
+		
+
 		}
 	
 }

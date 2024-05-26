@@ -9,9 +9,15 @@ import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import java.util.ArrayList;
+import java.util.Timer;
+
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -20,7 +26,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
@@ -36,27 +41,31 @@ import game.ResourceException;
 import game.TimerPersonalizado;
 import game.Variables;
 
-
-public class VentanaPartida extends JFrame implements ActionListener,Variables, ChangeListener{
+public class VentanaPartida extends JFrame implements ActionListener, Variables, ChangeListener {
 	private JPanel principalPanel, lateralPanel, recursosPanel, civilizationPanel, armyPanel, shopPanel, battlegroundPanel;
 	private JTabbedPane tabbedPane;
-	private JLabel lFood, lWood, lIron, lMana, lAttack, lDefense, lBattles; //labels para resources
-	private JLabel lFarm, lSmithy, lCarpentry, lChurch, lMagicTower; //labels para buildings
-	private JLabel lSwordsman, lSpearman, lCrossbow, lCannon, lArrowTower, lCatapult, lRocketLauncherTower, lMagician, lPriest; //labels para army
-	private JLabel lAttackFoodCost, lAttackWoodCost, lAttackIronCost, lDefenseFoodCost, lDefenseWoodCost, lDefenseIronCost; //labels shop coste de tecnologias
-    private JScrollPane spBattleDevelopment, spBattleSummary;
+	private JLabel lFood, lWood, lIron, lMana, lAttack, lDefense, lBattles; // labels para resources
+	private JLabel lFarm, lSmithy, lCarpentry, lChurch, lMagicTower; // labels para buildings
+	private JLabel lSwordsman, lSpearman, lCrossbow, lCannon, lArrowTower, lCatapult, lRocketLauncherTower, lMagician, lPriest; // labels
+																																// para army
+	private JLabel lAttackFoodCost, lAttackWoodCost, lAttackIronCost, lDefenseFoodCost, lDefenseWoodCost, lDefenseIronCost; // labels shop
+																															// coste de
+																															// tecnologias
+	private JScrollPane spBattleDevelopment, spBattleSummary;
 	private JLabel lSwordsmanBattle, lSpearmanBattle, lCrossbowBattle, lCannonBattle, lArrowTowerBattle, lCatapultBattle,
-			lRocketLauncherTowerBattle, lMagicianBattle, lPriestBattle, lSwordsmanEnemy, lSpearmanEnemy, lCrossbowEnemy, lCannonEnemy; 
+			lRocketLauncherTowerBattle, lMagicianBattle, lPriestBattle, lSwordsmanEnemy, lSpearmanEnemy, lCrossbowEnemy, lCannonEnemy;
 	private JTextArea taBattleDevelopment, taBattleSummary;
-	private JButton bBuyFarm, bBuySmithy, bBuyCarpentry, bBuyMagicTower, bBuyChurch; //botones shop buy buildings
-	private JButton bBuySwordsman, bBuySpearman, bBuyCrossbow, bBuyCannon, bBuyArrowTower, bBuyCatapult, bBuyRocketLauncher, bBuyMagician, bBuyPriest; //botones shop buy army
-	private JButton bBuyAttack, bBuyDefense; //botones shop buy tecnologias
+	private JButton bBuyFarm, bBuySmithy, bBuyCarpentry, bBuyMagicTower, bBuyChurch; // botones shop buy buildings
+	private JButton bBuySwordsman, bBuySpearman, bBuyCrossbow, bBuyCannon, bBuyArrowTower, bBuyCatapult, bBuyRocketLauncher, bBuyMagician,
+			bBuyPriest; // botones shop buy army
+	private JButton bBuyAttack, bBuyDefense; // botones shop buy tecnologias
 	private ImageIcon fondo, fondoCivilizationPanel, fondoArmyPanel, fondoShopPanel, fondoBattleground;
 	private int id;
 	private Civilization civilization;
 	private ControladorDominio datosDominio;
 	private TimerPersonalizado tPersonalizado;
 	private Battle battle;
+	private Timer timer;
 	private BufferedImage iIcono;
 
   public VentanaPartida(int id) {
@@ -74,9 +83,19 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		//BBDD
 		civilization = new Civilization(id);
 		datosDominio = new ControladorDominio(id);
-		datosDominio.iniciarPartida();
-		datosDominio.recursosActulizar(0, 0, 0, 0, 0, 0, 0, 0);
 		
+
+		System.out.println("TimerTask started");
+		tPersonalizado = new TimerPersonalizado(id);
+	    //running timer task as daemon thread
+	    timer = new Timer(true);
+	    timer.scheduleAtFixedRate(tPersonalizado, 0, 350);
+		tPersonalizado.recursosActualizar(civilization.getFood(), civilization.getWood(), civilization.getIron(), 
+			civilization.getMana(), civilization.getFarm(), civilization.getCarpentry(), civilization.getSmithy(), civilization.getMagicTower());
+		
+		
+		
+
 		// Battle
 		battle = new Battle();
 
@@ -84,34 +103,32 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		fondo = new ImageIcon("src/front/img/BackgroundTablaPergamino.png"); // añadimos imagen de fondo
 		// fondo = new ImageIcon("src/front/img/PergaminoShopVersion2.png"); // IGNORAR
 		// este es para hacer cosas de photoshop
-        
+
 		principalPanel = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				g.drawImage(fondo.getImage(), 0, 0, getWidth(), getHeight(), this);
 			}
 		};
-		
-		//PANEL LATERAL
+
+		// PANEL LATERAL
 		lateralPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		principalPanel.add(lateralPanel, BorderLayout.EAST);
 		lateralPanel.setPreferredSize(new Dimension(402, 50));
-		
-		
-		//RECURSOS PANEL
+
+		// RECURSOS PANEL
 		recursosPanel = new JPanel();
-		recursosPanel.setLayout(null); //null para poder poner los labels en la coordenada que queramos libremente
-		recursosPanel.setPreferredSize(new Dimension(270,500));	
-		
-		//LATERAL PANEL
+		recursosPanel.setLayout(null); // null para poder poner los labels en la coordenada que queramos libremente
+		recursosPanel.setPreferredSize(new Dimension(270, 500));
+
+		// LATERAL PANEL
 		lateralPanel.setOpaque(false);
 		lateralPanel.add(recursosPanel);
 		recursosPanel.setOpaque(false);
 		lateralPanel.setBorder(BorderFactory.createEmptyBorder(90, 60, 0, 0));
-		
-		
-		//COSAS DEL PANEL RECURSOS -------------------------------------------
-		//LABELS PANEL LATERAL RECURSOS
+
+		// COSAS DEL PANEL RECURSOS -------------------------------------------
+		// LABELS PANEL LATERAL RECURSOS
 		lFood = new JLabel(String.valueOf(civilization.getFood()));
 		lWood = new JLabel(String.valueOf(civilization.getWood()));
 		lIron = new JLabel(String.valueOf(civilization.getIron()));
@@ -128,15 +145,15 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		lAttack.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		lDefense.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		lBattles.setFont(new Font("Times New Roman", Font.BOLD, 16));
-		lFood.setForeground(new Color(076,051,026));
-		lWood.setForeground(new Color(076,051,026));
-		lIron.setForeground(new Color(076,051,026));
-		lMana.setForeground(new Color(076,051,026));
-		lAttack.setForeground(new Color(076,051,026));
-		lDefense.setForeground(new Color(076,051,026));
-		lBattles.setForeground(new Color(076,051,026));
-		
-		//añadir labels al panel recursos
+		lFood.setForeground(new Color(076, 051, 026));
+		lWood.setForeground(new Color(076, 051, 026));
+		lIron.setForeground(new Color(076, 051, 026));
+		lMana.setForeground(new Color(076, 051, 026));
+		lAttack.setForeground(new Color(076, 051, 026));
+		lDefense.setForeground(new Color(076, 051, 026));
+		lBattles.setForeground(new Color(076, 051, 026));
+
+		// añadir labels al panel recursos
 		recursosPanel.add(lFood);
 		recursosPanel.add(lWood);
 		recursosPanel.add(lIron);
@@ -144,52 +161,46 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		recursosPanel.add(lAttack);
 		recursosPanel.add(lDefense);
 		recursosPanel.add(lBattles);
-		
-		//mover labels a su sitio en coordenadas
+
+		// mover labels a su sitio en coordenadas
 		Insets insets = recursosPanel.getInsets();
 		Dimension size = lFood.getPreferredSize();
-		lFood.setBounds(50 + insets.left, 80 + insets.top,
-		             size.width+30, size.height);
+
+		lFood.setBounds(50 + insets.left, 80 + insets.top, size.width, size.height);
 		size = lWood.getPreferredSize();
-		lWood.setBounds(50 + insets.left, 115 + insets.top,
-		             size.width+30, size.height);
+		lWood.setBounds(50 + insets.left, 115 + insets.top, size.width, size.height);
 		size = lIron.getPreferredSize();
-		lIron.setBounds(50 + insets.left, 150 + insets.top,
-		             size.width+30, size.height);
+		lIron.setBounds(50 + insets.left, 150 + insets.top, size.width, size.height);
 		size = lMana.getPreferredSize();
-		lMana.setBounds(50 + insets.left, 185 + insets.top,
-		             size.width+30, size.height);
+		lMana.setBounds(50 + insets.left, 185 + insets.top, size.width, size.height);
 		size = lAttack.getPreferredSize();
-		lAttack.setBounds(50 + insets.left, 300 + insets.top,
-		             size.width+30, size.height);
+		lAttack.setBounds(50 + insets.left, 300 + insets.top, size.width, size.height);
 		size = lDefense.getPreferredSize();
-		lDefense.setBounds(50 + insets.left, 335 + insets.top,
-		             size.width+30, size.height);
+		lDefense.setBounds(50 + insets.left, 335 + insets.top, size.width, size.height);
 		size = lBattles.getPreferredSize();
-		lBattles.setBounds(50 + insets.left, 450 + insets.top,
-		             size.width+30, size.height);
-		// fin de panel recursos ------------------------------------------------------------------------
-				
-		
-		
-		//PANELES PARA EL TABBED PANE--------------------------------------------------------------------
-		fondoCivilizationPanel = new ImageIcon("src/front/img/BackgroundCivilization.png"); //añadimos imagen de fondo
+		lBattles.setBounds(50 + insets.left, 450 + insets.top, size.width, size.height);
+		// fin de panel recursos
+		// ------------------------------------------------------------------------
+
+		// PANELES PARA EL TABBED PANE
+		fondoCivilizationPanel = new ImageIcon("src/front/img/BackgroundCivilization.png"); // añadimos imagen de fondo
+
 		civilizationPanel = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				g.drawImage(fondoCivilizationPanel.getImage(), 0, 0, getWidth(), getHeight(), this);
 			}
-		};		
-		
-		fondoArmyPanel = new ImageIcon("src/front/img/BackgroundArmy.png"); //añadimos imagen de fondo
+		};
+
+		fondoArmyPanel = new ImageIcon("src/front/img/BackgroundArmy.png"); // añadimos imagen de fondo
 		armyPanel = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				g.drawImage(fondoArmyPanel.getImage(), 0, 0, getWidth(), getHeight(), this);
 			}
 		};
-		fondoShopPanel = new ImageIcon("src/front/img/BackgroundShop.png"); //añadimos imagen de fondo
-		
+		fondoShopPanel = new ImageIcon("src/front/img/BackgroundShop.png"); // añadimos imagen de fondo
+
 		shopPanel = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
@@ -203,9 +214,8 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 				g.drawImage(fondoBattleground.getImage(), 0, 0, getWidth(), getHeight(), this);
 			}
 		};
-		
-		
-		//TABBED PANEL
+
+		// TABBED PANEL
 		tabbedPane = new JTabbedPane();
 		principalPanel.add(tabbedPane, BorderLayout.CENTER);
 		tabbedPane.addTab("Civilization", civilizationPanel);
@@ -213,15 +223,15 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		tabbedPane.addTab("Shop", shopPanel);
 		tabbedPane.addTab("Battleground", battlegroundPanel);
 		tabbedPane.addChangeListener(this);
-		
+
 		tabbedPane.setSelectedComponent(battlegroundPanel);
+
 		// fin de cosas del TABBED PANE -------------------------------------------------------
-		
-		
-		
+	
 		
 		//COSAS DEL PANEL CIVILIZATION -------------------------------------------
 		//LABELS CIVILIZATION
+
 		lFarm = new JLabel(String.valueOf(civilization.getFarm()));
 		lSmithy = new JLabel(String.valueOf(civilization.getSmithy()));
 		lCarpentry = new JLabel(String.valueOf(civilization.getCarpentry()));
@@ -234,44 +244,38 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		lCarpentry.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		lChurch.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		lMagicTower.setFont(new Font("Times New Roman", Font.BOLD, 16));
-		lFarm.setForeground(new Color(076,051,026));
-		lSmithy.setForeground(new Color(076,051,026));
-		lCarpentry.setForeground(new Color(076,051,026));
-		lChurch.setForeground(new Color(076,051,026));
-		lMagicTower.setForeground(new Color(076,051,026));
-		
-		//añadir al panel Civilization
+		lFarm.setForeground(new Color(076, 051, 026));
+		lSmithy.setForeground(new Color(076, 051, 026));
+		lCarpentry.setForeground(new Color(076, 051, 026));
+		lChurch.setForeground(new Color(076, 051, 026));
+		lMagicTower.setForeground(new Color(076, 051, 026));
+
+		// añadir al panel Civilization
 		civilizationPanel.add(lFarm);
 		civilizationPanel.add(lSmithy);
 		civilizationPanel.add(lCarpentry);
 		civilizationPanel.add(lChurch);
 		civilizationPanel.add(lMagicTower);
-		
-		//mover labels a su sitio en coordenadas
+
+		// mover labels a su sitio en coordenadas
 		civilizationPanel.setLayout(null);
-		
+
 		insets = civilizationPanel.getInsets();
 		size = lFarm.getPreferredSize();
-		lFarm.setBounds(403 + insets.left, 370 + insets.top,
-		             size.width, size.height);
+		lFarm.setBounds(403 + insets.left, 370 + insets.top, size.width, size.height);
 		size = lSmithy.getPreferredSize();
-		lSmithy.setBounds(613 + insets.left, 275 + insets.top,
-		             size.width, size.height);
+		lSmithy.setBounds(613 + insets.left, 275 + insets.top, size.width, size.height);
 		size = lCarpentry.getPreferredSize();
-		lCarpentry.setBounds(235 + insets.left, 309 + insets.top,
-		             size.width, size.height);
+		lCarpentry.setBounds(235 + insets.left, 309 + insets.top, size.width, size.height);
 		size = lChurch.getPreferredSize();
-		lChurch.setBounds(400 + insets.left, 161 + insets.top,
-		             size.width, size.height);
+		lChurch.setBounds(400 + insets.left, 161 + insets.top, size.width, size.height);
 		size = lMagicTower.getPreferredSize();
-		lMagicTower.setBounds(187 + insets.left, 111 + insets.top,
-		             size.width, size.height);
-		//fin de CIVILIZATION------------------------------------------------------------------------
-		
-		
-		
+		lMagicTower.setBounds(187 + insets.left, 111 + insets.top, size.width, size.height);
+		// fin de
+		// CIVILIZATION------------------------------------------------------------------------
+
 		// COSAS DEL PANEL ARMY -------------------------------------------------------
-		//LABELS ARMY
+		// LABELS ARMY
 		lSwordsman = new JLabel(String.valueOf(civilization.getArmy()[0].size()));
 		lSpearman = new JLabel(String.valueOf(civilization.getArmy()[1].size()));
 		lCrossbow = new JLabel(String.valueOf(civilization.getArmy()[2].size()));
@@ -292,18 +296,18 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		lRocketLauncherTower.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		lMagician.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		lPriest.setFont(new Font("Times New Roman", Font.BOLD, 20));
-		
-		lSwordsman.setForeground(new Color(076,051,026));
-		lSpearman.setForeground(new Color(076,051,026));
-		lCrossbow.setForeground(new Color(076,051,026));
-		lCannon.setForeground(new Color(076,051,026));
-		lArrowTower.setForeground(new Color(076,051,026));
-		lCatapult.setForeground(new Color(076,051,026));
-		lRocketLauncherTower.setForeground(new Color(076,051,026));
-		lMagician.setForeground(new Color(076,051,026));
-		lPriest.setForeground(new Color(076,051,026));
-		
-		//añadir al panel Army
+
+		lSwordsman.setForeground(new Color(076, 051, 026));
+		lSpearman.setForeground(new Color(076, 051, 026));
+		lCrossbow.setForeground(new Color(076, 051, 026));
+		lCannon.setForeground(new Color(076, 051, 026));
+		lArrowTower.setForeground(new Color(076, 051, 026));
+		lCatapult.setForeground(new Color(076, 051, 026));
+		lRocketLauncherTower.setForeground(new Color(076, 051, 026));
+		lMagician.setForeground(new Color(076, 051, 026));
+		lPriest.setForeground(new Color(076, 051, 026));
+
+		// añadir al panel Army
 		armyPanel.add(lSwordsman);
 		armyPanel.add(lSpearman);
 		armyPanel.add(lCrossbow);
@@ -313,91 +317,82 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		armyPanel.add(lRocketLauncherTower);
 		armyPanel.add(lMagician);
 		armyPanel.add(lPriest);
-		
-		//mover labels a su sitio en coordenadas
+
+		// mover labels a su sitio en coordenadas
 		armyPanel.setLayout(null);
-		
+
 		insets = armyPanel.getInsets();
 		size = lSwordsman.getPreferredSize();
-		lSwordsman.setBounds(200 + insets.left, 115 + insets.top,
-		             size.width, size.height);
+		lSwordsman.setBounds(200 + insets.left, 115 + insets.top, size.width, size.height);
 		size = lSpearman.getPreferredSize();
-		lSpearman.setBounds(200 + insets.left, 247 + insets.top,
-		             size.width, size.height);
+		lSpearman.setBounds(200 + insets.left, 247 + insets.top, size.width, size.height);
 		size = lCrossbow.getPreferredSize();
-		lCrossbow.setBounds(200 + insets.left, 383 + insets.top,
-		             size.width, size.height);
+		lCrossbow.setBounds(200 + insets.left, 383 + insets.top, size.width, size.height);
 		size = lCannon.getPreferredSize();
-		lCannon.setBounds(200 + insets.left, 512 + insets.top,
-		             size.width, size.height);
+		lCannon.setBounds(200 + insets.left, 512 + insets.top, size.width, size.height);
 		size = lArrowTower.getPreferredSize();
-		lArrowTower.setBounds(442 + insets.left, 115 + insets.top,
-		             size.width, size.height);
+		lArrowTower.setBounds(442 + insets.left, 115 + insets.top, size.width, size.height);
 		size = lCatapult.getPreferredSize();
-		lCatapult.setBounds(442 + insets.left, 247 + insets.top,
-		             size.width, size.height);
+		lCatapult.setBounds(442 + insets.left, 247 + insets.top, size.width, size.height);
 		size = lRocketLauncherTower.getPreferredSize();
-		lRocketLauncherTower.setBounds(442 + insets.left, 383 + insets.top,
-		             size.width, size.height);
+		lRocketLauncherTower.setBounds(442 + insets.left, 383 + insets.top, size.width, size.height);
 		size = lMagician.getPreferredSize();
-		lMagician.setBounds(683 + insets.left, 115 + insets.top,
-		             size.width, size.height);
+		lMagician.setBounds(683 + insets.left, 115 + insets.top, size.width, size.height);
 		size = lPriest.getPreferredSize();
-		lPriest.setBounds(683 + insets.left, 247 + insets.top,
-		             size.width, size.height);
-		// fin de ARMY------------------------------------------------------------------------
-		
-		
-		
-		
-		// COSAS DEL PANEL SHOP -------------------------------------------------------------
-		//LABELS SHOP
-		//calculos e instanciado de labels
+		lPriest.setBounds(683 + insets.left, 247 + insets.top, size.width, size.height);
+		// fin de
+		// ARMY------------------------------------------------------------------------
+
+		// COSAS DEL PANEL SHOP -------------------------------------------------------
+		// LABELS SHOP
+
+  //calculos e instanciado de labels
 		int AFoodCost = UPGRADE_BASE_ATTACK_TECHNOLOGY_FOOD_COST;
 		int AWoodCost = UPGRADE_BASE_ATTACK_TECHNOLOGY_WOOD_COST;
 		int AIronCost = UPGRADE_BASE_ATTACK_TECHNOLOGY_IRON_COST;
-		
-		if (civilization.getTechnologyAttack()>1) {
-			for (int i=0; i<civilization.getTechnologyAttack()-1;i++) {
-				AFoodCost += AFoodCost/100*UPGRADE_PLUS_ATTACK_TECHNOLOGY_FOOD_COST;
-				AWoodCost += AWoodCost/100*UPGRADE_PLUS_ATTACK_TECHNOLOGY_WOOD_COST;
-				AIronCost += AIronCost/100*UPGRADE_PLUS_ATTACK_TECHNOLOGY_IRON_COST;
-			}}
+
+		if (civilization.getTechnologyAttack() > 1) {
+			for (int i = 0; i < civilization.getTechnologyAttack() - 1; i++) {
+				AFoodCost += AFoodCost / 100 * UPGRADE_PLUS_ATTACK_TECHNOLOGY_FOOD_COST;
+				AWoodCost += AWoodCost / 100 * UPGRADE_PLUS_ATTACK_TECHNOLOGY_WOOD_COST;
+				AIronCost += AIronCost / 100 * UPGRADE_PLUS_ATTACK_TECHNOLOGY_IRON_COST;
+			}
+		}
 		lAttackFoodCost = new JLabel(String.valueOf(AFoodCost));
 		lAttackWoodCost = new JLabel(String.valueOf(AWoodCost));
 		lAttackIronCost = new JLabel(String.valueOf(AIronCost));
-		
+
 		int DFoodCost = UPGRADE_BASE_DEFENSE_TECHNOLOGY_FOOD_COST;
 		int DWoodCost = UPGRADE_BASE_DEFENSE_TECHNOLOGY_WOOD_COST;
 		int DIronCost = UPGRADE_BASE_DEFENSE_TECHNOLOGY_IRON_COST;
-		
-		if (civilization.getTechnologyDefense()>1) {
-			for (int i=0; i<civilization.getTechnologyDefense()-1;i++) {
-				DFoodCost += DFoodCost/100*UPGRADE_PLUS_DEFENSE_TECHNOLOGY_FOOD_COST;
-				DWoodCost += DWoodCost/100*UPGRADE_PLUS_DEFENSE_TECHNOLOGY_WOOD_COST;
-				DIronCost += DIronCost/100*UPGRADE_PLUS_DEFENSE_TECHNOLOGY_IRON_COST;
-			}}
+
+		if (civilization.getTechnologyDefense() > 1) {
+			for (int i = 0; i < civilization.getTechnologyDefense() - 1; i++) {
+				DFoodCost += DFoodCost / 100 * UPGRADE_PLUS_DEFENSE_TECHNOLOGY_FOOD_COST;
+				DWoodCost += DWoodCost / 100 * UPGRADE_PLUS_DEFENSE_TECHNOLOGY_WOOD_COST;
+				DIronCost += DIronCost / 100 * UPGRADE_PLUS_DEFENSE_TECHNOLOGY_IRON_COST;
+			}
+		}
 		lDefenseFoodCost = new JLabel(String.valueOf(DFoodCost));
 		lDefenseWoodCost = new JLabel(String.valueOf(DWoodCost));
 		lDefenseIronCost = new JLabel(String.valueOf(DIronCost));
-		
-		//cambiar fuente y color
+
+		// cambiar fuente y color
 		lAttackFoodCost.setFont(new Font("Times New Roman", Font.BOLD, 12));
 		lAttackWoodCost.setFont(new Font("Times New Roman", Font.BOLD, 12));
 		lAttackIronCost.setFont(new Font("Times New Roman", Font.BOLD, 12));
 		lDefenseFoodCost.setFont(new Font("Times New Roman", Font.BOLD, 12));
 		lDefenseWoodCost.setFont(new Font("Times New Roman", Font.BOLD, 12));
 		lDefenseIronCost.setFont(new Font("Times New Roman", Font.BOLD, 12));
-		
-		lAttackFoodCost.setForeground(new Color(076,051,026));
-		lAttackWoodCost.setForeground(new Color(076,051,026));
-		lAttackIronCost.setForeground(new Color(076,051,026));
-		lDefenseFoodCost.setForeground(new Color(076,051,026));
-		lDefenseWoodCost.setForeground(new Color(076,051,026));
-		lDefenseIronCost.setForeground(new Color(076,051,026));
 
-		
-		//añadir al panel Shop
+		lAttackFoodCost.setForeground(new Color(076, 051, 026));
+		lAttackWoodCost.setForeground(new Color(076, 051, 026));
+		lAttackIronCost.setForeground(new Color(076, 051, 026));
+		lDefenseFoodCost.setForeground(new Color(076, 051, 026));
+		lDefenseWoodCost.setForeground(new Color(076, 051, 026));
+		lDefenseIronCost.setForeground(new Color(076, 051, 026));
+
+		// añadir al panel Shop
 		shopPanel.add(lAttackFoodCost);
 		shopPanel.add(lAttackWoodCost);
 		shopPanel.add(lAttackIronCost);
@@ -405,32 +400,27 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		shopPanel.add(lDefenseWoodCost);
 		shopPanel.add(lDefenseIronCost);
 
-		
-		//mover labels a su sitio en coordenadas
+		// mover labels a su sitio en coordenadas
+
 		shopPanel.setLayout(null);
-		
+
 		insets = shopPanel.getInsets();
 		size = lAttackFoodCost.getPreferredSize();
-		lAttackFoodCost.setBounds(390 + insets.left, 470 + insets.top,
-		             size.width+30, size.height);
+		lAttackFoodCost.setBounds(390 + insets.left, 470 + insets.top, size.width + 30, size.height);
 		size = lAttackWoodCost.getPreferredSize();
-		lAttackWoodCost.setBounds(390 + insets.left, 490 + insets.top,
-		             size.width+30, size.height);
+		lAttackWoodCost.setBounds(390 + insets.left, 490 + insets.top, size.width + 30, size.height);
 		size = lAttackIronCost.getPreferredSize();
-		lAttackIronCost.setBounds(390 + insets.left, 510 + insets.top,
-		             size.width+30, size.height);
+		lAttackIronCost.setBounds(390 + insets.left, 510 + insets.top, size.width + 30, size.height);
 		size = lDefenseFoodCost.getPreferredSize();
-		lDefenseFoodCost.setBounds(390 + insets.left, 557 + insets.top,
-		             size.width+30, size.height);
+		lDefenseFoodCost.setBounds(390 + insets.left, 557 + insets.top, size.width + 30, size.height);
 		size = lDefenseWoodCost.getPreferredSize();
-		lDefenseWoodCost.setBounds(390 + insets.left, 577 + insets.top,
-		             size.width+30, size.height);
+		lDefenseWoodCost.setBounds(390 + insets.left, 577 + insets.top, size.width + 30, size.height);
 		size = lDefenseIronCost.getPreferredSize();
-		lDefenseIronCost.setBounds(390 + insets.left, 597 + insets.top,
-		             size.width+30, size.height);
-				
-		
-		//BUTTONS SHOP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+		lDefenseIronCost.setBounds(390 + insets.left, 597 + insets.top, size.width + 30, size.height);
+
+		// BUTTONS SHOP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 		bBuyFarm = new JButton("Buy");
 		bBuyFarm.addActionListener(this);
 		bBuySmithy = new JButton("Buy");
@@ -465,16 +455,16 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		bBuyAttack.addActionListener(this);
 		bBuyDefense = new JButton("Buy");
 		bBuyDefense.addActionListener(this);
-    
-  
-		
-		//cambiar fuente,  color, background
+
+
+		// cambiar fuente, color, background
+
 		bBuyFarm.setFont(new Font("Times New Roman", Font.BOLD, 12));
 		bBuySmithy.setFont(new Font("Times New Roman", Font.BOLD, 12));
 		bBuyCarpentry.setFont(new Font("Times New Roman", Font.BOLD, 12));
 		bBuyMagicTower.setFont(new Font("Times New Roman", Font.BOLD, 12));
 		bBuyChurch.setFont(new Font("Times New Roman", Font.BOLD, 12));
-		
+
 		bBuySwordsman.setFont(new Font("Times New Roman", Font.BOLD, 12));
 		bBuySpearman.setFont(new Font("Times New Roman", Font.BOLD, 12));
 		bBuyCrossbow.setFont(new Font("Times New Roman", Font.BOLD, 12));
@@ -484,16 +474,16 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		bBuyRocketLauncher.setFont(new Font("Times New Roman", Font.BOLD, 12));
 		bBuyMagician.setFont(new Font("Times New Roman", Font.BOLD, 12));
 		bBuyPriest.setFont(new Font("Times New Roman", Font.BOLD, 12));
-		
+
 		bBuyAttack.setFont(new Font("Times New Roman", Font.BOLD, 12));
 		bBuyDefense.setFont(new Font("Times New Roman", Font.BOLD, 12));
-		
+
 		bBuyFarm.setForeground(Color.WHITE);
 		bBuySmithy.setForeground(Color.WHITE);
 		bBuyCarpentry.setForeground(Color.WHITE);
 		bBuyMagicTower.setForeground(Color.WHITE);
 		bBuyChurch.setForeground(Color.WHITE);
-		
+
 		bBuySwordsman.setForeground(Color.WHITE);
 		bBuySpearman.setForeground(Color.WHITE);
 		bBuyCrossbow.setForeground(Color.WHITE);
@@ -506,27 +496,27 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 
 		bBuyAttack.setForeground(Color.WHITE);
 		bBuyDefense.setForeground(Color.WHITE);
-        
-		bBuyFarm.setBackground(new Color(076,051,026));
-		bBuySmithy.setBackground(new Color(076,051,026));
-		bBuyCarpentry.setBackground(new Color(076,051,026));
-		bBuyMagicTower.setBackground(new Color(076,051,026));
-		bBuyChurch.setBackground(new Color(076,051,026));
-		
-		bBuySwordsman.setBackground(new Color(076,051,026));
-		bBuySpearman.setBackground(new Color(076,051,026));
-		bBuyCrossbow.setBackground(new Color(076,051,026));
-		bBuyCannon.setBackground(new Color(076,051,026));
-		bBuyArrowTower.setBackground(new Color(076,051,026));
-		bBuyCatapult.setBackground(new Color(076,051,026));
-		bBuyRocketLauncher.setBackground(new Color(076,051,026));
-		bBuyMagician.setBackground(new Color(076,051,026));
-		bBuyPriest.setBackground(new Color(076,051,026));
 
-		bBuyAttack.setBackground(new Color(076,051,026));
-		bBuyDefense.setBackground(new Color(076,051,026));
-		
-		//añadir al panel Shop
+		bBuyFarm.setBackground(new Color(076, 051, 026));
+		bBuySmithy.setBackground(new Color(076, 051, 026));
+		bBuyCarpentry.setBackground(new Color(076, 051, 026));
+		bBuyMagicTower.setBackground(new Color(076, 051, 026));
+		bBuyChurch.setBackground(new Color(076, 051, 026));
+
+		bBuySwordsman.setBackground(new Color(076, 051, 026));
+		bBuySpearman.setBackground(new Color(076, 051, 026));
+		bBuyCrossbow.setBackground(new Color(076, 051, 026));
+		bBuyCannon.setBackground(new Color(076, 051, 026));
+		bBuyArrowTower.setBackground(new Color(076, 051, 026));
+		bBuyCatapult.setBackground(new Color(076, 051, 026));
+		bBuyRocketLauncher.setBackground(new Color(076, 051, 026));
+		bBuyMagician.setBackground(new Color(076, 051, 026));
+		bBuyPriest.setBackground(new Color(076, 051, 026));
+
+		bBuyAttack.setBackground(new Color(076, 051, 026));
+		bBuyDefense.setBackground(new Color(076, 051, 026));
+
+		// añadir al panel Shop
 		shopPanel.add(bBuyFarm);
 		shopPanel.add(bBuySmithy);
 		shopPanel.add(bBuyCarpentry);
@@ -542,69 +532,54 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		shopPanel.add(bBuyRocketLauncher);
 		shopPanel.add(bBuyMagician);
 		shopPanel.add(bBuyPriest);
-		
+
 		shopPanel.add(bBuyAttack);
 		shopPanel.add(bBuyDefense);
-			
-		
-		//mover labels a su sitio en coordenadas
+
+		// mover labels a su sitio en coordenadas
 		insets = shopPanel.getInsets();
 		size = bBuyFarm.getPreferredSize();
-		bBuyFarm.setBounds(210 + insets.left, 100 + insets.top,
-		             size.width, size.height);
+		bBuyFarm.setBounds(210 + insets.left, 100 + insets.top, size.width, size.height);
 		size = bBuySmithy.getPreferredSize();
-		bBuySmithy.setBounds(210 + insets.left, 190 + insets.top,
-		             size.width, size.height);
+		bBuySmithy.setBounds(210 + insets.left, 190 + insets.top, size.width, size.height);
 		size = bBuyCarpentry.getPreferredSize();
-		bBuyCarpentry.setBounds(210 + insets.left, 285 + insets.top,
-		             size.width, size.height);
+		bBuyCarpentry.setBounds(210 + insets.left, 285 + insets.top, size.width, size.height);
 		size = bBuyMagicTower.getPreferredSize();
-		bBuyMagicTower.setBounds(210 + insets.left, 405 + insets.top,
-		             size.width, size.height);
+		bBuyMagicTower.setBounds(210 + insets.left, 405 + insets.top, size.width, size.height);
 		size = bBuyChurch.getPreferredSize();
-		bBuyChurch.setBounds(210 + insets.left, 525 + insets.top,
-		             size.width, size.height);
+		bBuyChurch.setBounds(210 + insets.left, 525 + insets.top, size.width, size.height);
 		// comprar soldados --------
 		size = bBuySwordsman.getPreferredSize();
-		bBuySwordsman.setBounds(455 + insets.left, 70 + insets.top,
-		             size.width, size.height);
+		bBuySwordsman.setBounds(455 + insets.left, 70 + insets.top, size.width, size.height);
 		size = bBuySpearman.getPreferredSize();
-		bBuySpearman.setBounds(455 + insets.left, 170 + insets.top,
-		             size.width, size.height);
+		bBuySpearman.setBounds(455 + insets.left, 170 + insets.top, size.width, size.height);
 		size = bBuyCrossbow.getPreferredSize();
-		bBuyCrossbow.setBounds(455 + insets.left, 265 + insets.top,
-		             size.width, size.height);
+		bBuyCrossbow.setBounds(455 + insets.left, 265 + insets.top, size.width, size.height);
 		size = bBuyCannon.getPreferredSize();
-		bBuyCannon.setBounds(455 + insets.left, 360 + insets.top,
-		             size.width, size.height);
-		//--
+		bBuyCannon.setBounds(455 + insets.left, 360 + insets.top, size.width, size.height);
+		// --
 		size = bBuyArrowTower.getPreferredSize();
-		bBuyArrowTower.setBounds(690 + insets.left, 345 + insets.top,
-		             size.width, size.height);
+		bBuyArrowTower.setBounds(690 + insets.left, 345 + insets.top, size.width, size.height);
 		size = bBuyCatapult.getPreferredSize();
-		bBuyCatapult.setBounds(690 + insets.left, 445 + insets.top,
-		             size.width, size.height);
+		bBuyCatapult.setBounds(690 + insets.left, 445 + insets.top, size.width, size.height);
 		size = bBuyRocketLauncher.getPreferredSize();
-		bBuyRocketLauncher.setBounds(690 + insets.left, 555 + insets.top,
-		             size.width, size.height);
-		//--
+		bBuyRocketLauncher.setBounds(690 + insets.left, 555 + insets.top, size.width, size.height);
+		// --
 		size = bBuyMagician.getPreferredSize();
-		bBuyMagician.setBounds(690 + insets.left, 85 + insets.top,
-		             size.width, size.height);
+		bBuyMagician.setBounds(690 + insets.left, 85 + insets.top, size.width, size.height);
 		size = bBuyPriest.getPreferredSize();
-		bBuyPriest.setBounds(690 + insets.left, 195 + insets.top,
-		             size.width, size.height);
+		bBuyPriest.setBounds(690 + insets.left, 195 + insets.top, size.width, size.height);
 		// comprar tecnologias --------
 		size = bBuyAttack.getPreferredSize();
-		bBuyAttack.setBounds(455 + insets.left, 480 + insets.top,
-		             size.width, size.height);
+		bBuyAttack.setBounds(455 + insets.left, 480 + insets.top, size.width, size.height);
 		size = bBuyDefense.getPreferredSize();
-		bBuyDefense.setBounds(455 + insets.left, 568 + insets.top,
-		             size.width, size.height);
-		// fin de SHOP ------------------------------------------------------------------------
-		
-		
-		// COSAS DEL PANEL BATTLEGROUND -------------------------------------------------------
+		bBuyDefense.setBounds(455 + insets.left, 568 + insets.top, size.width, size.height);
+		// fin de SHOP
+		// ------------------------------------------------------------------------
+
+		// COSAS DEL PANEL BATTLEGROUND
+		// -------------------------------------------------------
+
 		// LABELS BATTLEGROUND
 		lSwordsmanBattle = new JLabel(String.valueOf(civilization.getArmy()[0].size()));
 		lSpearmanBattle = new JLabel(String.valueOf(civilization.getArmy()[1].size()));
@@ -619,153 +594,8 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		lSpearmanEnemy = new JLabel("2");
 		lCrossbowEnemy = new JLabel("300");
 		lCannonEnemy = new JLabel("0");
-		taBattleDevelopment = new JTextArea(
-				/* battle.getBattleDevelopment() "*********CHANGE ATTACKER************\r\n" */"********************CHANGE ATTACKER********************\r\n"
-						+ "Attacks Civilization: Swordsman attacks Swordsman\r\n" + "Swordsman genrates the damage = 80\r\n"
-						+ "Swordsman stays with armor =  320\r\n" + "********************CHANGE ATTACKER********************\r\n"
-						+ "Attacks army enemy: Crossbow attacks Cannon\r\n" + "Crossbow genrates the damage = 1000\r\n"
-						+ "Cannon stays with armor =  7000\r\n" + "********************CHANGE ATTACKER********************\r\n"
-						+ "Attacks Civilization: Cannon attacks Crossbow\r\n" + "Cannon genrates the damage = 700\r\n"
-						+ "Crossbow stays with armor =  5300\r\n" + "Attacks Civilization: Swordsman attacks Crossbow\r\n"
-						+ "Swordsman genrates the damage = 80\r\n" + "Crossbow stays with armor =  5220\r\n"
-						+ "********************CHANGE ATTACKER********************\r\n" + "Attacks army enemy: Crossbow attacks Cannon\r\n"
-						+ "Crossbow genrates the damage = 1000\r\n" + "Cannon stays with armor =  6000\r\n"
-						+ "********************CHANGE ATTACKER********************\r\n"
-						+ "Attacks Civilization: Swordsman attacks Cannon\r\n" + "Swordsman genrates the damage = 80\r\n"
-						+ "Cannon stays with armor =  5920\r\n" + "********************CHANGE ATTACKER********************\r\n"
-						+ "Attacks army enemy: Swordsman attacks Cannon\r\n" + "Swordsman genrates the damage = 80\r\n"
-						+ "Cannon stays with armor =  7920\r\n" + "********************CHANGE ATTACKER********************\r\n"
-						+ "Attacks Civilization: Swordsman attacks Swordsman\r\n" + "Swordsman genrates the damage = 80\r\n"
-						+ "Swordsman stays with armor =  240\r\n" + "********************CHANGE ATTACKER********************\r\n"
-						+ "Attacks army enemy: Crossbow attacks Crossbow\r\n" + "Crossbow genrates the damage = 1000\r\n"
-						+ "Crossbow stays with armor =  4220\r\n" + "Attacks army enemy: Swordsman attacks Swordsman\r\n"
-						+ "Swordsman genrates the damage = 80\r\n" + "Swordsman stays with armor =  160\r\n"
-						+ "********************CHANGE ATTACKER********************\r\n"
-						+ "Attacks Civilization: Cannon attacks Crossbow\r\n" + "Cannon genrates the damage = 700\r\n"
-						+ "Crossbow stays with armor =  3520\r\n" + "********************CHANGE ATTACKER********************\r\n"
-						+ "Attacks army enemy: Cannon attacks Swordsman\r\n" + "Cannon genrates the damage = 700\r\n"
-						+ "Swordsman stays with armor =  -540\r\n" + "We eliminateSwordsman\r\n"
-						+ "Attacks army enemy: Crossbow attacks Cannon\r\n" + "Crossbow genrates the damage = 1000\r\n"
-						+ "Cannon stays with armor =  4920\r\n" + "********************CHANGE ATTACKER********************\r\n"
-						+ "Attacks Civilization: Swordsman attacks Crossbow\r\n" + "Swordsman genrates the damage = 80\r\n"
-						+ "Crossbow stays with armor =  3440\r\n" + "********************CHANGE ATTACKER********************\r\n"
-						+ "Attacks army enemy: Cannon attacks Swordsman\r\n" + "Cannon genrates the damage = 700\r\n"
-						+ "Swordsman stays with armor =  -300\r\n" + "We eliminateSwordsman\r\n"
-						+ "********************CHANGE ATTACKER********************\r\n"
-						+ "Attacks Civilization: Crossbow attacks Cannon\r\n" + "Crossbow genrates the damage = 1000\r\n"
-						+ "Cannon stays with armor =  3920\r\n" + "********************CHANGE ATTACKER********************\r\n"
-						+ "Attacks army enemy: Cannon attacks Crossbow\r\n" + "Cannon genrates the damage = 700\r\n"
-						+ "Crossbow stays with armor =  2740\r\n" + "Attacks army enemy: Cannon attacks Cannon\r\n"
-						+ "Cannon genrates the damage = 700\r\n" + "Cannon stays with armor =  3220\r\n"
-						+ "Attacks army enemy: Swordsman attacks Cannon\r\n" + "Swordsman genrates the damage = 80\r\n"
-						+ "Cannon stays with armor =  7840\r\n" + "********************CHANGE ATTACKER********************\r\n"
-						+ "Attacks Civilization: Cannon attacks Crossbow\r\n" + "Cannon genrates the damage = 700\r\n"
-						+ "Crossbow stays with armor =  2040\r\n" + "Attacks Civilization: Cannon attacks Cannon\r\n"
-						+ "Cannon genrates the damage = 700\r\n" + "Cannon stays with armor =  2520\r\n"
-						+ "Attacks Civilization: Cannon attacks Cannon\r\n" + "Cannon genrates the damage = 700\r\n"
-						+ "Cannon stays with armor =  1820\r\n" + "Attacks Civilization: Crossbow attacks Crossbow\r\n"
-						+ "Crossbow genrates the damage = 1000\r\n" + "Crossbow stays with armor =  1040\r\n"
-						+ "********************CHANGE ATTACKER********************\r\n" + "Attacks army enemy: Cannon attacks Cannon\r\n"
-						+ "Cannon genrates the damage = 700\r\n" + "Cannon stays with armor =  1120\r\n"
-						+ "Attacks army enemy: Cannon attacks Cannon\r\n" + "Cannon genrates the damage = 700\r\n"
-						+ "Cannon stays with armor =  7140\r\n" + "Attacks army enemy: Cannon attacks Crossbow\r\n"
-						+ "Cannon genrates the damage = 700\r\n" + "Crossbow stays with armor =  340\r\n"
-						+ "Attacks army enemy: Swordsman attacks Cannon\r\n" + "Swordsman genrates the damage = 80\r\n"
-						+ "Cannon stays with armor =  7060\r\n" + "********************CHANGE ATTACKER********************\r\n"
-						+ "Attacks Civilization: Cannon attacks Crossbow\r\n" + "Cannon genrates the damage = 700\r\n"
-						+ "Crossbow stays with armor =  -360\r\n" + "We eliminateCrossbow\r\n"
-						+ "Attacks Civilization: Crossbow attacks Crossbow\r\n" + "Crossbow genrates the damage = 1000\r\n"
-						+ "Crossbow stays with armor =  5000\r\n" + "********************CHANGE ATTACKER********************\r\n"
-						+ "Attacks army enemy: Swordsman attacks Cannon\r\n" + "Swordsman genrates the damage = 80\r\n"
-						+ "Cannon stays with armor =  6980\r\n" + "********************CHANGE ATTACKER********************\r\n"
-						+ "Attacks Civilization: Cannon attacks Swordsman\r\n" + "Cannon genrates the damage = 700\r\n"
-						+ "Swordsman stays with armor =  -1240\r\n" + "We eliminateSwordsman\r\n"
-						+ "Attacks Civilization: Crossbow attacks Cannon\r\n" + "Crossbow genrates the damage = 1000\r\n"
-						+ "Cannon stays with armor =  5980\r\n" + "********************CHANGE ATTACKER********************\r\n"
-						+ "Attacks army enemy: Swordsman attacks Cannon\r\n" + "Swordsman genrates the damage = 80\r\n"
-						+ "Cannon stays with armor =  5900\r\n" + "********************CHANGE ATTACKER********************\r\n"
-						+ "Attacks Civilization: Crossbow attacks Crossbow\r\n" + "Crossbow genrates the damage = 1000\r\n"
-						+ "Crossbow stays with armor =  4000\r\n" + "********************CHANGE ATTACKER********************\r\n"
-						+ "Attacks army enemy: Cannon attacks Cannon\r\n" + "Cannon genrates the damage = 700\r\n"
-						+ "Cannon stays with armor =  5200\r\n" + "********************CHANGE ATTACKER********************\r\n"
-						+ "Attacks Civilization: Crossbow attacks Swordsman\r\n" + "Crossbow genrates the damage = 1000\r\n"
-						+ "Swordsman stays with armor =  -1300\r\n" + "We eliminateSwordsman\r\n"
-						+ "********************CHANGE ATTACKER********************\r\n" + "Attacks army enemy: Cannon attacks Cannon\r\n"
-						+ "Cannon genrates the damage = 700\r\n" + "Cannon stays with armor =  4500\r\n"
-						+ "********************CHANGE ATTACKER********************\r\n"
-						+ "Attacks Civilization: Crossbow attacks Crossbow\r\n" + "Crossbow genrates the damage = 1000\r\n"
-						+ "Crossbow stays with armor =  3000\r\n" + "Attacks Civilization: Crossbow attacks Crossbow\r\n"
-						+ "Crossbow genrates the damage = 1000\r\n" + "Crossbow stays with armor =  2000\r\n"
-						+ "Attacks Civilization: Cannon attacks Crossbow\r\n" + "Cannon genrates the damage = 700\r\n"
-						+ "Crossbow stays with armor =  1300\r\n" + "********************CHANGE ATTACKER********************\r\n"
-						+ "Attacks army enemy: Cannon attacks Cannon\r\n" + "Cannon genrates the damage = 700\r\n"
-						+ "Cannon stays with armor =  3800\r\n" + "Attacks army enemy: Crossbow attacks Cannon\r\n"
-						+ "Crossbow genrates the damage = 1000\r\n" + "Cannon stays with armor =  120\r\n"
-						+ "Attacks army enemy: Cannon attacks Crossbow\r\n" + "Cannon genrates the damage = 700\r\n"
-						+ "Crossbow stays with armor =  -1060\r\n" + "We eliminateCrossbow\r\n"
-						+ "********************CHANGE ATTACKER********************\r\n" + "Attacks Civilization: Cannon attacks Cannon\r\n"
-						+ "Cannon genrates the damage = 700\r\n" + "Cannon stays with armor =  -580\r\n" + "We eliminateCannon\r\n"
-						+ "Attacks Civilization: Crossbow attacks Cannon\r\n" + "Crossbow genrates the damage = 1000\r\n"
-						+ "Cannon stays with armor =  2800\r\n" + "Attacks Civilization: Cannon attacks Cannon\r\n"
-						+ "Cannon genrates the damage = 700\r\n" + "Cannon stays with armor =  2100\r\n"
-						+ "Attacks Civilization: Cannon attacks Crossbow\r\n" + "Cannon genrates the damage = 700\r\n"
-						+ "Crossbow stays with armor =  600\r\n" + "********************CHANGE ATTACKER********************\r\n"
-						+ "Attacks army enemy: Cannon attacks Crossbow\r\n" + "Cannon genrates the damage = 700\r\n"
-						+ "Crossbow stays with armor =  -100\r\n" + "We eliminateCrossbow\r\n"
-						+ "Attacks army enemy: Cannon attacks Cannon\r\n" + "Cannon genrates the damage = 700\r\n"
-						+ "Cannon stays with armor =  1400\r\n" + "********************CHANGE ATTACKER********************\r\n"
-						+ "Attacks Civilization: Cannon attacks Cannon\r\n" + "Cannon genrates the damage = 700\r\n"
-						+ "Cannon stays with armor =  700\r\n" + "Attacks Civilization: Cannon attacks Cannon\r\n"
-						+ "Cannon genrates the damage = 700\r\n" + "Cannon stays with armor =  0\r\n" + "We eliminateCannon\r\n"
-						+ "Attacks Civilization: Cannon attacks Crossbow\r\n" + "Cannon genrates the damage = 700\r\n"
-						+ "Crossbow stays with armor =  -800\r\n" + "We eliminateCrossbow\r\n"
-						+ "Attacks Civilization: Cannon attacks Cannon\r\n" + "Cannon genrates the damage = 700\r\n"
-						+ "Cannon stays with armor =  7300\r\n" + "Attacks Civilization: Cannon attacks Cannon\r\n"
-						+ "Cannon genrates the damage = 700\r\n" + "Cannon stays with armor =  6600\r\n"
-						+ "********************YOU'VE WON********************");
-		taBattleSummary = new JTextArea(/* battle.getBattleSummary() */"BATTLE NUMBER: 5\r\n" + "BATTLE STATISTICS\r\n"
-				+ "Army planet Units Drops Initial Army Enemy Units Drops\r\n" + "Swordsman 2 1 Swordsman 2 1\r\n"
-				+ "Crossbow 2 2 Crossbow 2 2\r\n" + "Cannon 3 3 Cannon 3 3\r\n"
-				+ "**************************************************************************************\r\n"
-				+ "Cost Army Civilization Cost Army Enemy\r\n" + "Food: 16000 Food: 16000\r\n" + "Wood: 186000 Wood: 186000\r\n"
-				+ "Iron: 59100 Iron: 59100\r\n"
-				+ "**************************************************************************************\r\n"
-				+ "Losses Army Civilization Losses Army Enemy\r\n" + "Food: 8000 Food: 8000\r\n" + "Wood: 3000 Wood: 3000\r\n"
-				+ "Iron: 50 Iron: 50\r\n" + "**************************************************************************************\r\n"
-				+ "BATTLE NUMBER: 10\r\n" + "BATTLE STATISTICS\r\n" + "Army planet Units Drops Initial Army Enemy Units Drops\r\n"
-				+ "Swordsman 2 0 Swordsman 2 0\r\n" + "Crossbow 2 2 Crossbow 2 2\r\n" + "Cannon 3 3 Cannon 3 3\r\n"
-				+ "**************************************************************************************\r\n"
-				+ "Cost Army Civilization Cost Army Enemy\r\n" + "Food: 16000 Food: 16000\r\n" + "Wood: 186000 Wood: 186000\r\n"
-				+ "Iron: 59100 Iron: 59100\r\n"
-				+ "**************************************************************************************\r\n"
-				+ "Losses Army Civilization Losses Army Enemy\r\n" + "Food: 16000 Food: 16000\r\n" + "Wood: 6000 Wood: 6000\r\n"
-				+ "Iron: 100 Iron: 100\r\n" + "**************************************************************************************\r\n"
-				+ "BATTLE NUMBER: 15\r\n" + "BATTLE STATISTICS\r\n" + "Army planet Units Drops Initial Army Enemy Units Drops\r\n"
-				+ "Swordsman 2 0 Swordsman 2 0\r\n" + "Crossbow 2 2 Crossbow 2 2\r\n" + "Cannon 3 2 Cannon 3 2\r\n"
-				+ "**************************************************************************************\r\n"
-				+ "Cost Army Civilization Cost Army Enemy\r\n" + "Food: 16000 Food: 16000\r\n" + "Wood: 186000 Wood: 186000\r\n"
-				+ "Iron: 59100 Iron: 59100\r\n"
-				+ "**************************************************************************************\r\n"
-				+ "Losses Army Civilization Losses Army Enemy\r\n" + "Food: 16000 Food: 16000\r\n" + "Wood: 36000 Wood: 36000\r\n"
-				+ "Iron: 15100 Iron: 15100\r\n"
-				+ "**************************************************************************************\r\n" + "BATTLE NUMBER: 20\r\n"
-				+ "BATTLE STATISTICS\r\n" + "Army planet Units Drops Initial Army Enemy Units Drops\r\n" + "Swordsman 2 0 Swordsman 2 0\r\n"
-				+ "Crossbow 2 1 Crossbow 2 1\r\n" + "Cannon 3 1 Cannon 3 1\r\n"
-				+ "**************************************************************************************\r\n"
-				+ "Cost Army Civilization Cost Army Enemy\r\n" + "Food: 16000 Food: 16000\r\n" + "Wood: 186000 Wood: 186000\r\n"
-				+ "Iron: 59100 Iron: 59100\r\n"
-				+ "**************************************************************************************\r\n"
-				+ "Losses Army Civilization Losses Army Enemy\r\n" + "Food: 16000 Food: 16000\r\n" + "Wood: 111000 Wood: 111000\r\n"
-				+ "Iron: 37100 Iron: 37100\r\n"
-				+ "**************************************************************************************\r\n" + "BATTLE NUMBER: 22\r\n"
-				+ "BATTLE STATISTICS\r\n" + "Army planet Units Drops Initial Army Enemy Units Drops\r\n" + "Swordsman 2 0 Swordsman 2 0\r\n"
-				+ "Crossbow 2 0 Crossbow 2 1\r\n" + "Cannon 3 1 Cannon 3 1\r\n"
-				+ "**************************************************************************************\r\n"
-				+ "Cost Army Civilization Cost Army Enemy\r\n" + "Food: 16000 Food: 16000\r\n" + "Wood: 186000 Wood: 186000\r\n"
-				+ "Iron: 59100 Iron: 59100\r\n"
-				+ "**************************************************************************************\r\n"
-				+ "Losses Army Civilization Losses Army Enemy\r\n" + "Food: 16000 Food: 16000\r\n" + "Wood: 156000 Wood: 111000\r\n"
-				+ "Iron: 44100 Iron: 37100\r\n" + "**************************************************************************************");
+		taBattleDevelopment = new JTextArea(battle.getBattleDevelopment());
+		taBattleSummary = new JTextArea(battle.getBattleSummary());
 
 		spBattleDevelopment = new JScrollPane(taBattleDevelopment);
 		spBattleSummary = new JScrollPane(taBattleSummary);
@@ -892,10 +722,13 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		size = spBattleSummary.getPreferredSize();
 		spBattleSummary.setBounds(409 + insets.left, 339 + insets.top, size.width + 30, size.height);
 
-		// fin de BATTLEGROUND ------------------------------------------------------------------------
-		
-		
-		//todo en opaco falso porque no sé qué está fallando, por qué no se ve el fondo en tabbed panel
+
+		// fin de BATTLEGROUND
+		// ------------------------------------------------------------------------
+
+		// todo en opaco falso porque no sé qué está fallando, por qué no se ve el fondo
+		// en tabbed panel
+
 //		tabbedPane.setOpaque(false);
 //		civilizationPanel.setOpaque(false);
 //		armyPanel.setOpaque(false);
@@ -904,26 +737,26 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 //		
 //		lateralPanel.setOpaque(false);
 //		principalPanel.setOpaque(false);
-		
-		//si lo pongo en invisible sí se ve el fondo:
+
+		// si lo pongo en invisible sí se ve el fondo:
 //		tabbedPane.setVisible(false);
 //		civilizationPanel.setVisible(false);
 //		armyPanel.setVisible(false);
 //		shopPanel.setVisible(false);
 //		battlegroundPanel.setVisible(false);	
-		
-		
+
 		System.out.println(civilization.getArmy());
 		this.add(principalPanel);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setVisible(true);
-		
+
+
 	}
 
-
-public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {
+	
 
 	//soldados
 	if (e.getSource()== bBuySwordsman) {
@@ -1047,26 +880,84 @@ public void actionPerformed(ActionEvent e) {
 			datosDominio.crearConstruccion(5);
 			
 		} catch (ResourceException e1) {
+
 		}
-		
-	//tecnologias
-		
-	}else if (e.getSource()== bBuyAttack) {
-		try {
-			System.out.println("tecnologia");
-			civilization.upgradeTechnologyAttack();
-			lAttack.setText(String.valueOf(civilization.getTechnologyAttack()));
-			int foodCost = UPGRADE_BASE_ATTACK_TECHNOLOGY_FOOD_COST;
-			int woodCost = UPGRADE_BASE_ATTACK_TECHNOLOGY_WOOD_COST;
-			int ironCost = UPGRADE_BASE_ATTACK_TECHNOLOGY_IRON_COST;
-			
-			if (civilization.getTechnologyAttack()>1) {
-				for (int i=0; i<civilization.getTechnologyAttack()-1;i++) {
-					foodCost += foodCost/100*UPGRADE_PLUS_ATTACK_TECHNOLOGY_FOOD_COST;
-					woodCost += woodCost/100*UPGRADE_PLUS_ATTACK_TECHNOLOGY_WOOD_COST;
-					ironCost += ironCost/100*UPGRADE_PLUS_ATTACK_TECHNOLOGY_IRON_COST;
-				}
+
+		// edificios
+		else if (e.getSource() == bBuyFarm) {
+			try {
+				System.out.println("evento");
+				civilization.newFarm();
+				lFarm.setText(String.valueOf(civilization.getFarm()));
+				datosDominio.crearConstruccion(1);
+			} catch (ResourceException e1) {
+				e1.printStackTrace();
 			}
+		} else if (e.getSource() == bBuySmithy) {
+			try {
+				System.out.println("evento");
+				civilization.newSmithy();
+				lSmithy.setText(String.valueOf(civilization.getSmithy()));
+				datosDominio.crearConstruccion(2);
+			} catch (ResourceException e1) {
+				e1.printStackTrace();
+			}
+		} else if (e.getSource() == bBuyCarpentry) {
+			try {
+				System.out.println("evento");
+				civilization.newCarpentry();
+				lCarpentry.setText(String.valueOf(civilization.getCarpentry()));
+				datosDominio.crearConstruccion(3);
+			} catch (ResourceException e1) {
+				e1.printStackTrace();
+			}
+		} else if (e.getSource() == bBuyMagicTower) {
+			try {
+				System.out.println("evento");
+				civilization.newMagictower();
+				lMagicTower.setText(String.valueOf(civilization.getMagicTower()));
+				datosDominio.crearConstruccion(4);
+			} catch (ResourceException e1) {
+				e1.printStackTrace();
+			}
+		} else if (e.getSource() == bBuyChurch) {
+			try {
+				System.out.println("evento");
+				civilization.newChurch();
+				lChurch.setText(String.valueOf(civilization.getChurch()));
+				datosDominio.crearConstruccion(5);
+
+			} catch (ResourceException e1) {
+				e1.printStackTrace();
+			}
+
+			// tecnologias
+
+		} else if (e.getSource() == bBuyAttack) {
+			try {
+				System.out.println("tecnologia");
+				civilization.upgradeTechnologyAttack();
+				lAttack.setText(String.valueOf(civilization.getTechnologyAttack()));
+				int foodCost = UPGRADE_BASE_ATTACK_TECHNOLOGY_FOOD_COST;
+				int woodCost = UPGRADE_BASE_ATTACK_TECHNOLOGY_WOOD_COST;
+				int ironCost = UPGRADE_BASE_ATTACK_TECHNOLOGY_IRON_COST;
+
+				if (civilization.getTechnologyAttack() > 1) {
+					for (int i = 0; i < civilization.getTechnologyAttack() - 1; i++) {
+						foodCost += foodCost / 100 * UPGRADE_PLUS_ATTACK_TECHNOLOGY_FOOD_COST;
+						woodCost += woodCost / 100 * UPGRADE_PLUS_ATTACK_TECHNOLOGY_WOOD_COST;
+						ironCost += ironCost / 100 * UPGRADE_PLUS_ATTACK_TECHNOLOGY_IRON_COST;
+					}
+				}
+				lAttackFoodCost.setText(Integer.toString(foodCost));
+				lAttackWoodCost.setText(Integer.toString(woodCost));
+				lAttackIronCost.setText(Integer.toString(ironCost));
+
+				datosDominio.crearIncrementoTecnologia(1);
+			} catch (ResourceException e1) {
+				e1.printStackTrace();
+			}
+
 			lAttackFoodCost.setText(Integer.toString(foodCost));
 			lAttackWoodCost.setText(Integer.toString(woodCost));
 			lAttackIronCost.setText(Integer.toString(ironCost));
@@ -1091,7 +982,15 @@ public void actionPerformed(ActionEvent e) {
 					woodCost += woodCost/100*UPGRADE_PLUS_DEFENSE_TECHNOLOGY_WOOD_COST;
 					ironCost += ironCost/100*UPGRADE_PLUS_DEFENSE_TECHNOLOGY_IRON_COST;
 				}
+				lDefenseFoodCost.setText(Integer.toString(foodCost));
+				lDefenseWoodCost.setText(Integer.toString(woodCost));
+				lDefenseIronCost.setText(Integer.toString(ironCost));
+
+				datosDominio.crearIncrementoTecnologia(2);
+			} catch (ResourceException e1) {
+				e1.printStackTrace();
 			}
+
 			lDefenseFoodCost.setText(Integer.toString(foodCost));
 			lDefenseWoodCost.setText(Integer.toString(woodCost));
 			lDefenseIronCost.setText(Integer.toString(ironCost));
@@ -1106,29 +1005,37 @@ public void actionPerformed(ActionEvent e) {
 	lWood.setText(String.valueOf(civilization.getWood()));
 	lIron.setText(String.valueOf(civilization.getIron()));
 	lMana.setText(String.valueOf(civilization.getMana()));
-	datosDominio.recursosActulizar(civilization.getFood(), civilization.getWood(), civilization.getIron(), civilization.getMana(),
+	tPersonalizado.recursosActualizar(civilization.getFood(), civilization.getWood(), civilization.getIron(), civilization.getMana(),
 			civilization.getFarm(), civilization.getCarpentry(), civilization.getSmithy(), civilization.getMagicTower());
+	
 	
 }
 
 
 public void stateChanged(ChangeEvent e) {
 	System.out.println("comprueba");
-	int[] recursos = datosDominio.getUpdatable();
-	if (recursos != null) {
+	if (tPersonalizado.getUpdateable()) {
+		int[] recursos =tPersonalizado.nuevosRecursos();
+		tPersonalizado.setUpdateable(false);
 		civilization.setFood(recursos[0]);
 		civilization.setWood(recursos[1]);
 		civilization.setIron(recursos[2]);
 		civilization.setMana(recursos[3]);
 		System.out.println(civilization.getFood());
 		System.out.println(recursos[1]);
+
 		lFood.setText(String.valueOf(civilization.getFood()));
 		lWood.setText(String.valueOf(civilization.getWood()));
 		lIron.setText(String.valueOf(civilization.getIron()));
 		lMana.setText(String.valueOf(civilization.getMana()));
+
 		
 	}
 }
 	
 	
+
+	
+
+
 }

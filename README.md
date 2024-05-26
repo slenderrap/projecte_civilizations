@@ -9,12 +9,17 @@ Civilizations está programado en Java y cuenta con una base de datos PL/SQL.
 
 ## Cómo instalar
 - Descarga el repositorio.
-- Abre PL/SQL y ejecuta el siguente código en System para crear la sesión Civil:
+- Abre PL/SQL y ejecuta el siguente código en "System" para crear la sesión "Civil":
 ```bash
 alter session set "_ORACLE_SCRIPT"=true;
 CREATE USER civil IDENTIFIED BY civil;
 GRANT ALL PRIVILEGES TO civil;
 COMMIT;
 ```
-- En esta nueva sesión Civil ejectua el archivo bbdd.txt que se encuentra en la carpeta M02 para crear la base de datos del juego.
-- Importa a Eclipse la carpeta M03 e inicia la clase Main.
+- Para crear la base de datos del juego, ejectua dentro de esta nueva sesión "Civil" el archivo bbdd.txt que se encuentra en la carpeta M02 del repositorio.
+- Importa a Eclipse la carpeta M03, abre el archivo "Datos.java" que se encuentra en la carpeta "bbdd".
+- Cambia a tu IP en la siguiente línea.
+```bash
+private String urlDatos = "jdbc:oracle:thin:@192.168.56.2:1521/orcl?serverTimezone=UTC&autoReconnect=true&useSSL=false";
+```
+- Abre el archivo "Main.java" de la carpeta "Game" e inicia el archivo para empezar a jugar.
