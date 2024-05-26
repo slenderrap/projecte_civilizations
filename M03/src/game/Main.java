@@ -15,7 +15,6 @@ public class Main {
 		VentanaInicio vi = new VentanaInicio();
 		
         //cancel after sometime
-	        
 		
 	}
 
