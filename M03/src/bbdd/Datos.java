@@ -1,6 +1,7 @@
 package bbdd;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -117,18 +118,16 @@ public class Datos {
 		ArrayList<String> partida = new ArrayList<String>();
 		try {
 			String search = "select * from civilization_stats where id_civilization = " + id;
-			Statement st = conn.createStatement();
+			Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
 			ResultSet rs = st.executeQuery(search);
 			this.id = id;
 			rs.next();
 			for (int i = 1; i < 15; i++) {
 				if (partida.size() != 1) {
 					partida.add(String.valueOf(rs.getInt(i)));
-					System.out.println(rs.getInt(i));
 
 				} else {
 					partida.add(rs.getString(i));
-					System.out.println(rs.getString(i));
 
 				}
 			}
@@ -273,16 +272,6 @@ public class Datos {
 
 	public void crearIncrementoTecnologia(int i) {
 		if (i == 1) {
-			String update = "update civilization_stats set technology_defense_level = technology_defense_level+1 where id_civilization = (?)";
-			try {
-				PreparedStatement ps = conn.prepareStatement(update);
-				ps.setInt(1, getId());
-				ps.executeUpdate();
-				System.out.println("Edificio creado");
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		} else if (i == 2) {
 			String update = "update civilization_stats set technology_attack_level =technology_attack_level +1 where id_civilization = (?)";
 			try {
 				PreparedStatement ps = conn.prepareStatement(update);
@@ -292,17 +281,25 @@ public class Datos {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+		} else if (i == 2) {
+			String update = "update civilization_stats set technology_defense_level = technology_defense_level+1 where id_civilization = (?)";
+			try {
+				PreparedStatement ps = conn.prepareStatement(update);
+				ps.setInt(1, getId());
+				ps.executeUpdate();
+				System.out.println("Edificio creado");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-		
 	}
 
 	public void actualizarRecursos(int food,int wood,int iron,int mana) {
 		String update = "update civilization_stats set food_amount = "+food+", wood_amount = "+wood+ ", iron_amount = " + iron + ", mana_amount = " + mana + " where id_civilization = "+getId();
 		try {
-			Statement st = conn.createStatement();
-			
+			System.out.println("INSETADO");
+			Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
 			st.executeUpdate(update);
-			System.out.println("Datos guardados");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
