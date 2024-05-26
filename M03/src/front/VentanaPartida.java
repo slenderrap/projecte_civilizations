@@ -1170,6 +1170,6 @@ public void mouseMoved(MouseEvent e) {
 			tPersonalizado.setCrearBatalla(false);
 		}
 	
-
+}
 
 }

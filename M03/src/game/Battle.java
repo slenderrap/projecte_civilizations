@@ -238,7 +238,6 @@ public class Battle implements Variables {
 			if (cArmy[i] != null) {
 				for (int j = 0; j < cArmy[i].size(); j++) {
 					armies[0][i].add(cArmy[i].get(j));
-					System.out.println(armies[0][i]);
 				}
 			}
 		}
@@ -248,7 +247,6 @@ public class Battle implements Variables {
 			if (eArmy[i] != null) {
 				for (int j = 0; j < eArmy[i].size(); j++) {
 					armies[1][i].add(eArmy[i].get(j));
-					System.out.println(armies[1][i]);
 				}
 			}
 		}
@@ -411,7 +409,6 @@ public class Battle implements Variables {
 		}
 		int respuesta = 0;
 		while (true) {
-			System.out.println("estoy en getCivilizationSoldierGroup linia 405");
 			int aleatorio = (int) (Math.random() * totalSoldados + 1); // Generamos un jnumero aleatoria del total de soldados
 			totalSoldados = 0;
 
@@ -440,7 +437,6 @@ public class Battle implements Variables {
 		}
 		int respuesta = 0;
 		while (true) {
-			System.out.println("estoy en getSoldierGroup linia 433");
 			int aleatorio = (int) (Math.random() * (totalSoldados + 1)); // Generamos un jnumero aleatoria del total de soldados
 			totalSoldados = 0;
 			for (int i = 0; i < army.length; i++) { // Vamos sumando los soldados por tipos
