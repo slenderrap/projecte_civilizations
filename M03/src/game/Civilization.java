@@ -337,7 +337,6 @@ public class Civilization implements Variables{
 		int baseDamage = (BASE_DAMAGE_SWORDSMAN+(getTechnologyAttack()*PLUS_ATTACK_SWORDSMAN_BY_TECHNOLOGY)*1000/100);
 		for (int i=0;i<n;i++) {
 			if (food>=FOOD_COST_SWORDSMAN && wood>=WOOD_COST_SWORDSMAN && iron>=IRON_COST_SWORDSMAN) {
-				System.err.println("compra");
 				army[0].add(new Swordsman(armor, baseDamage));
 				food-=FOOD_COST_SWORDSMAN;
 				wood-=WOOD_COST_SWORDSMAN;

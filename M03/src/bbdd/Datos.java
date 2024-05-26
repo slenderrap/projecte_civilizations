@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import game.Battle;
 import game.MilitaryUnit;
 import game.attackUnities.AttackUnity;
 import game.defenseUnities.DefenseUnit;
@@ -42,7 +43,6 @@ public class Datos {
 			this.conn = DriverManager.getConnection(this.urlDatos, this.user, this.password);
 
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
 		}
 	}
 
@@ -53,7 +53,6 @@ public class Datos {
 			this.conn = DriverManager.getConnection(this.urlDatos, this.user, this.password);
 			this.id = id;
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
 		}
 	}
 
@@ -64,7 +63,7 @@ public class Datos {
 			PreparedStatement ps = conn.prepareStatement(insert, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			ps.setString(1, name);
 			ps.executeUpdate();
-
+			ps.close();
 			return maxID();
 
 		} catch (SQLException e) {
@@ -81,6 +80,8 @@ public class Datos {
 			ResultSet rs = st.executeQuery(query);
 			rs.next();
 			int id = rs.getInt(1);
+			rs.close();
+			st.close();
 			return id;
 		} catch (Exception e) {
 			return 0;
@@ -102,13 +103,12 @@ public class Datos {
 				fila[1] = rs.getString(2);
 				fila[2] = String.valueOf(rs.getInt(3));
 				resultados.add(fila);
-				System.out.println("fila numero" + resultados.size() + ": {id: " + fila[0] + ", nombre: " + fila[1]
-						+ ", batallas realizadas: " + fila[2] + "}");
 			}
+			rs.close();
+			st.close();
 
 			return resultados;
 		} catch (Exception e) {
-			System.out.println("error!!!!");
 			return resultados;
 		}
 
@@ -131,10 +131,11 @@ public class Datos {
 
 				}
 			}
+			rs.close();
+			st.close();
 
 			return partida;
 		} catch (Exception e) {
-			System.out.println("*******\nError!\nEl ID " + id + " no existe!\n*******");
 			return partida;
 
 		}
@@ -148,11 +149,9 @@ public class Datos {
 
 			ps.setInt(1, id);
 			ps.executeUpdate();
-			System.out.println("Partida eliminada");
+			ps.close();
 
 		} catch (Exception e) {
-			System.out.println("*******\nError!\nEl ID " + id + " no existe!\n*******");
-			e.printStackTrace();
 		}
 
 	}
@@ -168,7 +167,7 @@ public class Datos {
 				ps.setInt(3, mUnit.getActualArmor());
 				ps.setInt(4, ((AttackUnity) mUnit).getBaseDamage());
 				ps.executeUpdate();
-				System.out.println("Introducido");
+				ps.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -181,7 +180,7 @@ public class Datos {
 				ps.setInt(3, mUnit.getActualArmor());
 				ps.setInt(4, ((DefenseUnit) mUnit).getBaseDamage());
 				ps.executeUpdate();
-				System.out.println("Introducido");
+				ps.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -194,7 +193,7 @@ public class Datos {
 					ps.setString(2, String.valueOf(mUnit.getClass().getSimpleName()));
 					ps.setInt(3, ((SpecialUnit) mUnit).getBaseDamage());
 					ps.executeUpdate();
-					System.out.println("Introducido");
+					ps.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -205,7 +204,7 @@ public class Datos {
 					ps.setInt(1, getId());
 					ps.setString(2, String.valueOf(mUnit.getClass().getSimpleName()));
 					ps.executeUpdate();
-					System.out.println("Introducido");
+					ps.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -223,7 +222,7 @@ public class Datos {
 				PreparedStatement ps = conn.prepareStatement(update);
 				ps.setInt(1, getId());
 				ps.executeUpdate();
-				System.out.println("Edificio creado");
+				ps.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -233,9 +232,8 @@ public class Datos {
 				PreparedStatement ps = conn.prepareStatement(update);
 				ps.setInt(1, getId());
 				ps.executeUpdate();
-				System.out.println("Edificio creado");
+				ps.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
 			}
 		} else if (i == 3) {
 			String update = "update civilization_stats set carpentry_counter=carpentry_counter+1 where id_civilization = (?)";
@@ -243,9 +241,7 @@ public class Datos {
 				PreparedStatement ps = conn.prepareStatement(update);
 				ps.setInt(1, getId());
 				ps.executeUpdate();
-				System.out.println("Edificio creado");
 			} catch (SQLException e) {
-				e.printStackTrace();
 			}
 		} else if (i == 4) {
 			String update = "update civilization_stats set magicTower_counter=magicTower_counter+1 where id_civilization = (?)";
@@ -253,9 +249,8 @@ public class Datos {
 				PreparedStatement ps = conn.prepareStatement(update);
 				ps.setInt(1, getId());
 				ps.executeUpdate();
-				System.out.println("Edificio creado");
+				ps.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
 			}
 		} else if (i == 5) {
 			String update = "update civilization_stats set church_counter=church_counter+1 where id_civilization = (?)";
@@ -263,9 +258,8 @@ public class Datos {
 				PreparedStatement ps = conn.prepareStatement(update);
 				ps.setInt(1, getId());
 				ps.executeUpdate();
-				System.out.println("Edificio creado");
+				ps.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
 			}
 		}
 	}
@@ -277,9 +271,8 @@ public class Datos {
 				PreparedStatement ps = conn.prepareStatement(update);
 				ps.setInt(1, getId());
 				ps.executeUpdate();
-				System.out.println("Edificio creado");
+				ps.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
 			}
 		} else if (i == 2) {
 			String update = "update civilization_stats set technology_defense_level = technology_defense_level+1 where id_civilization = (?)";
@@ -287,9 +280,8 @@ public class Datos {
 				PreparedStatement ps = conn.prepareStatement(update);
 				ps.setInt(1, getId());
 				ps.executeUpdate();
-				System.out.println("Edificio creado");
+				ps.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
 			}
 		}
 	}
@@ -297,11 +289,10 @@ public class Datos {
 	public void actualizarRecursos(int food,int wood,int iron,int mana) {
 		String update = "update civilization_stats set food_amount = "+food+", wood_amount = "+wood+ ", iron_amount = " + iron + ", mana_amount = " + mana + " where id_civilization = "+getId();
 		try {
-			System.out.println("INSETADO");
 			Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
 			st.executeUpdate(update);
+			st.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 		
 	}
@@ -309,21 +300,23 @@ public class Datos {
 	public ArrayList<String[]> recuperarSoldadosAtaque(){
 		ArrayList<String[]> soldados = new ArrayList<String[]>();
 		String query = "Select type, armor, base_damage from attack_units_stats where id_civilization = "+getId();
-		String[] fila= new String[3];
+		
 		try {
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			while (rs.next()) {
+				String[] fila= new String[3];
 				fila[0] = rs.getString(1);
 				fila[1] = String.valueOf(rs.getInt(2));
 				fila[2] = String.valueOf(rs.getInt(3));
 				soldados.add(fila);
-				System.out.println(fila[0]);
 			}
+			rs.close();
+			st.close();
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}
+		
 		return soldados; 
 		
 	}
@@ -342,9 +335,11 @@ public class Datos {
 				fila[2] = String.valueOf(rs.getInt(3));
 				soldados.add(fila);
 			}
+			rs.close();
+			st.close();
+			
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 		return soldados; 
 		
@@ -363,12 +358,41 @@ public class Datos {
 				fila[2] = String.valueOf(rs.getInt(3));
 				soldados.add(fila);
 			}
-			
+			rs.close();
+			st.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 		return soldados; 
 		
+	}
+	
+	
+	public void guardarPartida(int food,int wood,int iron, int mana, int battles) {
+		String update = "update civilization_stats set food_amount = "+food+", wood_amount = "+wood+ 
+				", iron_amount = " + iron + ", mana_amount = " + mana+" battles_counter = " +battles+ " where id_civilization = (?)";
+		try {
+			PreparedStatement ps = conn.prepareStatement(update);
+			ps.setInt(1, getId());
+			ps.executeUpdate();
+			ps.close();
+		} catch (SQLException e) {
+		}
+		
+	}
+	
+	public void insertLogs(String log) {
+//		String insert= "Insert into Battle_log(id_civilization,log_entry) VALUES (?,?)";
+//		PreparedStatement ps;
+//		try {
+//			ps = conn.prepareStatement(insert);
+//			ps.setInt(1, getId());
+//			ps.setString(2, log);
+//			ps.executeUpdate();
+//			ps.close();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+
 	}
 
 }
