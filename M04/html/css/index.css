@@ -1,0 +1,72 @@
+body {
+    background-color: rgb(0, 0, 0);
+    font-family: "Caudex", serif;
+    font-weight: 700;
+    font-size: 40;
+    color: white;
+}
+
+.contenedorindex{
+    background-image: url("background.jpg");
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    height: 900;
+    margin: 0 200;
+    align-items: center;
+}
+
+
+
+
+.linkBuildings{
+    margin: 10 100;
+    width: 300px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100;
+    background-color: rgb(148, 31, 31);
+}
+
+.linkAttackUnits{
+    margin: 10 100;
+    width: 300px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50;
+    background-color: rgb(116, 69, 0);
+}
+
+
+.linkDefences{
+    margin: 10 100;
+    width: 300px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50;
+    background-color: rgb(0, 119, 20);
+}
+
+.linkSpecialUnits{
+    margin: 10 100;
+    width: 300px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50;
+    background-color: rgb(25, 7, 105);
+}
+
+
+a {
+    color: rgb(196, 187, 174);
+    text-decoration-line: none;
+}
+
