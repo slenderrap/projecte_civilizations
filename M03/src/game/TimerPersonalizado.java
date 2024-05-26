@@ -86,7 +86,6 @@ public class TimerPersonalizado extends TimerTask implements Variables{
 		 		recursos = new int[] {food,wood,iron,mana,farm,carpentery,smithery,magicTower};
 		 		
 		 	}
-	        System.out.println("Timer task started at: "+minuto+"' "+segundo+"\"");
 	        
         
 	        
@@ -117,7 +116,6 @@ public class TimerPersonalizado extends TimerTask implements Variables{
 	    	
 	    	int[] recursosEnviar = new int[4];
 	    	recursosEnviar[0]= recursos[0];
-	    	System.out.println(recursosEnviar[0]);
 	    	recursosEnviar[1]= recursos[1];
 	    	recursosEnviar[2]= recursos[2];
 	    	recursosEnviar[3]= recursos[3];
