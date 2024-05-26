@@ -18,8 +18,8 @@ import game.specialUnities.SpecialUnit;
 
 public class Datos {
 
-//	private String urlDatos = "jdbc:oracle:thin:@192.168.56.2:1521/orcl?serverTimezone=UTC&autoReconnect=true&useSSL=false"; // bbdd maquina virtual Oriol
-	private String urlDatos = "jdbc:oracle:thin:@192.168.56.110:1521/orcl?serverTimezone=UTC&autoReconnect=true&useSSL=false"; // bbdd maquina virtual Mar
+	private String urlDatos = "jdbc:oracle:thin:@192.168.56.2:1521/orcl?serverTimezone=UTC&autoReconnect=true&useSSL=false"; // bbdd maquina virtual Oriol
+//	private String urlDatos = "jdbc:oracle:thin:@192.168.56.110:1521/orcl?serverTimezone=UTC&autoReconnect=true&useSSL=false"; // bbdd maquina virtual Mar
 //	private String urlDatos = "jdbc:oracle:thin:@localhost:1521/xe?serverTimezone=UTC&autoReconnect=true&useSSL=false"; // bbdd local
 
 	private String user = "civil";
@@ -306,6 +306,69 @@ public class Datos {
 		
 	}
 	
+	public ArrayList<String[]> recuperarSoldadosAtaque(){
+		ArrayList<String[]> soldados = new ArrayList<String[]>();
+		String query = "Select type, armor, base_damage from attack_units_stats where id_civilization = "+getId();
+		String[] fila= new String[3];
+		try {
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			while (rs.next()) {
+				fila[0] = rs.getString(1);
+				fila[1] = String.valueOf(rs.getInt(2));
+				fila[2] = String.valueOf(rs.getInt(3));
+				soldados.add(fila);
+				System.out.println(fila[0]);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return soldados; 
+		
+	}
+	
 
+	public ArrayList<String[]> recuperarSoldadosDefensa(){
+		ArrayList<String[]> soldados = new ArrayList<String[]>();
+		String query = "Select type, armor, base_damage from defense_units_stats where id_civilization = "+getId();
+		String[] fila= new String[3];
+		try {
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			while (rs.next()) {
+				fila[0] = rs.getString(1);
+				fila[1] = String.valueOf(rs.getInt(2));
+				fila[2] = String.valueOf(rs.getInt(3));
+				soldados.add(fila);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return soldados; 
+		
+	}
+	
+	public ArrayList<String[]> recuperarSoldadosSpecial(){
+		ArrayList<String[]> soldados = new ArrayList<String[]>();
+		String query = "Select type, armor, base_damage from special_units_stats where id_civilization = "+getId();
+		String[] fila= new String[3];
+		try {
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			while (rs.next()) {
+				fila[0] = rs.getString(1);
+				fila[1] = String.valueOf(rs.getInt(2));
+				fila[2] = String.valueOf(rs.getInt(3));
+				soldados.add(fila);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return soldados; 
+		
+	}
 
 }

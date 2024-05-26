@@ -90,8 +90,17 @@ public ControladorDominio(int id) {
 
 			return recursos;
 			
-		
-
 		}
 	
+	public ArrayList<String[]> recuperarSoldadosAtaque(){
+		return datos.recuperarSoldadosAtaque();
+	}
+
+	public ArrayList<String[]> recuperarSoldadosDefense(){
+		return datos.recuperarSoldadosAtaque();
+	}
+	
+	public ArrayList<String[]> recuperarSoldadosSpecial(){
+		return datos.recuperarSoldadosSpecial();
+	}
 }
