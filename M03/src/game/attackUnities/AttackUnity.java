@@ -34,7 +34,7 @@ public abstract class AttackUnity implements MilitaryUnit, Variables{
 		return experience;
 	}
 	public void setExperience(int experience) {
-		this.experience = experience;
+		this.experience = getExperience() + experience ;
 	}
 	public boolean isSanctified() {
 		return sanctified;
