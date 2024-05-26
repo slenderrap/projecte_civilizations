@@ -37,7 +37,7 @@ public ControladorDominio(int id) {
 	}
 	
 	
-	public ArrayList<String[]> mostrarPartidasNombre(String nombre) {
+	public Object[][] mostrarPartidasNombre(String nombre) {
 		
 		return datos.mostrarPartidasNombre(nombre);
 		
@@ -82,7 +82,6 @@ public ControladorDominio(int id) {
 		datos.actualizarRecursos(food, wood, iron, mana);
 		setUpdatable(true);
 		this.recursos = new int[] {food,wood,iron,mana};
-		System.out.println("y aqui? "+this.updatable);
 		
 	}
 	
@@ -103,4 +102,13 @@ public ControladorDominio(int id) {
 	public ArrayList<String[]> recuperarSoldadosSpecial(){
 		return datos.recuperarSoldadosSpecial();
 	}
+	
+	public void insertLogs(String log) {
+		datos.insertLogs(log); 
+	}
+	
+	public void guardarPartida(int food,int wood,int iron, int mana, int battles) {
+		datos.guardarPartida(food, wood, iron, mana, battles);
+	}
+	
 }

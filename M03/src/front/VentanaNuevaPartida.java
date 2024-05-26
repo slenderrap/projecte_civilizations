@@ -130,10 +130,8 @@ public class VentanaNuevaPartida extends JFrame implements ActionListener{
 					throw new EmptyTextException("Text can't be empty!");
 					
 				}else {
-					System.out.println("Creando nueva partida");
 
 					int id =datosDominio.crearPartida(name);
-					System.out.println("El ID de la nueva partida es: "+id);
 					setId(id);
 					dispose();
 					
