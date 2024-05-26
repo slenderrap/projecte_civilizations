@@ -18,8 +18,8 @@ import game.specialUnities.SpecialUnit;
 
 public class Datos {
 
-	private String urlDatos = "jdbc:oracle:thin:@192.168.56.2:1521/orcl?serverTimezone=UTC&autoReconnect=true&useSSL=false"; // bbdd maquina virtual Oriol
-//	private String urlDatos = "jdbc:oracle:thin:@192.168.56.110:1521/orcl?serverTimezone=UTC&autoReconnect=true&useSSL=false"; // bbdd maquina virtual Mar
+//	private String urlDatos = "jdbc:oracle:thin:@192.168.56.2:1521/orcl?serverTimezone=UTC&autoReconnect=true&useSSL=false"; // bbdd maquina virtual Oriol
+	private String urlDatos = "jdbc:oracle:thin:@192.168.56.110:1521/orcl?serverTimezone=UTC&autoReconnect=true&useSSL=false"; // bbdd maquina virtual Mar
 //	private String urlDatos = "jdbc:oracle:thin:@localhost:1521/xe?serverTimezone=UTC&autoReconnect=true&useSSL=false"; // bbdd local
 
 	private String user = "civil";
@@ -88,16 +88,16 @@ public class Datos {
 
 	}
 
-	public ArrayList<String[]> mostrarPartidasNombre(String name) {
+	public Object[][] mostrarPartidasNombre(String name) {
 		ArrayList<String[]> resultados = new ArrayList<>();
 
 		try {
 			String search = "select id_civilization,\"name\",battles_counter from civilization_stats where lower(\"name\") like lower('%"
 					+ name + "%')order by \"name\"";
 			Statement st = conn.createStatement();
-			String[] fila = new String[3];
 			ResultSet rs = st.executeQuery(search);
 			while (rs.next()) {
+				String[] fila = new String[3];
 				fila[0] = String.valueOf(rs.getInt(1));
 				fila[1] = rs.getString(2);
 				fila[2] = String.valueOf(rs.getInt(3));
@@ -105,11 +105,17 @@ public class Datos {
 				System.out.println("fila numero" + resultados.size() + ": {id: " + fila[0] + ", nombre: " + fila[1]
 						+ ", batallas realizadas: " + fila[2] + "}");
 			}
-
-			return resultados;
+			
+			Object[][] data = new String[resultados.size()][3];
+			for (int i=0; i<resultados.size(); i++) {
+				data[i][0] = resultados.get(i)[0];
+				data[i][1] = resultados.get(i)[1];
+				data[i][2] = resultados.get(i)[2];
+			}
+			return data;
 		} catch (Exception e) {
 			System.out.println("error!!!!");
-			return resultados;
+			return null;
 		}
 
 	}
