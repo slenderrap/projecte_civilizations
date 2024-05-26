@@ -9,9 +9,15 @@ import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import java.util.ArrayList;
+import java.util.Timer;
+
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -20,7 +26,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
@@ -57,6 +62,9 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 	private ControladorDominio datosDominio;
 	private TimerPersonalizado tPersonalizado;
 	private Battle battle;
+
+	private Timer timer;
+
 	private BufferedImage iIcono;
 
   public VentanaPartida(int id) {
@@ -74,8 +82,17 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		//BBDD
 		civilization = new Civilization(id);
 		datosDominio = new ControladorDominio(id);
-		datosDominio.iniciarPartida();
-		datosDominio.recursosActulizar(0, 0, 0, 0, 0, 0, 0, 0);
+		
+
+		System.out.println("TimerTask started");
+		tPersonalizado = new TimerPersonalizado(id);
+	    //running timer task as daemon thread
+	    timer = new Timer(true);
+	    timer.scheduleAtFixedRate(tPersonalizado, 0, 350);
+		tPersonalizado.recursosActualizar(civilization.getFood(), civilization.getWood(), civilization.getIron(), 
+			civilization.getMana(), civilization.getFarm(), civilization.getCarpentry(), civilization.getSmithy(), civilization.getMagicTower());
+		
+		
 		
 		// Battle
 		battle = new Battle();
@@ -920,8 +937,12 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		setResizable(false);
 		setVisible(true);
 		
+		
+		
+		
+		
 	}
-
+  	
 
 public void actionPerformed(ActionEvent e) {
 
@@ -1106,16 +1127,18 @@ public void actionPerformed(ActionEvent e) {
 	lWood.setText(String.valueOf(civilization.getWood()));
 	lIron.setText(String.valueOf(civilization.getIron()));
 	lMana.setText(String.valueOf(civilization.getMana()));
-	datosDominio.recursosActulizar(civilization.getFood(), civilization.getWood(), civilization.getIron(), civilization.getMana(),
+	tPersonalizado.recursosActualizar(civilization.getFood(), civilization.getWood(), civilization.getIron(), civilization.getMana(),
 			civilization.getFarm(), civilization.getCarpentry(), civilization.getSmithy(), civilization.getMagicTower());
+	
 	
 }
 
 
 public void stateChanged(ChangeEvent e) {
 	System.out.println("comprueba");
-	int[] recursos = datosDominio.getUpdatable();
-	if (recursos != null) {
+	if (tPersonalizado.getUpdateable()) {
+		int[] recursos =tPersonalizado.nuevosRecursos();
+		tPersonalizado.setUpdateable(false);
 		civilization.setFood(recursos[0]);
 		civilization.setWood(recursos[1]);
 		civilization.setIron(recursos[2]);
@@ -1126,9 +1149,14 @@ public void stateChanged(ChangeEvent e) {
 		lWood.setText(String.valueOf(civilization.getWood()));
 		lIron.setText(String.valueOf(civilization.getIron()));
 		lMana.setText(String.valueOf(civilization.getMana()));
+	
+	
 		
 	}
 }
 	
 	
+
+	
+
 }
