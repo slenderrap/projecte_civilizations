@@ -127,23 +127,23 @@ public class VentanaContinue extends JFrame implements ActionListener{
 		
 		//array de datos para la tabla
 		Object[][] data = {
-				{"1", "Paco", "2"},
-				{"2", "Pepe", "5"},
-				{"3", "Macaco", "3"},
-				{"4", "Macaco", "3"},
-				{"5", "Macaco", "3"},
-				{"6", "Macaco", "3"},
-				{"7", "Macaco", "3"},
-				{"8", "Macaco", "3"},
-				{"9", "Macaco", "3"},
-				{"10", "Macaco", "3"},
-				{"11", "Macaco", "3"},
-				{"12", "Macaco", "3"},
-				{"13", "Macaco", "3"},
-				{"14", "Macaco", "3"},
-				{"15", "Macaco", "3"},
-				{"16", "Macaco", "3"},
-				{"17", "Macaco", "3"}
+//				{"1", "Paco", "2"},
+//				{"2", "Pepe", "5"},
+//				{"3", "Macaco", "3"},
+//				{"4", "Macaco", "3"},
+//				{"5", "Macaco", "3"},
+//				{"6", "Macaco", "3"},
+//				{"7", "Macaco", "3"},
+//				{"8", "Macaco", "3"},
+//				{"9", "Macaco", "3"},
+//				{"10", "Macaco", "3"},
+//				{"11", "Macaco", "3"},
+//				{"12", "Macaco", "3"},
+//				{"13", "Macaco", "3"},
+//				{"14", "Macaco", "3"},
+//				{"15", "Macaco", "3"},
+//				{"16", "Macaco", "3"},
+//				{"17", "Macaco", "3"}
 				};
 		
 		//array de String's con los títulos de las columnas
@@ -193,7 +193,12 @@ public class VentanaContinue extends JFrame implements ActionListener{
 			new VentanaInicio();
 		}else if (e.getSource()==bSearch) {
 			String name = casillaNombre.getText();
-			datosDominio.mostrarPartidasNombre(name);
+//			d datosDominio.mostrarPartidasNombre(name).toArray(); 
+//			
+////			String[] columnNames = {"ID", "Name", "Battles"};
+//			tabla.removeAll();
+//			tabla = new JTable(datos,columnNames);
+			
 		}else if (e.getSource()==bStart) {
 			try {
 
