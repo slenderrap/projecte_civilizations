@@ -413,15 +413,16 @@ public class Battle implements Variables {
 			int aleatorio = (int) (Math.random() * totalSoldados + 1); // Generamos un jnumero aleatoria del total de soldados
 
 			totalSoldados = 0;
-			for (int i = 0; i < army.length - 1; i++) {// Vamos sumando los soldados por tipos (-1 para que no entre priest)
-				totalSoldados += army[i].size();
-				if (totalSoldados >= aleatorio && army[i].size() > 0) { // Si el numero de soldados el superior al numero random nos
-																		// quedamos
-																		// con ese tipo ejercito
-					respuesta = i;
-					return respuesta;
-				}
-			}
+			for (int i = 0; i < army.length-1; i++) { // Vamos sumando los soldados por tipos
+                if (army[i] != null) {
+                    totalSoldados += army[i].size();
+                    if (totalSoldados >= aleatorio && army[i].size() > 0) {// Si el numero de soldados el superior al numero random nos quedamos
+                                                                            // con ese tipo ejercito
+                        respuesta = i;
+                        return respuesta;
+                    }
+                }
+            }
 
 		}
 
@@ -442,13 +443,15 @@ public class Battle implements Variables {
 
 			totalSoldados = 0;
 			for (int i = 0; i < army.length; i++) { // Vamos sumando los soldados por tipos
-				totalSoldados += army[i].size();
-				if (totalSoldados >= aleatorio && army[i].size() > 0) {// Si el numero de soldados el superior al numero random nos quedamos
-																		// con ese tipo ejercito
-					respuesta = i;
-					return respuesta;
-				}
-			}
+                if (army[i] != null) {
+                    totalSoldados += army[i].size();
+                    if (totalSoldados >= aleatorio && army[i].size() > 0) {// Si el numero de soldados el superior al numero random nos quedamos
+                                                                            // con ese tipo ejercito
+                        respuesta = i;
+                        return respuesta;
+                    }
+                }
+            }
 
 		}
 	}

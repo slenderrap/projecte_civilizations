@@ -234,19 +234,19 @@ public class VentanaPartida extends JFrame implements ActionListener, Variables,
 		Insets insets = recursosPanel.getInsets();
 		Dimension size = lFood.getPreferredSize();
 
-		lFood.setBounds(50 + insets.left, 80 + insets.top, size.width+30, size.height);
+		lFood.setBounds(50 + insets.left, 80 + insets.top, size.width+50, size.height);
 		size = lWood.getPreferredSize();
-		lWood.setBounds(50 + insets.left, 115 + insets.top, size.width+30, size.height);
+		lWood.setBounds(50 + insets.left, 115 + insets.top, size.width+50, size.height);
 		size = lIron.getPreferredSize();
-		lIron.setBounds(50 + insets.left, 150 + insets.top, size.width+30, size.height);
+		lIron.setBounds(50 + insets.left, 150 + insets.top, size.width+50, size.height);
 		size = lMana.getPreferredSize();
-		lMana.setBounds(50 + insets.left, 185 + insets.top, size.width+30, size.height);
+		lMana.setBounds(50 + insets.left, 185 + insets.top, size.width+50, size.height);
 		size = lAttack.getPreferredSize();
-		lAttack.setBounds(50 + insets.left, 300 + insets.top, size.width+30, size.height);
+		lAttack.setBounds(50 + insets.left, 300 + insets.top, size.width+50, size.height);
 		size = lDefense.getPreferredSize();
-		lDefense.setBounds(50 + insets.left, 335 + insets.top, size.width+30, size.height);
+		lDefense.setBounds(50 + insets.left, 335 + insets.top, size.width+50, size.height);
 		size = lBattles.getPreferredSize();
-		lBattles.setBounds(50 + insets.left, 450 + insets.top, size.width+30, size.height);
+		lBattles.setBounds(50 + insets.left, 450 + insets.top, size.width+50, size.height);
 		// fin de panel recursos
 		// ------------------------------------------------------------------------
 
@@ -332,15 +332,15 @@ public class VentanaPartida extends JFrame implements ActionListener, Variables,
 
 		insets = civilizationPanel.getInsets();
 		size = lFarm.getPreferredSize();
-		lFarm.setBounds(403 + insets.left, 370 + insets.top, size.width, size.height);
+		lFarm.setBounds(398 + insets.left, 370 + insets.top, size.width+30, size.height);
 		size = lSmithy.getPreferredSize();
-		lSmithy.setBounds(613 + insets.left, 275 + insets.top, size.width, size.height);
+		lSmithy.setBounds(608 + insets.left, 275 + insets.top, size.width+30, size.height);
 		size = lCarpentry.getPreferredSize();
-		lCarpentry.setBounds(235 + insets.left, 309 + insets.top, size.width, size.height);
+		lCarpentry.setBounds(230 + insets.left, 309 + insets.top, size.width+30, size.height);
 		size = lChurch.getPreferredSize();
-		lChurch.setBounds(400 + insets.left, 161 + insets.top, size.width, size.height);
+		lChurch.setBounds(395 + insets.left, 161 + insets.top, size.width+30, size.height);
 		size = lMagicTower.getPreferredSize();
-		lMagicTower.setBounds(187 + insets.left, 111 + insets.top, size.width, size.height);
+		lMagicTower.setBounds(182 + insets.left, 111 + insets.top, size.width+30, size.height);
 		// fin de
 		// CIVILIZATION------------------------------------------------------------------------
 
@@ -393,23 +393,23 @@ public class VentanaPartida extends JFrame implements ActionListener, Variables,
 
 		insets = armyPanel.getInsets();
 		size = lSwordsman.getPreferredSize();
-		lSwordsman.setBounds(200 + insets.left, 115 + insets.top, size.width, size.height);
+		lSwordsman.setBounds(200 + insets.left, 115 + insets.top, size.width+30, size.height);
 		size = lSpearman.getPreferredSize();
-		lSpearman.setBounds(200 + insets.left, 247 + insets.top, size.width, size.height);
+		lSpearman.setBounds(200 + insets.left, 247 + insets.top, size.width+30, size.height);
 		size = lCrossbow.getPreferredSize();
-		lCrossbow.setBounds(200 + insets.left, 383 + insets.top, size.width, size.height);
+		lCrossbow.setBounds(200 + insets.left, 383 + insets.top, size.width+30, size.height);
 		size = lCannon.getPreferredSize();
-		lCannon.setBounds(200 + insets.left, 512 + insets.top, size.width, size.height);
+		lCannon.setBounds(200 + insets.left, 512 + insets.top, size.width+30, size.height);
 		size = lArrowTower.getPreferredSize();
-		lArrowTower.setBounds(442 + insets.left, 115 + insets.top, size.width, size.height);
+		lArrowTower.setBounds(442 + insets.left, 115 + insets.top, size.width+30, size.height);
 		size = lCatapult.getPreferredSize();
-		lCatapult.setBounds(442 + insets.left, 247 + insets.top, size.width, size.height);
+		lCatapult.setBounds(442 + insets.left, 247 + insets.top, size.width+30, size.height);
 		size = lRocketLauncherTower.getPreferredSize();
-		lRocketLauncherTower.setBounds(442 + insets.left, 383 + insets.top, size.width, size.height);
+		lRocketLauncherTower.setBounds(442 + insets.left, 383 + insets.top, size.width+30, size.height);
 		size = lMagician.getPreferredSize();
-		lMagician.setBounds(683 + insets.left, 115 + insets.top, size.width, size.height);
+		lMagician.setBounds(683 + insets.left, 115 + insets.top, size.width+30, size.height);
 		size = lPriest.getPreferredSize();
-		lPriest.setBounds(683 + insets.left, 247 + insets.top, size.width, size.height);
+		lPriest.setBounds(683 + insets.left, 247 + insets.top, size.width+30, size.height);
 		// fin de
 		// ARMY------------------------------------------------------------------------
 
@@ -998,6 +998,7 @@ public class VentanaPartida extends JFrame implements ActionListener, Variables,
 				System.out.println("evento");
 				civilization.newPriest(1);
 				datosDominio.crearSoldado(civilization.getArmy()[8].getLast());
+				lPriest.setText(String.valueOf(civilization.getArmy()[8].size()));
 				lPriestBattle.setText(String.valueOf(civilization.getArmy()[8].size()));
 			} catch (ResourceException e1) {
 			} catch (BuildingException e1) {
@@ -1168,6 +1169,26 @@ public void mouseMoved(MouseEvent e) {
         taBattleSummary.setText(battle.getBattleSummary());
 		int batallas=Integer.parseInt(lBattles.getText())+1;
 		lBattles.setText(String.valueOf(batallas));
+		//cambiar labels
+		lSwordsman.setText(String.valueOf(civilization.getArmy()[0].size()));
+		lSwordsmanBattle.setText(String.valueOf(civilization.getArmy()[0].size()));
+		lSpearman.setText(String.valueOf(civilization.getArmy()[1].size()));
+		lSpearmanBattle.setText(String.valueOf(civilization.getArmy()[1].size()));
+		lCrossbow.setText(String.valueOf(civilization.getArmy()[2].size()));
+		lCrossbowBattle.setText(String.valueOf(civilization.getArmy()[2].size()));
+		lCannon.setText(String.valueOf(civilization.getArmy()[3].size()));
+		lCannonBattle.setText(String.valueOf(civilization.getArmy()[3].size()));
+		lArrowTower.setText(String.valueOf(civilization.getArmy()[4].size()));
+		lArrowTowerBattle.setText(String.valueOf(civilization.getArmy()[4].size()));
+		lCatapult.setText(String.valueOf(civilization.getArmy()[5].size()));
+		lCatapultBattle.setText(String.valueOf(civilization.getArmy()[5].size()));
+		lRocketLauncherTower.setText(String.valueOf(civilization.getArmy()[6].size()));
+		lRocketLauncherTowerBattle.setText(String.valueOf(civilization.getArmy()[6].size()));
+		lMagician.setText(String.valueOf(civilization.getArmy()[7].size()));
+		lMagicianBattle.setText(String.valueOf(civilization.getArmy()[7].size()));
+		lPriest.setText(String.valueOf(civilization.getArmy()[8].size()));
+		lPriestBattle.setText(String.valueOf(civilization.getArmy()[8].size()));
+		
 		}else {
 			JOptionPane.showMessageDialog(null, "There isn't a civilization army to fight", "Not soldiers found!", JOptionPane.WARNING_MESSAGE);
 		}		
