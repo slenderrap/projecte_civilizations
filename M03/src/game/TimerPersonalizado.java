@@ -13,12 +13,26 @@ public class TimerPersonalizado extends TimerTask implements Variables{
 	private int minuto=0;
 	private int[] recursos;
 	private boolean updateable;
+	private boolean crearArmy=false;
+	private boolean crearBatalla=false;
 	public TimerPersonalizado(int id) {
 		this.id=id;
 		cDominio=new ControladorDominio(id);
 		
 	}
-	    public void run() {
+	    public int getSegundo() {
+		return segundo;
+	}
+	public void setSegundo(int segundo) {
+		this.segundo = segundo;
+	}
+	public int getMinuto() {
+		return minuto;
+	}
+	public void setMinuto(int minuto) {
+		this.minuto = minuto;
+	}
+		public void run() {
 	    	
 		 	segundo++;
 		 	if (segundo==60) {
@@ -77,13 +91,11 @@ public class TimerPersonalizado extends TimerTask implements Variables{
         
 	        
         if (minuto==3 && segundo==0) {
-        	System.out.println("Batalla");
-        	//generar army enemigo
-        	//displayear army enemigo en el panel Battleground
-        	
+        	setCrearArmy(true);
         	
         }else if (minuto==4 && segundo==0) {
-        	System.out.println("inicio batalla");
+
+        	setCrearBatalla(true);
         	minuto=0;
         	//checkear que hay mas de un soldado en el array
         	//efectuar codigo de la batalla
@@ -119,6 +131,18 @@ public class TimerPersonalizado extends TimerTask implements Variables{
 		}
 	    public void setUpdateable(boolean updateable) {
 			this.updateable = updateable;
+		}
+		public boolean getCrearArmy() {
+			return crearArmy;
+		}
+		public void setCrearArmy(boolean crearArmy) {
+			this.crearArmy = crearArmy;
+		}
+		public boolean getCrearBatalla() {
+			return crearBatalla;
+		}
+		public void setCrearBatalla(boolean crearBatalla) {
+			this.crearBatalla = crearBatalla;
 		}
 	    
 }
