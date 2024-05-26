@@ -37,7 +37,7 @@ public ControladorDominio(int id) {
 	}
 	
 	
-	public ArrayList<String[]> mostrarPartidasNombre(String nombre) {
+	public Object[][] mostrarPartidasNombre(String nombre) {
 		
 		return datos.mostrarPartidasNombre(nombre);
 		

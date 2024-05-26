@@ -394,7 +394,6 @@ public class Battle implements Variables {
 		for (int soldados : getActualNumberUnitsEnemy()) {
 			numeroActualEnemy += (float) soldados; // Sumamos la cantidad de soldados que tenemos actualmente
 		}
-
 		if (numeroActualEnemy < numeroPerderEnemy) { // Comprobamos si el numero de soldados es más pequeño que su 20%
 			perdido = true;
 		}
@@ -414,8 +413,8 @@ public class Battle implements Variables {
 		while (true) {
 			System.out.println("estoy en getCivilizationSoldierGroup linia 405");
 			int aleatorio = (int) (Math.random() * totalSoldados + 1); // Generamos un jnumero aleatoria del total de soldados
-
 			totalSoldados = 0;
+
 			for (int i = 0; i < army.length - 1; i++) { // Vamos sumando los soldados por tipos
 				totalSoldados += army[i].size();
 				if (totalSoldados >= aleatorio && army[i].size() > 0) {// Si el numero de soldados el superior al numero random nos
@@ -443,10 +442,9 @@ public class Battle implements Variables {
 		while (true) {
 			System.out.println("estoy en getSoldierGroup linia 433");
 			int aleatorio = (int) (Math.random() * (totalSoldados + 1)); // Generamos un jnumero aleatoria del total de soldados
-
 			totalSoldados = 0;
 			for (int i = 0; i < army.length; i++) { // Vamos sumando los soldados por tipos
-				System.out.println(army[i]);
+
 				if (army[i] != null) {
 					totalSoldados += army[i].size();
 					if (totalSoldados >= aleatorio && army[i].size() > 0) {// Si el numero de soldados el superior al numero random nos
@@ -457,6 +455,7 @@ public class Battle implements Variables {
 					}
 				}
 			}
+
 
 		}
 	}
@@ -784,9 +783,7 @@ public class Battle implements Variables {
 		// comprobamos quien a tenido menos perdidas
 		if (resourcesLooses[0][3] < resourcesLooses[1][3]) { // si hemos perdido menos abremos ganado y nos llevaremos los recursos que se
 																// haya generado
-//			System.out.println("Recursos de madera antes :" + civilization.getWood());
 			civilization.setWood(civilization.getWood() + wasteWoodIron[0]);
-//			System.out.println("Recursos de madera despues :" + civilization.getWood());
 			civilization.setIron(civilization.getIron() + wasteWoodIron[1]);
 			battleDevelopment += "******************YOU'VE WON*******************\n";
 			battleWin = true;

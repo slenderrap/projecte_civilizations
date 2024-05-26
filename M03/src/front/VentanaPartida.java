@@ -11,11 +11,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Timer;
-
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -36,7 +36,7 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.CloseAction;
+
 
 import game.Battle;
 import game.BuildingException;
@@ -56,7 +56,7 @@ import game.defenseUnities.RocketLauncherTower;
 import game.specialUnities.Magician;
 import game.specialUnities.Priest;
 
-public class VentanaPartida extends JFrame implements ActionListener, Variables, ChangeListener,MouseMotionListener {
+public class VentanaPartida extends JFrame implements ActionListener, Variables, ChangeListener, MouseMotionListener {
 	private JPanel principalPanel, lateralPanel, recursosPanel, civilizationPanel, armyPanel, shopPanel, battlegroundPanel;
 	private JTabbedPane tabbedPane;
 	private JLabel lFood, lWood, lIron, lMana, lAttack, lDefense, lBattles; // labels para resources
@@ -84,26 +84,26 @@ public class VentanaPartida extends JFrame implements ActionListener, Variables,
 	private BufferedImage iIcono;
 	private ArrayList<MilitaryUnit>[] enemyArmy = new ArrayList[4];
 	private ArrayList<String[]> datosArmy = new ArrayList<String[]>();
-	
 
-  public VentanaPartida(int id) {
+	public VentanaPartida(int id) {
 		setSize(1200, 700);
 		setLocationRelativeTo(null);
 		setTitle("CIVILIZATIONS");
-		
-		//poner icono ventana
+
+		// poner icono ventana
 		try {
 			iIcono = ImageIO.read(new File("src/front/img/IconGame.png"));
 			this.setIconImage(iIcono);
 		} catch (IOException e) {
 		}
-		
-		//BBDD
+
+		// BBDD
 		civilization = new Civilization(id);
 		datosDominio = new ControladorDominio(id);
-		
+
 		datosArmy = datosDominio.recuperarSoldadosAtaque();
 		tPersonalizado = new TimerPersonalizado(id);
+
 	    //running timer task as daemon thread
 	    timer = new Timer(true);
 	    timer.scheduleAtFixedRate(tPersonalizado, 0, 1000);
@@ -123,37 +123,44 @@ public class VentanaPartida extends JFrame implements ActionListener, Variables,
 				civilization.getArmy()[2].add(new Crossbow(Integer.parseInt(datosArmy.get(i)[1]),Integer.parseInt(datosArmy.get(i)[2])));
 			}else if (datosArmy.get(i)[0].equals("Cannon")) {
 				civilization.getArmy()[3].add(new Cannon(Integer.parseInt(datosArmy.get(i)[1]),Integer.parseInt(datosArmy.get(i)[2])));
+
 			}
 		}
-		}
-		
+
 		datosArmy = datosDominio.recuperarSoldadosDefense();
-		if (datosArmy.size()>0) {
-		for (int i=0;i<datosArmy.size();i++) {
-			if (datosArmy.get(i)[0].equals("ArrowTower")) {
-				civilization.getArmy()[4].add(new ArrowTower(Integer.parseInt(datosArmy.get(i)[1]),Integer.parseInt(datosArmy.get(i)[2])));
-			}else if (datosArmy.get(i)[0].equals("Catapult")) {
-				civilization.getArmy()[5].add(new Catapult(Integer.parseInt(datosArmy.get(i)[1]),Integer.parseInt(datosArmy.get(i)[2])));
-			}else if (datosArmy.get(i)[0].equals("RocketLauncherTower")) {
-				civilization.getArmy()[6].add(new RocketLauncherTower(Integer.parseInt(datosArmy.get(i)[1]),Integer.parseInt(datosArmy.get(i)[2])));
+		if (datosArmy.size() > 0) {
+			for (int i = 0; i < datosArmy.size(); i++) {
+				if (datosArmy.get(i)[0].equals("ArrowTower")) {
+					civilization.getArmy()[4]
+							.add(new ArrowTower(Integer.parseInt(datosArmy.get(i)[1]), Integer.parseInt(datosArmy.get(i)[2])));
+				} else if (datosArmy.get(i)[0].equals("Catapult")) {
+					civilization.getArmy()[5]
+							.add(new Catapult(Integer.parseInt(datosArmy.get(i)[1]), Integer.parseInt(datosArmy.get(i)[2])));
+				} else if (datosArmy.get(i)[0].equals("RocketLauncherTower")) {
+					civilization.getArmy()[6]
+							.add(new RocketLauncherTower(Integer.parseInt(datosArmy.get(i)[1]), Integer.parseInt(datosArmy.get(i)[2])));
+				}
 			}
+
 		}
-				
-		}
-		
+
 		datosArmy = datosDominio.recuperarSoldadosSpecial();
-		if (datosArmy.size()>0) {
-		for (int i=0;i<datosArmy.size();i++) {
-			if (datosArmy.get(i)[0].equals("Magician")) {
-				civilization.getArmy()[7].add(new Magician(Integer.parseInt(datosArmy.get(i)[1]),Integer.parseInt(datosArmy.get(i)[2])));
-			}else if (datosArmy.get(i)[0].equals("Priest")) {
-				civilization.getArmy()[8].add(new Priest(Integer.parseInt(datosArmy.get(i)[1]),Integer.parseInt(datosArmy.get(i)[2])));
+		if (datosArmy.size() > 0) {
+			for (int i = 0; i < datosArmy.size(); i++) {
+				if (datosArmy.get(i)[0].equals("Magician")) {
+					civilization.getArmy()[7]
+							.add(new Magician(Integer.parseInt(datosArmy.get(i)[1]), Integer.parseInt(datosArmy.get(i)[2])));
+				} else if (datosArmy.get(i)[0].equals("Priest")) {
+					civilization.getArmy()[8].add(new Priest(Integer.parseInt(datosArmy.get(i)[1]), Integer.parseInt(datosArmy.get(i)[2])));
+				}
 			}
 		}
+
 		}
 		
 		
 		
+
 
 		// Battle
 		battle = new Battle();
@@ -225,6 +232,7 @@ public class VentanaPartida extends JFrame implements ActionListener, Variables,
 		Insets insets = recursosPanel.getInsets();
 		Dimension size = lFood.getPreferredSize();
 
+
 		lFood.setBounds(50 + insets.left, 80 + insets.top, size.width+50, size.height);
 		size = lWood.getPreferredSize();
 		lWood.setBounds(50 + insets.left, 115 + insets.top, size.width+50, size.height);
@@ -238,6 +246,7 @@ public class VentanaPartida extends JFrame implements ActionListener, Variables,
 		lDefense.setBounds(50 + insets.left, 335 + insets.top, size.width+50, size.height);
 		size = lBattles.getPreferredSize();
 		lBattles.setBounds(50 + insets.left, 450 + insets.top, size.width+50, size.height);
+
 		// fin de panel recursos
 		// ------------------------------------------------------------------------
 
@@ -285,13 +294,11 @@ public class VentanaPartida extends JFrame implements ActionListener, Variables,
 		tabbedPane.addChangeListener(this);
 		tabbedPane.addMouseMotionListener(this);
 
-		
+		// fin de cosas del TABBED PANE
+		// -------------------------------------------------------
 
-		// fin de cosas del TABBED PANE -------------------------------------------------------
-	
-		
-		//COSAS DEL PANEL CIVILIZATION -------------------------------------------
-		//LABELS CIVILIZATION
+		// COSAS DEL PANEL CIVILIZATION -------------------------------------------
+		// LABELS CIVILIZATION
 
 		lFarm = new JLabel(String.valueOf(civilization.getFarm()));
 		lSmithy = new JLabel(String.valueOf(civilization.getSmithy()));
@@ -323,15 +330,15 @@ public class VentanaPartida extends JFrame implements ActionListener, Variables,
 
 		insets = civilizationPanel.getInsets();
 		size = lFarm.getPreferredSize();
-		lFarm.setBounds(403 + insets.left, 370 + insets.top, size.width, size.height);
+		lFarm.setBounds(398 + insets.left, 370 + insets.top, size.width+30, size.height);
 		size = lSmithy.getPreferredSize();
-		lSmithy.setBounds(613 + insets.left, 275 + insets.top, size.width, size.height);
+		lSmithy.setBounds(608 + insets.left, 275 + insets.top, size.width+30, size.height);
 		size = lCarpentry.getPreferredSize();
-		lCarpentry.setBounds(235 + insets.left, 309 + insets.top, size.width, size.height);
+		lCarpentry.setBounds(230 + insets.left, 309 + insets.top, size.width+30, size.height);
 		size = lChurch.getPreferredSize();
-		lChurch.setBounds(400 + insets.left, 161 + insets.top, size.width, size.height);
+		lChurch.setBounds(395 + insets.left, 161 + insets.top, size.width+30, size.height);
 		size = lMagicTower.getPreferredSize();
-		lMagicTower.setBounds(187 + insets.left, 111 + insets.top, size.width, size.height);
+		lMagicTower.setBounds(182 + insets.left, 111 + insets.top, size.width+30, size.height);
 		// fin de
 		// CIVILIZATION------------------------------------------------------------------------
 
@@ -384,30 +391,30 @@ public class VentanaPartida extends JFrame implements ActionListener, Variables,
 
 		insets = armyPanel.getInsets();
 		size = lSwordsman.getPreferredSize();
-		lSwordsman.setBounds(200 + insets.left, 115 + insets.top, size.width, size.height);
+		lSwordsman.setBounds(200 + insets.left, 115 + insets.top, size.width+30, size.height);
 		size = lSpearman.getPreferredSize();
-		lSpearman.setBounds(200 + insets.left, 247 + insets.top, size.width, size.height);
+		lSpearman.setBounds(200 + insets.left, 247 + insets.top, size.width+30, size.height);
 		size = lCrossbow.getPreferredSize();
-		lCrossbow.setBounds(200 + insets.left, 383 + insets.top, size.width, size.height);
+		lCrossbow.setBounds(200 + insets.left, 383 + insets.top, size.width+30, size.height);
 		size = lCannon.getPreferredSize();
-		lCannon.setBounds(200 + insets.left, 512 + insets.top, size.width, size.height);
+		lCannon.setBounds(200 + insets.left, 512 + insets.top, size.width+30, size.height);
 		size = lArrowTower.getPreferredSize();
-		lArrowTower.setBounds(442 + insets.left, 115 + insets.top, size.width, size.height);
+		lArrowTower.setBounds(442 + insets.left, 115 + insets.top, size.width+30, size.height);
 		size = lCatapult.getPreferredSize();
-		lCatapult.setBounds(442 + insets.left, 247 + insets.top, size.width, size.height);
+		lCatapult.setBounds(442 + insets.left, 247 + insets.top, size.width+30, size.height);
 		size = lRocketLauncherTower.getPreferredSize();
-		lRocketLauncherTower.setBounds(442 + insets.left, 383 + insets.top, size.width, size.height);
+		lRocketLauncherTower.setBounds(442 + insets.left, 383 + insets.top, size.width+30, size.height);
 		size = lMagician.getPreferredSize();
-		lMagician.setBounds(683 + insets.left, 115 + insets.top, size.width, size.height);
+		lMagician.setBounds(683 + insets.left, 115 + insets.top, size.width+30, size.height);
 		size = lPriest.getPreferredSize();
-		lPriest.setBounds(683 + insets.left, 247 + insets.top, size.width, size.height);
+		lPriest.setBounds(683 + insets.left, 247 + insets.top, size.width+30, size.height);
 		// fin de
 		// ARMY------------------------------------------------------------------------
 
 		// COSAS DEL PANEL SHOP -------------------------------------------------------
 		// LABELS SHOP
 
-  //calculos e instanciado de labels
+		// calculos e instanciado de labels
 		int AFoodCost = UPGRADE_BASE_ATTACK_TECHNOLOGY_FOOD_COST;
 		int AWoodCost = UPGRADE_BASE_ATTACK_TECHNOLOGY_WOOD_COST;
 		int AIronCost = UPGRADE_BASE_ATTACK_TECHNOLOGY_IRON_COST;
@@ -516,7 +523,6 @@ public class VentanaPartida extends JFrame implements ActionListener, Variables,
 		bBuyAttack.addActionListener(this);
 		bBuyDefense = new JButton("Buy");
 		bBuyDefense.addActionListener(this);
-
 
 		// cambiar fuente, color, background
 
@@ -783,7 +789,6 @@ public class VentanaPartida extends JFrame implements ActionListener, Variables,
 		size = spBattleSummary.getPreferredSize();
 		spBattleSummary.setBounds(409 + insets.left, 339 + insets.top, size.width + 30, size.height);
 
-
 		// fin de BATTLEGROUND
 		// ------------------------------------------------------------------------
 
@@ -812,18 +817,15 @@ public class VentanaPartida extends JFrame implements ActionListener, Variables,
 		
 		setResizable(false);
 		setVisible(true);
-		
-		
+
 		// INSTANCIAS ARMADA ENEMIGA
 		for (int i = 0; i < 4; i++) {
 			enemyArmy[i] = new ArrayList<MilitaryUnit>();
 		}
-		
-		
-		
 
 	}
-  public void createEnemyArmy() {
+
+	public void createEnemyArmy() {
 
 		// LIMPIAR SI HAY ARMADA ANTERIOR
 		for (int i = 0; i < 4; i++) {
@@ -895,20 +897,20 @@ public class VentanaPartida extends JFrame implements ActionListener, Variables,
 		}
 	}
 
-  public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {
 
-		//soldados
-		if (e.getSource()== bBuySwordsman) {
+		// soldados
+		if (e.getSource() == bBuySwordsman) {
 			try {
 				civilization.newSwordsman(1);
 				datosDominio.crearSoldado(civilization.getArmy()[0].getLast());
 				lSwordsman.setText(String.valueOf(civilization.getArmy()[0].size()));
 				lSwordsmanBattle.setText(String.valueOf(civilization.getArmy()[0].size()));
-				
+
 			} catch (ResourceException e1) {
 			}
-			
-		}else if (e.getSource()== bBuySpearman) {
+
+		} else if (e.getSource() == bBuySpearman) {
 			try {
 				civilization.newSpearman(1);
 				datosDominio.crearSoldado(civilization.getArmy()[1].getLast());
@@ -916,7 +918,7 @@ public class VentanaPartida extends JFrame implements ActionListener, Variables,
 				lSpearmanBattle.setText(String.valueOf(civilization.getArmy()[1].size()));
 			} catch (ResourceException e1) {
 			}
-		}else if (e.getSource()== bBuyCrossbow) {
+		} else if (e.getSource() == bBuyCrossbow) {
 			try {
 				civilization.newCrossbow(1);
 				datosDominio.crearSoldado(civilization.getArmy()[2].getLast());
@@ -924,7 +926,7 @@ public class VentanaPartida extends JFrame implements ActionListener, Variables,
 				lCrossbowBattle.setText(String.valueOf(civilization.getArmy()[2].size()));
 			} catch (ResourceException e1) {
 			}
-		}else if (e.getSource()== bBuyCannon) {
+		} else if (e.getSource() == bBuyCannon) {
 			try {
 				civilization.newCannon(1);
 				datosDominio.crearSoldado(civilization.getArmy()[3].getLast());
@@ -932,7 +934,7 @@ public class VentanaPartida extends JFrame implements ActionListener, Variables,
 				lCannonBattle.setText(String.valueOf(civilization.getArmy()[3].size()));
 			} catch (ResourceException e1) {
 			}
-		}else if (e.getSource()== bBuyArrowTower) {
+		} else if (e.getSource() == bBuyArrowTower) {
 			try {
 				civilization.newArrowTower(1);
 				datosDominio.crearSoldado(civilization.getArmy()[4].getLast());
@@ -940,7 +942,7 @@ public class VentanaPartida extends JFrame implements ActionListener, Variables,
 				lArrowTowerBattle.setText(String.valueOf(civilization.getArmy()[4].size()));
 			} catch (ResourceException e1) {
 			}
-		}else if (e.getSource()== bBuyCatapult) {
+		} else if (e.getSource() == bBuyCatapult) {
 			try {
 				civilization.newCatapult(1);
 				datosDominio.crearSoldado(civilization.getArmy()[5].getLast());
@@ -948,7 +950,7 @@ public class VentanaPartida extends JFrame implements ActionListener, Variables,
 				lCatapultBattle.setText(String.valueOf(civilization.getArmy()[5].size()));
 			} catch (ResourceException e1) {
 			}
-		}else if (e.getSource()== bBuyRocketLauncher) {
+		} else if (e.getSource() == bBuyRocketLauncher) {
 			try {
 				civilization.newRocketLauncherTower(1);
 				datosDominio.crearSoldado(civilization.getArmy()[6].getLast());
@@ -956,7 +958,7 @@ public class VentanaPartida extends JFrame implements ActionListener, Variables,
 				lRocketLauncherTowerBattle.setText(String.valueOf(civilization.getArmy()[6].size()));
 			} catch (ResourceException e1) {
 			}
-		}else if (e.getSource()== bBuyMagician) {
+		} else if (e.getSource() == bBuyMagician) {
 			try {
 				civilization.newMagician(1);
 				datosDominio.crearSoldado(civilization.getArmy()[7].getLast());
@@ -965,101 +967,98 @@ public class VentanaPartida extends JFrame implements ActionListener, Variables,
 			} catch (ResourceException e1) {
 			} catch (BuildingException e1) {
 			}
-		}else if (e.getSource()== bBuyPriest) {
+		} else if (e.getSource() == bBuyPriest) {
 			try {
 				civilization.newPriest(1);
 				datosDominio.crearSoldado(civilization.getArmy()[8].getLast());
+				lPriest.setText(String.valueOf(civilization.getArmy()[8].size()));
 				lPriestBattle.setText(String.valueOf(civilization.getArmy()[8].size()));
 			} catch (ResourceException e1) {
 			} catch (BuildingException e1) {
 			}
 		}
-		
-		//edificios
-		else if (e.getSource()== bBuyFarm) {
+
+		// edificios
+		else if (e.getSource() == bBuyFarm) {
 			try {
 				civilization.newFarm();
 				lFarm.setText(String.valueOf(civilization.getFarm()));
 				datosDominio.crearConstruccion(1);
 			} catch (ResourceException e1) {
 			}
-		}else if (e.getSource()== bBuySmithy) {
+		} else if (e.getSource() == bBuySmithy) {
 			try {
 				civilization.newSmithy();
 				lSmithy.setText(String.valueOf(civilization.getSmithy()));
 				datosDominio.crearConstruccion(2);
 			} catch (ResourceException e1) {
 			}
-		}else if (e.getSource()== bBuyCarpentry) {
+		} else if (e.getSource() == bBuyCarpentry) {
 			try {
 				civilization.newCarpentry();
 				lCarpentry.setText(String.valueOf(civilization.getCarpentry()));
 				datosDominio.crearConstruccion(3);
 			} catch (ResourceException e1) {
 			}
-		}else if (e.getSource()== bBuyMagicTower) {
+		} else if (e.getSource() == bBuyMagicTower) {
 			try {
 				civilization.newMagictower();
 				lMagicTower.setText(String.valueOf(civilization.getMagicTower()));
 				datosDominio.crearConstruccion(4);
 			} catch (ResourceException e1) {
 			}
-		}else if (e.getSource()== bBuyChurch) {
+		} else if (e.getSource() == bBuyChurch) {
 			try {
 				civilization.newChurch();
 				lChurch.setText(String.valueOf(civilization.getChurch()));
 				datosDominio.crearConstruccion(5);
-				
+
 			} catch (ResourceException e1) {
 			}
-			
-		//tecnologias
-			
-		}else if (e.getSource()== bBuyAttack) {
+
+			// tecnologias
+
+		} else if (e.getSource() == bBuyAttack) {
 			try {
 				civilization.upgradeTechnologyAttack();
 				lAttack.setText(String.valueOf(civilization.getTechnologyAttack()));
 				int foodCost = UPGRADE_BASE_ATTACK_TECHNOLOGY_FOOD_COST;
 				int woodCost = UPGRADE_BASE_ATTACK_TECHNOLOGY_WOOD_COST;
 				int ironCost = UPGRADE_BASE_ATTACK_TECHNOLOGY_IRON_COST;
-				
-				if (civilization.getTechnologyAttack()>1) {
-					for (int i=0; i<civilization.getTechnologyAttack()-1;i++) {
-						foodCost += foodCost/100*UPGRADE_PLUS_ATTACK_TECHNOLOGY_FOOD_COST;
-						woodCost += woodCost/100*UPGRADE_PLUS_ATTACK_TECHNOLOGY_WOOD_COST;
-						ironCost += ironCost/100*UPGRADE_PLUS_ATTACK_TECHNOLOGY_IRON_COST;
+
+				if (civilization.getTechnologyAttack() > 1) {
+					for (int i = 0; i < civilization.getTechnologyAttack() - 1; i++) {
+						foodCost += foodCost / 100 * UPGRADE_PLUS_ATTACK_TECHNOLOGY_FOOD_COST;
+						woodCost += woodCost / 100 * UPGRADE_PLUS_ATTACK_TECHNOLOGY_WOOD_COST;
+						ironCost += ironCost / 100 * UPGRADE_PLUS_ATTACK_TECHNOLOGY_IRON_COST;
 					}
 				}
 				lAttackFoodCost.setText(Integer.toString(foodCost));
 				lAttackWoodCost.setText(Integer.toString(woodCost));
 				lAttackIronCost.setText(Integer.toString(ironCost));
-		
 
-				
 				datosDominio.crearIncrementoTecnologia(1);
 			} catch (ResourceException e1) {
 			}
-		}else if (e.getSource()== bBuyDefense) {
+		} else if (e.getSource() == bBuyDefense) {
 			try {
 				civilization.upgradeTechnologyDefense();
 				lDefense.setText(String.valueOf(civilization.getTechnologyDefense()));
 				int foodCost = UPGRADE_BASE_DEFENSE_TECHNOLOGY_FOOD_COST;
 				int woodCost = UPGRADE_BASE_DEFENSE_TECHNOLOGY_WOOD_COST;
 				int ironCost = UPGRADE_BASE_DEFENSE_TECHNOLOGY_IRON_COST;
-				
-				if (civilization.getTechnologyAttack()>1) {
-					for (int i=0; i<civilization.getTechnologyAttack()-1;i++) {
-						foodCost += foodCost/100*UPGRADE_PLUS_DEFENSE_TECHNOLOGY_FOOD_COST;
-						woodCost += woodCost/100*UPGRADE_PLUS_DEFENSE_TECHNOLOGY_WOOD_COST;
-						ironCost += ironCost/100*UPGRADE_PLUS_DEFENSE_TECHNOLOGY_IRON_COST;
+
+				if (civilization.getTechnologyAttack() > 1) {
+					for (int i = 0; i < civilization.getTechnologyAttack() - 1; i++) {
+						foodCost += foodCost / 100 * UPGRADE_PLUS_DEFENSE_TECHNOLOGY_FOOD_COST;
+						woodCost += woodCost / 100 * UPGRADE_PLUS_DEFENSE_TECHNOLOGY_WOOD_COST;
+						ironCost += ironCost / 100 * UPGRADE_PLUS_DEFENSE_TECHNOLOGY_IRON_COST;
 					}
 				}
 				lDefenseFoodCost.setText(Integer.toString(foodCost));
 				lDefenseWoodCost.setText(Integer.toString(woodCost));
 				lDefenseIronCost.setText(Integer.toString(ironCost));
-				
 
-			
 				datosDominio.crearIncrementoTecnologia(2);
 			} catch (ResourceException e1) {
 			}
@@ -1069,12 +1068,10 @@ public class VentanaPartida extends JFrame implements ActionListener, Variables,
 		lIron.setText(String.valueOf(civilization.getIron()));
 		lMana.setText(String.valueOf(civilization.getMana()));
 
-	tPersonalizado.recursosActualizar(civilization.getFood(), civilization.getWood(), civilization.getIron(), civilization.getMana(),
-			civilization.getFarm(), civilization.getCarpentry(), civilization.getSmithy(), civilization.getMagicTower());
-	
-	
-	
-}
+		tPersonalizado.recursosActualizar(civilization.getFood(), civilization.getWood(), civilization.getIron(), civilization.getMana(),
+				civilization.getFarm(), civilization.getCarpentry(), civilization.getSmithy(), civilization.getMagicTower());
+
+	}
 
 
 public void stateChanged(ChangeEvent e) {
@@ -1109,7 +1106,9 @@ public void mouseMoved(MouseEvent e) {
 		lCannonEnemy.setText(String.valueOf(enemyArmy[3].size()));
 		
 		tPersonalizado.setCrearArmy(false);
+
 	}
+
 	if (tPersonalizado.getCrearBatalla()) {
 		boolean empezarBatalla=false;
 		for (int i=0;i<civilization.getArmy().length;i++) {
@@ -1131,6 +1130,30 @@ public void mouseMoved(MouseEvent e) {
 		for (int i = 0; i<text.length;i++) {
 			datosDominio.insertLogs(text[i]);
 		}
+		//cambiar labels
+		lSwordsman.setText(String.valueOf(civilization.getArmy()[0].size()));
+		lSwordsmanBattle.setText(String.valueOf(civilization.getArmy()[0].size()));
+		lSpearman.setText(String.valueOf(civilization.getArmy()[1].size()));
+		lSpearmanBattle.setText(String.valueOf(civilization.getArmy()[1].size()));
+		lCrossbow.setText(String.valueOf(civilization.getArmy()[2].size()));
+		lCrossbowBattle.setText(String.valueOf(civilization.getArmy()[2].size()));
+		lCannon.setText(String.valueOf(civilization.getArmy()[3].size()));
+		lCannonBattle.setText(String.valueOf(civilization.getArmy()[3].size()));
+		lArrowTower.setText(String.valueOf(civilization.getArmy()[4].size()));
+		lArrowTowerBattle.setText(String.valueOf(civilization.getArmy()[4].size()));
+		lCatapult.setText(String.valueOf(civilization.getArmy()[5].size()));
+		lCatapultBattle.setText(String.valueOf(civilization.getArmy()[5].size()));
+		lRocketLauncherTower.setText(String.valueOf(civilization.getArmy()[6].size()));
+		lRocketLauncherTowerBattle.setText(String.valueOf(civilization.getArmy()[6].size()));
+		lMagician.setText(String.valueOf(civilization.getArmy()[7].size()));
+		lMagicianBattle.setText(String.valueOf(civilization.getArmy()[7].size()));
+		lPriest.setText(String.valueOf(civilization.getArmy()[8].size()));
+		lPriestBattle.setText(String.valueOf(civilization.getArmy()[8].size()));
+//  for (int i = 0; i<text.length;i++) {
+//			datosDominio.insertLogs(text[i]);
+//		}
+
+
 		
 		}else {
 			JOptionPane.showMessageDialog(null, "There isn't a civilization army to fight", "Not soldiers found!", JOptionPane.WARNING_MESSAGE);
@@ -1138,9 +1161,15 @@ public void mouseMoved(MouseEvent e) {
 		
 		
 		
-		tPersonalizado.setCrearBatalla(false);
-	}
-}	
+
+
+
+
+
+
+			tPersonalizado.setCrearBatalla(false);
+		}
+	
 
 
 }
