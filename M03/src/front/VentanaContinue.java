@@ -81,7 +81,7 @@ public class VentanaContinue extends JFrame implements ActionListener{
 		
 		//CENTRAL
 		pCentral = new JPanel();
-		pCentral.setLayout(new GridLayout(10, 1));
+		pCentral.setLayout(new BoxLayout(pCentral, BoxLayout.Y_AXIS));
 		pCentral.setOpaque(false);
 		
 		pNombre = new JPanel();
@@ -125,31 +125,42 @@ public class VentanaContinue extends JFrame implements ActionListener{
 		pNombre.add(bSearch);
 		pCentral.add(pNombre);
 		
+		//array de datos para la tabla
 		Object[][] data = {
 				{"1", "Paco", "2"},
 				{"2", "Pepe", "5"},
-				{"3", "Macaco", "3"}
+				{"3", "Macaco", "3"},
+				{"4", "Macaco", "3"},
+				{"5", "Macaco", "3"},
+				{"6", "Macaco", "3"},
+				{"7", "Macaco", "3"},
+				{"8", "Macaco", "3"},
+				{"9", "Macaco", "3"},
+				{"10", "Macaco", "3"},
+				{"11", "Macaco", "3"},
+				{"12", "Macaco", "3"},
+				{"13", "Macaco", "3"},
+				{"14", "Macaco", "3"},
+				{"15", "Macaco", "3"},
+				{"16", "Macaco", "3"},
+				{"17", "Macaco", "3"}
 				};
+		
 		//array de String's con los títulos de las columnas
 		String[] columnNames = {"ID", "Name", "Battles"};
+		
 		//se crea la Tabla
 		tabla = new JTable(data, columnNames);
-		tabla.setPreferredScrollableViewportSize(new Dimension(300, 300));
-		tabla.setOpaque(false);
-		
-		//pTabla.add(tabla);
+		tabla.setPreferredScrollableViewportSize(new Dimension(300, 200));
 		
 		scrollPane = new JScrollPane(tabla);
-		scrollPane.setPreferredSize(new Dimension(300, 300));
-		scrollPane.setOpaque(false);
-		
-		pTabla.add(new JScrollPane(scrollPane));
-		pTabla.setPreferredSize(new Dimension(300, 300));
-		pTabla.setOpaque(false);
-		
+		scrollPane.setPreferredSize(new Dimension(300, 200));
+
+		pTabla.add(scrollPane);
+		pTabla.setPreferredSize(new Dimension(300, 200));		
 		
 		pCentral.add(lVacio2);
-		pCentral.add(new JScrollPane(pTabla));
+		pCentral.add(pTabla);
 		pCentral.add(lVacio3);
 				
 		pID.add(textoID);
