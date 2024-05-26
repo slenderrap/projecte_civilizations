@@ -18,8 +18,14 @@ COMMIT;
 ```
 - Para crear la base de datos del juego, ejectua dentro de esta nueva sesión "Civil" el archivo bbdd.txt que se encuentra en la carpeta M02 del repositorio.
 - Importa a Eclipse la carpeta M03, abre el archivo "Datos.java" que se encuentra en la carpeta "bbdd".
-- Cambia a tu IP en la siguiente línea.
+- Si usas una máquina virtual para la base de datos cambia a tu IP en la siguiente línea:
 ```bash
 private String urlDatos = "jdbc:oracle:thin:@192.168.56.2:1521/orcl?serverTimezone=UTC&autoReconnect=true&useSSL=false";
 ```
+- Si usas en local la base de datos cambia a tu IP en la siguiente línea:
+```bash
+private String urlDatos = "jdbc:oracle:thin:@localhost:1521/xe?serverTimezone=UTC&autoReconnect=true&useSSL=false";
+```
+
+
 - Abre el archivo "Main.java" de la carpeta "Game" e inicia el archivo para empezar a jugar.
