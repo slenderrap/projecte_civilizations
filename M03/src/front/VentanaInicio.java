@@ -5,12 +5,17 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 
@@ -31,6 +36,7 @@ public class VentanaInicio extends JFrame implements ActionListener{
 	private JPanel pInicio, pNuevaPartida, pContinuarPartida, pCreditos, pSalir, pVacio;
 	private JButton bNuevaPartida, bContinuarPartida, bCreditos, bSalir;
 	private ImageIcon fondo, iNuevaPartida, iContinuarPartida, iCreditos, iSalir;
+	private BufferedImage iIcono;
 
 
 	public VentanaInicio() {
@@ -39,7 +45,14 @@ public class VentanaInicio extends JFrame implements ActionListener{
 		setSize(500, 500);
 		setLocationRelativeTo(null); // Para que se salga centrada la ventana
 		setTitle("Civilizations");
-
+		
+		//poner icono ventana
+		try {
+			iIcono = ImageIO.read(new File("src/front/img/IconGame.png"));
+			this.setIconImage(iIcono);
+		} catch (IOException e) {
+		}
+		
 		//pInicio = new JPanel(new GridLayout(5, 1));
 		pNuevaPartida = new JPanel();
 		pContinuarPartida = new JPanel();

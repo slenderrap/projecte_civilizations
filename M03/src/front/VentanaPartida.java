@@ -9,10 +9,17 @@ import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.util.ArrayList;
 import java.util.Timer;
-import java.util.TimerTask;
 
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -55,13 +62,22 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 	private ControladorDominio datosDominio;
 	private TimerPersonalizado tPersonalizado;
 	private Battle battle;
+
 	private Timer timer;
+
+	private BufferedImage iIcono;
 
   public VentanaPartida(int id) {
 		setSize(1200, 700);
 		setLocationRelativeTo(null);
 		setTitle("CIVILIZATIONS");
 		
+		//poner icono ventana
+		try {
+			iIcono = ImageIO.read(new File("src/front/img/IconGame.png"));
+			this.setIconImage(iIcono);
+		} catch (IOException e) {
+		}
 		
 		//BBDD
 		civilization = new Civilization(id);
@@ -78,7 +94,7 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		
 		
 		
-			// Battle
+		// Battle
 		battle = new Battle();
 
 		// PANEL PRINCIPAL
@@ -173,7 +189,7 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 				
 		
 		
-		//PANELES PARA EL TABBED PANE
+		//PANELES PARA EL TABBED PANE--------------------------------------------------------------------
 		fondoCivilizationPanel = new ImageIcon("src/front/img/BackgroundCivilization.png"); //añadimos imagen de fondo
 		civilizationPanel = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
@@ -216,6 +232,9 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		tabbedPane.addChangeListener(this);
 		
 		tabbedPane.setSelectedComponent(battlegroundPanel);
+		// fin de cosas del TABBED PANE -------------------------------------------------------
+		
+		
 		
 		
 		//COSAS DEL PANEL CIVILIZATION -------------------------------------------
@@ -348,8 +367,9 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		
 		
 		
-		// COSAS DEL PANEL SHOP -------------------------------------------------------
+		// COSAS DEL PANEL SHOP -------------------------------------------------------------
 		//LABELS SHOP
+		//calculos e instanciado de labels
 		int AFoodCost = UPGRADE_BASE_ATTACK_TECHNOLOGY_FOOD_COST;
 		int AWoodCost = UPGRADE_BASE_ATTACK_TECHNOLOGY_WOOD_COST;
 		int AIronCost = UPGRADE_BASE_ATTACK_TECHNOLOGY_IRON_COST;
@@ -402,7 +422,6 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		shopPanel.add(lDefenseWoodCost);
 		shopPanel.add(lDefenseIronCost);
 
-	
 		
 		//mover labels a su sitio en coordenadas
 		shopPanel.setLayout(null);
@@ -426,8 +445,7 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		size = lDefenseIronCost.getPreferredSize();
 		lDefenseIronCost.setBounds(390 + insets.left, 597 + insets.top,
 		             size.width+30, size.height);
-		
-		
+				
 		
 		//BUTTONS SHOP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		bBuyFarm = new JButton("Buy");
@@ -465,7 +483,7 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		bBuyDefense = new JButton("Buy");
 		bBuyDefense.addActionListener(this);
     
-    
+  
 		
 		//cambiar fuente,  color, background
 		bBuyFarm.setFont(new Font("Times New Roman", Font.BOLD, 12));
@@ -602,8 +620,8 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		             size.width, size.height);
 		// fin de SHOP ------------------------------------------------------------------------
 		
-		// COSAS DEL PANEL BATTLEGROUND
-		// -------------------------------------------------------
+		
+		// COSAS DEL PANEL BATTLEGROUND -------------------------------------------------------
 		// LABELS BATTLEGROUND
 		lSwordsmanBattle = new JLabel(String.valueOf(civilization.getArmy()[0].size()));
 		lSpearmanBattle = new JLabel(String.valueOf(civilization.getArmy()[1].size()));
@@ -891,9 +909,7 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 		size = spBattleSummary.getPreferredSize();
 		spBattleSummary.setBounds(409 + insets.left, 339 + insets.top, size.width + 30, size.height);
 
-		// fin de BATTLEGROUND
-		// ------------------------------------------------------------------------
-
+		// fin de BATTLEGROUND ------------------------------------------------------------------------
 		
 		
 		//todo en opaco falso porque no sé qué está fallando, por qué no se ve el fondo en tabbed panel
@@ -938,6 +954,7 @@ public void actionPerformed(ActionEvent e) {
 			System.out.println("antes ddbb");
 			System.out.println(civilization.getArmy()[0].size());
 			datosDominio.crearSoldado(civilization.getArmy()[0].getLast());
+			lSwordsman.setText(String.valueOf(civilization.getArmy()[0].size()));
 			
 		} catch (ResourceException e1) {
 		}
@@ -947,7 +964,7 @@ public void actionPerformed(ActionEvent e) {
 			System.out.println("evento");
 			civilization.newSpearman(1);
 			datosDominio.crearSoldado(civilization.getArmy()[1].getLast());
-			
+			lSpearman.setText(String.valueOf(civilization.getArmy()[1].size()));
 		} catch (ResourceException e1) {
 		}
 	}else if (e.getSource()== bBuyCrossbow) {
@@ -955,6 +972,7 @@ public void actionPerformed(ActionEvent e) {
 			System.out.println("evento");
 			civilization.newCrossbow(1);
 			datosDominio.crearSoldado(civilization.getArmy()[2].getLast());
+			lCrossbow.setText(String.valueOf(civilization.getArmy()[2].size()));
 		} catch (ResourceException e1) {
 		}
 	}else if (e.getSource()== bBuyCannon) {
@@ -962,6 +980,7 @@ public void actionPerformed(ActionEvent e) {
 			System.out.println("evento");
 			civilization.newCannon(1);
 			datosDominio.crearSoldado(civilization.getArmy()[3].getLast());
+			lCannon.setText(String.valueOf(civilization.getArmy()[3].size()));
 		} catch (ResourceException e1) {
 		}
 	}else if (e.getSource()== bBuyArrowTower) {
@@ -969,6 +988,7 @@ public void actionPerformed(ActionEvent e) {
 			System.out.println("evento");
 			civilization.newArrowTower(1);
 			datosDominio.crearSoldado(civilization.getArmy()[4].getLast());
+			lArrowTower.setText(String.valueOf(civilization.getArmy()[4].size()));
 		} catch (ResourceException e1) {
 		}
 	}else if (e.getSource()== bBuyCatapult) {
@@ -976,6 +996,7 @@ public void actionPerformed(ActionEvent e) {
 			System.out.println("evento");
 			civilization.newCatapult(1);
 			datosDominio.crearSoldado(civilization.getArmy()[5].getLast());
+			lCatapult.setText(String.valueOf(civilization.getArmy()[5].size()));
 		} catch (ResourceException e1) {
 		}
 	}else if (e.getSource()== bBuyRocketLauncher) {
@@ -983,6 +1004,7 @@ public void actionPerformed(ActionEvent e) {
 			System.out.println("evento");
 			civilization.newRocketLauncherTower(1);
 			datosDominio.crearSoldado(civilization.getArmy()[6].getLast());
+			lRocketLauncherTower.setText(String.valueOf(civilization.getArmy()[6].size()));
 		} catch (ResourceException e1) {
 		}
 	}else if (e.getSource()== bBuyMagician) {
@@ -990,6 +1012,7 @@ public void actionPerformed(ActionEvent e) {
 			System.out.println("evento");
 			civilization.newMagician(1);
 			datosDominio.crearSoldado(civilization.getArmy()[7].getLast());
+			lMagician.setText(String.valueOf(civilization.getArmy()[7].size()));
 		} catch (ResourceException e1) {
 		} catch (BuildingException e1) {
 		}
@@ -998,6 +1021,7 @@ public void actionPerformed(ActionEvent e) {
 			System.out.println("evento");
 			civilization.newPriest(1);
 			datosDominio.crearSoldado(civilization.getArmy()[8].getLast());
+			lPriest.setText(String.valueOf(civilization.getArmy()[8].size()));
 		} catch (ResourceException e1) {
 		} catch (BuildingException e1) {
 		}
