@@ -9,7 +9,11 @@ import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -53,12 +57,19 @@ public class VentanaPartida extends JFrame implements ActionListener,Variables, 
 	private ControladorDominio datosDominio;
 	private TimerPersonalizado tPersonalizado;
 	private Battle battle;
+	private BufferedImage iIcono;
 
   public VentanaPartida(int id) {
 		setSize(1200, 700);
 		setLocationRelativeTo(null);
 		setTitle("CIVILIZATIONS");
 		
+		//poner icono ventana
+		try {
+			iIcono = ImageIO.read(new File("src/front/img/IconGame.png"));
+			this.setIconImage(iIcono);
+		} catch (IOException e) {
+		}
 		
 		//BBDD
 		civilization = new Civilization(id);

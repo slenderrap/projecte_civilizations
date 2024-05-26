@@ -7,7 +7,11 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 
@@ -31,6 +35,7 @@ public class VentanaNuevaPartida extends JFrame implements ActionListener{
 	private JTextField nameTexto;
 	private ControladorDominio datosDominio;
 	private int id;
+	private BufferedImage iIcono;
 
 	
 	public VentanaNuevaPartida() {
@@ -40,6 +45,14 @@ public class VentanaNuevaPartida extends JFrame implements ActionListener{
 		setSize(500, 500);
 		setLocationRelativeTo(null); // Para que se salga centrada la ventana
 		setTitle("New Game");
+		
+		//poner icono ventana
+		try {
+			iIcono = ImageIO.read(new File("src/front/img/IconGame.png"));
+			this.setIconImage(iIcono);
+		} catch (IOException e) {
+		}
+				
 		
 		//instanciamos paneles
 		pPrincipal = new JPanel();

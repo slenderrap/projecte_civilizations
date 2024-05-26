@@ -11,9 +11,13 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 
+import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -24,6 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 
 public class VentanaContinue extends JFrame implements ActionListener{
 	private JPanel pPrincipal, pBack, pCentral, pNombre, pID, pTabla;
@@ -34,12 +39,20 @@ public class VentanaContinue extends JFrame implements ActionListener{
 	private ImageIcon fondo;
 	private JTable tabla;
 	private JScrollPane scrollPane;
+	private BufferedImage iIcono;
 	
 	public VentanaContinue() {
 		datosDominio = new ControladorDominio();
 		setSize(500, 500);
 		setLocationRelativeTo(null); // Para que se salga centrada la ventana
 		setTitle("Continue");
+		
+		//poner icono ventana
+		try {
+			iIcono = ImageIO.read(new File("src/front/img/IconGame.png"));
+			this.setIconImage(iIcono);
+		} catch (IOException e) {
+		}
 
 		pPrincipal = new JPanel();
 		
@@ -121,16 +134,22 @@ public class VentanaContinue extends JFrame implements ActionListener{
 		String[] columnNames = {"ID", "Name", "Battles"};
 		//se crea la Tabla
 		tabla = new JTable(data, columnNames);
-		tabla.setPreferredScrollableViewportSize(new Dimension(200, 3000));
-		scrollPane = new JScrollPane(tabla);
-		scrollPane.setPreferredSize(new Dimension(200, 3000));
-		pTabla.setPreferredSize(new Dimension(200, 3000));
-		pTabla.add(scrollPane);
+		tabla.setPreferredScrollableViewportSize(new Dimension(300, 300));
+		tabla.setOpaque(false);
 		
-//		pTabla.add(tabla);
+		//pTabla.add(tabla);
+		
+		scrollPane = new JScrollPane(tabla);
+		scrollPane.setPreferredSize(new Dimension(300, 300));
+		scrollPane.setOpaque(false);
+		
+		pTabla.add(new JScrollPane(scrollPane));
+		pTabla.setPreferredSize(new Dimension(300, 300));
+		pTabla.setOpaque(false);
+		
+		
 		pCentral.add(lVacio2);
-//		pCentral.add(scrollPane);
-		pCentral.add(pTabla);
+		pCentral.add(new JScrollPane(pTabla));
 		pCentral.add(lVacio3);
 				
 		pID.add(textoID);
