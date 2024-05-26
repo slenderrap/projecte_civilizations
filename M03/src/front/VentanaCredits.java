@@ -8,7 +8,11 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -21,12 +25,19 @@ public class VentanaCredits extends JFrame{
 	private JButton bBack;
 	private JLabel lOriol, lLuciano, lMar, lAny, lVacio1, lVacio2;
 	private ImageIcon fondo;
+	private BufferedImage iIcono;
 	
 	public VentanaCredits() {
 		setSize(500, 500);
 		setLocationRelativeTo(null); // Para que se salga centrada la ventana
 		setTitle("Credits");
 
+		//poner icono ventana
+		try {
+			iIcono = ImageIO.read(new File("src/front/img/IconGame.png"));
+			this.setIconImage(iIcono);
+		} catch (IOException e) {
+		}
 		
 		//ponemos fondo en inicio
 		fondo = new ImageIcon("src/front/img/Tabla.png");

@@ -1,5 +1,7 @@
 package game;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import game.ControladorDominio;
@@ -10,9 +12,11 @@ public class TimerPersonalizado extends TimerTask implements Variables{
 	private int segundo=0;
 	private int minuto=0;
 	private int[] recursos;
+	private boolean updateable;
 	public TimerPersonalizado(int id) {
 		this.id=id;
 		cDominio=new ControladorDominio(id);
+		
 	}
 	    public void run() {
 	    	
@@ -63,7 +67,9 @@ public class TimerPersonalizado extends TimerTask implements Variables{
 				if (magicTower>0) {
 					mana+=CIVILIZATION_MANA_GENERATED_PER_MAGIC_TOWER;
 				}
+				setUpdateable(true);
 		 		cDominio.actualizarRecursos(food,wood,iron,mana);
+		 		recursos = new int[] {food,wood,iron,mana,farm,carpentery,smithery,magicTower};
 		 		
 		 	}
 	        System.out.println("Timer task started at: "+minuto+"' "+segundo+"\"");
@@ -79,6 +85,7 @@ public class TimerPersonalizado extends TimerTask implements Variables{
         }else if (minuto==4 && segundo==0) {
         	System.out.println("inicio batalla");
         	minuto=0;
+        	//checkear que hay mas de un soldado en el array
         	//efectuar codigo de la batalla
         	//displayear resultados en panel Battleground
 		}
@@ -89,8 +96,29 @@ public class TimerPersonalizado extends TimerTask implements Variables{
 	    public void recursosActualizar(int food, int wood, int iron, int mana, int farm,int carpentery, int smithery, int magicTower) {
 	    	
 	    	this.recursos = new int[] {food,wood,iron,mana,farm,carpentery,smithery,magicTower};
-			
+	    	
 		}
+	    
+	    
+	    public int[] nuevosRecursos() {
+	    	
+	    	
+	    	int[] recursosEnviar = new int[4];
+	    	recursosEnviar[0]= recursos[0];
+	    	System.out.println(recursosEnviar[0]);
+	    	recursosEnviar[1]= recursos[1];
+	    	recursosEnviar[2]= recursos[2];
+	    	recursosEnviar[3]= recursos[3];
+	    	
+	    	return recursosEnviar;
 
+	    }
+	    
+	    public boolean getUpdateable() {
+			return updateable;
+		}
+	    public void setUpdateable(boolean updateable) {
+			this.updateable = updateable;
+		}
 	    
 }
